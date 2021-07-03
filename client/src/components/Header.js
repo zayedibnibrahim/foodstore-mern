@@ -1,9 +1,23 @@
 import React from 'react'
-import { Container, Navbar, Nav } from 'react-bootstrap'
+import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCartPlus, faSignInAlt } from '@fortawesome/free-solid-svg-icons'
+import { useDispatch, useSelector } from 'react-redux'
+import { logOut } from '../actions/userActions'
+import { useHistory } from 'react-router-dom'
 const Header = () => {
+  const history = useHistory()
+  const dispatch = useDispatch()
+
+  const userLogIn = useSelector((state) => state.userLogIn)
+  const { userInfo } = userLogIn
+
+  const logoutHandler = () => {
+    dispatch(logOut())
+    history.push('/login')
+  }
+
   return (
     <header>
       <Navbar bg='dark' expand='lg' variant='dark' collapseOnSelect>
@@ -20,11 +34,23 @@ const Header = () => {
                   <FontAwesomeIcon icon={faCartPlus} /> Cart
                 </Nav.Link>
               </LinkContainer>
-              <LinkContainer to='/login'>
-                <Nav.Link>
-                  Sign In <FontAwesomeIcon icon={faSignInAlt} />
-                </Nav.Link>
-              </LinkContainer>
+
+              {userInfo ? (
+                <NavDropdown title={userInfo.displayName}>
+                  <LinkContainer to='/profile'>
+                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                  </LinkContainer>
+                  <NavDropdown.Item onClick={logoutHandler}>
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
+              ) : (
+                <LinkContainer to='/login'>
+                  <Nav.Link>
+                    Sign In <FontAwesomeIcon icon={faSignInAlt} />
+                  </Nav.Link>
+                </LinkContainer>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>

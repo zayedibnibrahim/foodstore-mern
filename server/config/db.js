@@ -1,11 +1,13 @@
-import mongoose from 'mongoose'
-import dotenv from 'dotenv'
+const mongoose = require('mongoose')
+const dotenv = require('dotenv')
+dotenv.config()
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGO_URI, {
-      useUnifiedTopology: true,
       useNewUrlParser: true,
       useCreateIndex: true,
+      useFindAndModify: true,
+      useUnifiedTopology: true,
     })
 
     console.log(`MongoDB Connected: ${conn.connection.host}`.cyan.underline)
@@ -15,4 +17,4 @@ const connectDB = async () => {
   }
 }
 
-export default connectDB
+module.exports = connectDB

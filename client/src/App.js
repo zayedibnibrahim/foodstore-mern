@@ -6,6 +6,7 @@ import { logInUser } from './actions/userActions'
 import Footer from './components/Footer'
 import Header from './components/Header'
 import { auth } from './firebase'
+import ForgetPassword from './screens/ForgetPassword'
 import HomeScreen from './screens/HomeScreen'
 import LoginScreen from './screens/LoginScreen'
 import RegisterCompleteScreen from './screens/RegisterCompleteScreen'
@@ -33,6 +34,7 @@ function App() {
           <Container>
             <Route path='/' component={HomeScreen} exact />
             <Route path='/login' component={LoginScreen} />
+            <Route path='/forgot/password' component={ForgetPassword} />
             <Route path='/register' component={RegisterScreen} exact />
             <Route
               path='/register/complete'

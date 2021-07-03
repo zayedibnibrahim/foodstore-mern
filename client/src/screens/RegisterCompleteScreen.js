@@ -3,6 +3,7 @@ import FormContainer from '../components/FormContainer'
 import { Form, Button } from 'react-bootstrap'
 import Message from '../components/Message'
 import { auth } from '../firebase'
+import { useSelector } from 'react-redux'
 
 const RegisterCompleteScreen = ({ history }) => {
   const [email, setEmail] = useState('')
@@ -10,6 +11,15 @@ const RegisterCompleteScreen = ({ history }) => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [message, setMessage] = useState('')
+
+  const userLogIn = useSelector((state) => state.userLogIn)
+  const { userInfo } = userLogIn
+
+  useEffect(() => {
+    if (userInfo && userInfo.token) {
+      history.push('/')
+    }
+  }, [history, userInfo])
 
   useEffect(() => {
     setEmail(window.localStorage.getItem('emailForSignIn'))
