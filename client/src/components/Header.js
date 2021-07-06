@@ -36,12 +36,24 @@ const Header = () => {
               </LinkContainer>
 
               {userInfo ? (
-                <NavDropdown title={userInfo.displayName}>
+                <NavDropdown title={userInfo.name}>
                   <LinkContainer to='/profile'>
                     <NavDropdown.Item>Profile</NavDropdown.Item>
                   </LinkContainer>
+                  <LinkContainer to='/user/history'>
+                    <NavDropdown.Item>History</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to='/user/wishlist'>
+                    <NavDropdown.Item>Wishlist</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to='/user/password'>
+                    <NavDropdown.Item>Password</NavDropdown.Item>
+                  </LinkContainer>
                   <NavDropdown.Item onClick={logoutHandler}>
                     Logout
+                  </NavDropdown.Item>
+                  <NavDropdown.Item>
+                    <p style={{ color: '#636e72' }}>{userInfo.email}</p>
                   </NavDropdown.Item>
                 </NavDropdown>
               ) : (

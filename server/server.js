@@ -3,7 +3,8 @@ const path = require('path')
 const dotenv = require('dotenv')
 const colors = require('colors')
 const connectDB = require('./config/db')
-const fs = require('fs')
+const { readdirSync } = require('fs')
+const { notFound, errorHandler } = require('./middleware/error')
 
 dotenv.config()
 const app = express()
@@ -12,7 +13,9 @@ connectDB()
 app.use(express.json())
 
 // routes middleware -auto load
-fs.readdirSync('./routes').map((r) => app.use('/api', require('./routes/' + r)))
+readdirSync('./routes').map((r) => app.use('/api', require('./routes/' + r)))
 
+app.use(notFound)
+app.use(errorHandler)
 const PORT = process.env.PORT || 4200
 app.listen(PORT, console.log('Server running at 4200'.yellow.bold))

@@ -1,13 +1,22 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import FormContainer from '../components/FormContainer'
 import { Form, Button } from 'react-bootstrap'
 import Message from '../components/Message'
 import { auth } from '../firebase'
+import { useSelector } from 'react-redux'
 
-const ForgetPassword = () => {
+const ForgetPassword = ({ location, history }) => {
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
 
+  const userLogIn = useSelector((state) => state.userLogIn)
+  const { userInfo } = userLogIn
+  const redirect = location.search ? location.search.split('=')[1] : '/'
+  useEffect(() => {
+    if (userInfo) {
+      history.push(redirect)
+    }
+  }, [history, userInfo, redirect])
   const submitHandler = async (e) => {
     e.preventDefault()
     try {

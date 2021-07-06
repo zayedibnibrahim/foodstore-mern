@@ -6,32 +6,35 @@ import Message from '../components/Message'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-const RegisterScreen = ({ history }) => {
+const RegisterScreen = ({ history, location }) => {
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
 
   const userLogIn = useSelector((state) => state.userLogIn)
-  const { userInfo } = userLogIn
+  const { userInfo, error } = userLogIn
+  const redirect = location.search ? location.search.split('=')[1] : '/'
   useEffect(() => {
-    if (userInfo && userInfo.token) {
-      history.push('/')
+    if (userInfo) {
+      history.push(redirect)
     }
-  }, [history, userInfo])
+  }, [history, userInfo, redirect])
 
   const submitHandler = async (e) => {
     e.preventDefault()
-    const config = {
-      url: process.env.REACT_APP_REGISTRATION_URL_REDIRECT,
-      handleCodeInApp: true,
+
+    try {
+      const config = {
+        url: process.env.REACT_APP_REGISTRATION_URL_REDIRECT,
+        handleCodeInApp: true,
+      }
+
+      await auth.sendSignInLinkToEmail(email, config)
+      window.localStorage.setItem('emailForSignIn', email)
+      setMessage(`Email sent to ${email}, Please Check your mail`)
+      setEmail('')
+    } catch (error) {
+      setMessage(error.message)
     }
-
-    await auth.sendSignInLinkToEmail(email, config)
-
-    window.localStorage.setItem('emailForSignIn', email)
-
-    setMessage(`Email sent to ${email}, Please Check your mail`)
-
-    setEmail('')
   }
 
   return (
@@ -59,6 +62,7 @@ const RegisterScreen = ({ history }) => {
         </Col>
       </Row>
       {message && <Message variant='primary'>{message}</Message>}
+      {error && <Message variant='danger'>{message}</Message>}
     </FormContainer>
   )
 }

@@ -3,23 +3,24 @@ import FormContainer from '../components/FormContainer'
 import { Form, Button } from 'react-bootstrap'
 import Message from '../components/Message'
 import { auth } from '../firebase'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { logOut } from '../actions/userActions'
 
-const RegisterCompleteScreen = ({ history }) => {
+const RegisterCompleteScreen = ({ history, location }) => {
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [message, setMessage] = useState('')
-
+  const dispatch = useDispatch()
   const userLogIn = useSelector((state) => state.userLogIn)
-  const { userInfo } = userLogIn
-
+  const { userInfo, error } = userLogIn
+  const redirect = location.search ? location.search.split('=')[1] : '/'
   useEffect(() => {
-    if (userInfo && userInfo.token) {
-      history.push('/')
+    if (userInfo) {
+      history.push(redirect)
     }
-  }, [history, userInfo])
+  }, [history, userInfo, redirect])
 
   useEffect(() => {
     setEmail(window.localStorage.getItem('emailForSignIn'))
@@ -36,7 +37,6 @@ const RegisterCompleteScreen = ({ history }) => {
             email,
             window.location.href
           )
-          console.log('Result 1st', result)
           if (result.user.emailVerified) {
             //Remove email from localhost
             window.localStorage.removeItem('emailForSignIn')
@@ -47,8 +47,11 @@ const RegisterCompleteScreen = ({ history }) => {
             await user.updateProfile({
               displayName: name,
             })
+            dispatch(logOut())
+            history.push('/login')
           }
         } catch (error) {
+          console.log(error)
           setMessage(error.message)
         }
       } else {
@@ -63,6 +66,7 @@ const RegisterCompleteScreen = ({ history }) => {
     <FormContainer>
       <h3>complete Register</h3>
       {message && <Message variant='danger'>{message}</Message>}
+      {error && <Message variant='danger'>{error}</Message>}
       <Form onSubmit={submitHandler}>
         <Form.Group controlId='email'>
           <Form.Label>Email Address</Form.Label>

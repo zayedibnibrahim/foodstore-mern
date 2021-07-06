@@ -10,8 +10,14 @@ const reducer = combineReducers({
   addonList: addonListReducer,
 })
 
+const userInfoFromStorage = localStorage.getItem('userInfo')
+  ? JSON.parse(localStorage.getItem('userInfo'))
+  : null
+
 //initialStates
-const initialState = {}
+const initialState = {
+  userLogIn: { userInfo: userInfoFromStorage },
+}
 
 //Middleware
 const middleware = [thunk]
