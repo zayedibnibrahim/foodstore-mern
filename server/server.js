@@ -4,7 +4,7 @@ import colors from "colors";
 import connectDB from "./config/db.js";
 import authRouter from "./routes/auth.js";
 import userRouter from "./routes/user.js";
-import { errorHandler, notFound } from "./middleware/error.js";
+import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 
 dotenv.config();
 const app = express();
