@@ -18,12 +18,12 @@ export const protect = asyncHandler(async (req, res, next) => {
   next();
 });
 
-export const adminCheck = asyncHandler(async (req, res) => {
+export const adminCheck = asyncHandler(async (req, res, next) => {
   const { email } = req.user;
   const adminEmail = await User.findOne({ email });
 
   if (adminEmail.role === "admin") {
-    res.status(200).json(adminEmail);
+    next();
   } else {
     res.status(401);
     throw new Error("Not authorized as an admin");
