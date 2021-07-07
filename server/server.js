@@ -24,4 +24,5 @@ app.get("/", (req, res) => {
 
 app.use(notFound);
 app.use(errorHandler);
+
 app.listen(PORT, console.log("Server running at 4200".yellow.bold));

@@ -1,7 +1,8 @@
 import admin from "../firebase/index.js";
 import User from "../models/user.js";
+import asyncHandler from "express-async-handler";
 
-const protect = async (req, res, next) => {
+export const protect = asyncHandler(async (req, res, next) => {
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
@@ -15,28 +16,16 @@ const protect = async (req, res, next) => {
     }
   }
   next();
-};
+});
 
-const adminCheck = async (req, res, next) => {
-  // try {
-  //   const { email } = req.user
-  //   const adminEmail = await User.findOne({ email })
-  //   if (adminEmail.role === 'admin') {
-  //     next()
-  //   }
-  // } catch (error) {
-  //   console.log(error)
-  //   res.status(401)
-  //   throw new Error('Not authorized as an admin')
-  // }
+export const adminCheck = asyncHandler(async (req, res) => {
   const { email } = req.user;
   const adminEmail = await User.findOne({ email });
+
   if (adminEmail.role === "admin") {
-    next();
+    res.status(200).json(adminEmail);
   } else {
     res.status(401);
     throw new Error("Not authorized as an admin");
   }
-};
-
-export { protect, adminCheck };
+});
