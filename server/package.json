@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Food Ordering website",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node server",
     "server": "nodemon server"

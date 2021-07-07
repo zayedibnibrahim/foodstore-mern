@@ -7,12 +7,15 @@ import Footer from './components/Footer'
 import Header from './components/Header'
 import { USER_LOGIN_SUCCESS } from './constants/userConstants'
 import { auth } from './firebase'
+import UserListScreen from './screens/admin/UserListScreen'
 import ForgetPassword from './screens/ForgetPassword'
 import HomeScreen from './screens/HomeScreen'
 import LoginScreen from './screens/LoginScreen'
 import RegisterCompleteScreen from './screens/RegisterCompleteScreen'
 import RegisterScreen from './screens/RegisterScreen'
 import History from './screens/user/History'
+import Password from './screens/user/Password'
+import wishlist from './screens/user/Wishlist'
 
 function App() {
   const dispatch = useDispatch()
@@ -49,7 +52,6 @@ function App() {
         <Container>
           <Switch>
             <Route path='/' component={HomeScreen} exact />
-            <Route path='/user/history' component={History} exact />
             <Route path='/register' component={RegisterScreen} exact />
             <Route path='/login' component={LoginScreen} />
             <Route path='/forgot/password' component={ForgetPassword} />
@@ -57,6 +59,10 @@ function App() {
               path='/register/complete'
               component={RegisterCompleteScreen}
             />
+            <Route path='/user/history' component={History} exact />
+            <Route path='/user/wishlist' component={wishlist} exact />
+            <Route path='/user/password' component={Password} exact />
+            <Route path='/admin/userlist' component={UserListScreen} exact />
           </Switch>
         </Container>
       </main>

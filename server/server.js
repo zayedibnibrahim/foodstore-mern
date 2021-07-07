@@ -1,10 +1,10 @@
-const express = require('express')
-const path = require('path')
-const dotenv = require('dotenv')
-const colors = require('colors')
-const connectDB = require('./config/db')
-const { readdirSync } = require('fs')
-const { notFound, errorHandler } = require('./middleware/error')
+import express from 'express'
+import dotenv from 'dotenv'
+import colors from 'colors'
+import connectDB from './config/db.js'
+import authRouter from './routes/auth.js'
+import userRouter from './routes/user.js'
+import { errorHandler, notFound } from './middleware/error.js'
 
 dotenv.config()
 const app = express()
@@ -12,8 +12,14 @@ const app = express()
 connectDB()
 app.use(express.json())
 
+app.use('/api/auth', authRouter)
+app.use('/api/users', userRouter)
+
+app.get('/', (req, res) => {
+  res.send('API is running....')
+})
+
 // routes middleware -auto load
-readdirSync('./routes').map((r) => app.use('/api', require('./routes/' + r)))
 
 app.use(notFound)
 app.use(errorHandler)

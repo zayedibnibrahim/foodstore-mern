@@ -1,10 +1,9 @@
-const express = require('express')
+import express from 'express'
+import { userList } from '../controllers/user.js'
+import { protect, adminCheck } from '../middleware/auth.js'
 
 const router = express.Router()
 
-router.get('/user', (req, res) => {
-  res.json({
-    data: 'hey you hit user API endpoint',
-  })
-})
-module.exports = router
+router.route('/').get(protect, adminCheck, userList)
+
+export default router

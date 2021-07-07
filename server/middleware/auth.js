@@ -1,25 +1,34 @@
-const admin = require('../firebase')
+import admin from '../firebase/index.js'
+import User from '../models/user.js'
 
-exports.protect = async (req, res, next) => {
-  let token
-
+const protect = async (req, res, next) => {
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith('Bearer')
   ) {
     try {
-      token = req.headers.authorization.split(' ')[1]
-      const firebaseUser = await admin.auth().verifyIdToken(token)
-      req.user = firebaseUser
+      const token = req.headers.authorization.split(' ')[1]
+      req.user = await admin.auth().verifyIdToken(token)
       next()
     } catch (error) {
       res.status(401)
-      console.log('error', error)
       throw new Error('Not authorized, token failed')
     }
   }
-  if (!token) {
+}
+
+const adminCheck = async (req, res, next) => {
+  try {
+    const { email } = req.user
+    const adminEmail = await User.findOne({ email })
+    if (adminEmail.role === 'admin') {
+      next()
+    }
+  } catch (error) {
+    console.log(error)
     res.status(401)
-    throw new Error('Not authorized, no token')
+    throw new Error('Not authorized as an admin')
   }
 }
+
+export { protect, adminCheck }
