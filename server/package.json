@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node server",
-    "server": "nodemon server"
+    "server": "nodemon server",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "zayed ibn ibrahim",
   "license": "ISC",
