@@ -1,25 +1,31 @@
-const admin = require('../firebase')
+import admin from "../firebase/index.js";
+import User from "../models/user.js";
+import asyncHandler from "express-async-handler";
 
-exports.protect = async (req, res, next) => {
-  let token
-
+export const protect = asyncHandler(async (req, res, next) => {
   if (
     req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
+    req.headers.authorization.startsWith("Bearer")
   ) {
     try {
-      token = req.headers.authorization.split(' ')[1]
-      const firebaseUser = await admin.auth().verifyIdToken(token)
-      req.user = firebaseUser
-      next()
+      const token = req.headers.authorization.split(" ")[1];
+      req.user = await admin.auth().verifyIdToken(token);
     } catch (error) {
-      res.status(401)
-      console.log('error', error)
-      throw new Error('Not authorized, token failed')
+      res.status(401);
+      throw new Error("Not authorized, token failed");
     }
   }
-  if (!token) {
-    res.status(401)
-    throw new Error('Not authorized, no token')
+  next();
+});
+
+export const adminCheck = asyncHandler(async (req, res, next) => {
+  const { email } = req.user;
+  const adminEmail = await User.findOne({ email });
+
+  if (adminEmail.role === "admin") {
+    next();
+  } else {
+    res.status(401);
+    throw new Error("Not authorized as an admin");
   }
-}
+});

@@ -1,7 +1,7 @@
-const asyncHandler = require('express-async-handler')
-const User = require('../models/user')
+import asyncHandler from 'express-async-handler'
+import User from '../models/user.js'
 
-exports.createOrUpdateUser = asyncHandler(async (req, res) => {
+const createOrUpdateUser = asyncHandler(async (req, res) => {
   const { name, picture, email } = req.user
 
   const user = await User.findOneAndUpdate(
@@ -22,7 +22,7 @@ exports.createOrUpdateUser = asyncHandler(async (req, res) => {
   }
 })
 
-exports.currentUser = asyncHandler(async (req, res) => {
+const currentUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email: req.user.email })
   if (user) {
     res.status(201).json(user)
@@ -31,3 +31,5 @@ exports.currentUser = asyncHandler(async (req, res) => {
     throw new Error('User Not Found')
   }
 })
+
+export { createOrUpdateUser, currentUser }
