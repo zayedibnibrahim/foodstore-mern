@@ -1,9 +1,9 @@
-import express from 'express'
-import { userList } from '../controllers/user.js'
-import { protect, adminCheck } from '../middleware/auth.js'
+const express = require('express')
+const { userList } = require('../controllers/user')
+const { protect, adminCheck } = require('../middleware/auth')
 
 const router = express.Router()
 
-router.route('/').get(protect, adminCheck, userList)
+router.route('/users').get(protect, adminCheck, userList)
 
-export default router
+module.exports = router

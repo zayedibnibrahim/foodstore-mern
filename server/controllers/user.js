@@ -1,11 +1,10 @@
-import asyncHandler from 'express-async-handler'
-import User from '../models/user.js'
+const asyncHandler = require('express-async-handler')
+const user = require('../models/user')
+const User = require('../models/user')
 
-const userList = asyncHandler(async (req, res) => {
+exports.userList = asyncHandler(async (req, res) => {
   const users = await User.find({})
   if (users) {
     res.json(users)
   }
 })
-
-export { userList }

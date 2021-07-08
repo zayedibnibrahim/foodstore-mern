@@ -3,11 +3,9 @@
   "version": "1.0.0",
   "description": "Food Ordering website",
   "main": "server.js",
-  "type": "module",
   "scripts": {
     "start": "node server",
-    "server": "nodemon server",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "server": "nodemon server"
   },
   "author": "zayed ibn ibrahim",
   "license": "ISC",

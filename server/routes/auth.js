@@ -1,10 +1,10 @@
-import express from 'express'
-import { createOrUpdateUser, currentUser } from '../controllers/auth.js'
-import { protect } from '../middleware/auth.js'
+const express = require('express')
+const { createOrUpdateUser, currentUser } = require('../controllers/auth')
+const { protect } = require('../middleware/auth')
 
 const router = express.Router()
 
-router.route('/create-or-update-user').post(protect, createOrUpdateUser)
-router.route('/current-user').post(protect, currentUser)
+router.route('/auth/create-or-update-user').post(protect, createOrUpdateUser)
+router.route('/auth/current-user').post(protect, currentUser)
 
-export default router
+module.exports = router
