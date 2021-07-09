@@ -1,3 +1,12 @@
 main {
   min-height: 80vh;
 }
+.size-md {
+  height: 100px;
+  width: 100px;
+}
+
+.size-sm {
+  height: 30px;
+  width: 30px;
+}

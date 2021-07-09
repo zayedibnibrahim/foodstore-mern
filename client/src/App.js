@@ -7,15 +7,17 @@ import Footer from './components/Footer'
 import Header from './components/Header'
 import { USER_LOGIN_SUCCESS } from './constants/userConstants'
 import { auth } from './firebase'
+import CategoryEditScreen from './screens/admin/CategoryEditScreen'
+import CategoryScreen from './screens/admin/CategoryScreen'
 import UserListScreen from './screens/admin/UserListScreen'
-import ForgetPassword from './screens/ForgetPassword'
+import ForgetPasswordScreen from './screens/ForgetPasswordScreen'
 import HomeScreen from './screens/HomeScreen'
 import LoginScreen from './screens/LoginScreen'
 import RegisterCompleteScreen from './screens/RegisterCompleteScreen'
 import RegisterScreen from './screens/RegisterScreen'
-import History from './screens/user/History'
-import Password from './screens/user/Password'
-import wishlist from './screens/user/Wishlist'
+import HistoryScreen from './screens/user/HistoryScreen'
+import PasswordScreen from './screens/user/PasswordScreen'
+import wishlistScreen from './screens/user/WishlistScreen'
 
 function App() {
   const dispatch = useDispatch()
@@ -54,15 +56,21 @@ function App() {
             <Route path='/' component={HomeScreen} exact />
             <Route path='/register' component={RegisterScreen} exact />
             <Route path='/login' component={LoginScreen} />
-            <Route path='/forgot/password' component={ForgetPassword} />
+            <Route path='/forgot/password' component={ForgetPasswordScreen} />
             <Route
               path='/register/complete'
               component={RegisterCompleteScreen}
             />
-            <Route path='/user/history' component={History} exact />
-            <Route path='/user/wishlist' component={wishlist} exact />
-            <Route path='/user/password' component={Password} exact />
+            <Route path='/user/history' component={HistoryScreen} exact />
+            <Route path='/user/wishlist' component={wishlistScreen} exact />
+            <Route path='/user/password' component={PasswordScreen} exact />
             <Route path='/admin/userlist' component={UserListScreen} exact />
+            <Route path='/admin/category' component={CategoryScreen} exact />
+            <Route
+              path='/admin/category/:slug/edit'
+              component={CategoryEditScreen}
+              exact
+            />
           </Switch>
         </Container>
       </main>

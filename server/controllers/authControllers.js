@@ -1,5 +1,5 @@
 const asyncHandler = require('express-async-handler')
-const User = require('../models/user')
+const User = require('../models/userModel')
 
 exports.createOrUpdateUser = asyncHandler(async (req, res) => {
   const { name, picture, email } = req.user

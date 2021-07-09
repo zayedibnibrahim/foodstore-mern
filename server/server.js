@@ -4,7 +4,7 @@ const dotenv = require('dotenv')
 const colors = require('colors')
 const connectDB = require('./config/db')
 const { readdirSync } = require('fs')
-const { notFound, errorHandler } = require('./middleware/error')
+const { notFound, errorHandler } = require('./middleware/errorMiddleware')
 
 dotenv.config()
 const app = express()

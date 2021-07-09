@@ -5,7 +5,7 @@ import Message from '../components/Message'
 import { auth } from '../firebase'
 import { useSelector } from 'react-redux'
 
-const ForgetPassword = ({ location, history }) => {
+const ForgetPasswordScreen = ({ location, history }) => {
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
 
@@ -60,4 +60,4 @@ const ForgetPassword = ({ location, history }) => {
   )
 }
 
-export default ForgetPassword
+export default ForgetPasswordScreen

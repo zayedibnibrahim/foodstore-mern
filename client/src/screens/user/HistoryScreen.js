@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
-const History = ({ history }) => {
+const HistoryScreen = ({ history }) => {
   const userLogIn = useSelector((state) => state.userLogIn)
   const { userInfo } = userLogIn
   useEffect(() => {
@@ -17,4 +17,4 @@ const History = ({ history }) => {
   )
 }
 
-export default History
+export default HistoryScreen

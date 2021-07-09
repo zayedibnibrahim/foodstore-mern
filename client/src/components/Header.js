@@ -37,9 +37,6 @@ const Header = () => {
 
               {userInfo ? (
                 <NavDropdown title={userInfo.name}>
-                  <LinkContainer to='/profile'>
-                    <NavDropdown.Item>Profile</NavDropdown.Item>
-                  </LinkContainer>
                   <LinkContainer to='/user/history'>
                     <NavDropdown.Item>History</NavDropdown.Item>
                   </LinkContainer>
@@ -48,9 +45,6 @@ const Header = () => {
                   </LinkContainer>
                   <LinkContainer to='/user/password'>
                     <NavDropdown.Item>Password</NavDropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer to='/admin/userlist'>
-                    <NavDropdown.Item>User list</NavDropdown.Item>
                   </LinkContainer>
                   <NavDropdown.Item onClick={logoutHandler}>
                     Logout
@@ -65,6 +59,22 @@ const Header = () => {
                     Sign In <FontAwesomeIcon icon={faSignInAlt} />
                   </Nav.Link>
                 </LinkContainer>
+              )}
+              {userInfo && userInfo.role === 'admin' && (
+                <NavDropdown title='Admin' id='adminmenu'>
+                  <LinkContainer to='/admin/userlist'>
+                    <NavDropdown.Item>User list</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to='/admin/productlist'>
+                    <NavDropdown.Item>Products</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to='/admin/category'>
+                    <NavDropdown.Item>Category</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to='/admin/orderList'>
+                    <NavDropdown.Item>Orders</NavDropdown.Item>
+                  </LinkContainer>
+                </NavDropdown>
               )}
             </Nav>
           </Navbar.Collapse>

@@ -1,6 +1,9 @@
 const express = require('express')
-const { createOrUpdateUser, currentUser } = require('../controllers/auth')
-const { protect } = require('../middleware/auth')
+const {
+  createOrUpdateUser,
+  currentUser,
+} = require('../controllers/authControllers')
+const { protect } = require('../middleware/authMiddleware')
 
 const router = express.Router()
 

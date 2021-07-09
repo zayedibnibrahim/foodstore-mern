@@ -4,19 +4,25 @@ import { listUsers } from '../../actions/userActions'
 import Loader from '../../components/Loader'
 import Message from '../../components/Message'
 
-const UserListScreen = () => {
+const UserListScreen = ({ history }) => {
+  const userLogIn = useSelector((state) => state.userLogIn)
+  const { userInfo } = userLogIn
+
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(listUsers())
-  }, [dispatch])
+    if (userInfo && userInfo.role !== 'admin') {
+      history.push('/')
+    }
+  }, [dispatch, userInfo, history])
 
   const userList = useSelector((state) => state.userList)
-  const { loading, users, error } = userList
+  const { loading: loadingUserList, users, error: errorUserList } = userList
   return (
     <>
-      {error && <Message variant='danger'>{error}</Message>}
-      {loading && <Loader />}
+      {errorUserList && <Message variant='danger'>{errorUserList}</Message>}
+      {loadingUserList && <Loader />}
       <ul>
         {users && users.map((user) => <li key={user._id}>{user.name}</li>)}
       </ul>

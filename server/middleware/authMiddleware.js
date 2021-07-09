@@ -1,6 +1,6 @@
 const asyncHandler = require('express-async-handler')
 const admin = require('../firebase')
-const User = require('../models/user')
+const User = require('../models/userModel')
 
 exports.protect = asyncHandler(async (req, res, next) => {
   if (
