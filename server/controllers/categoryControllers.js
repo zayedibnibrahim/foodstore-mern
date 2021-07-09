@@ -29,7 +29,7 @@ exports.categoryCreate = asyncHandler(async (req, res) => {
 // @desc    Category List
 // @route   GET /api/category
 // @access  Public
-exports.CategoryList = asyncHandler(async (req, res) => {
+exports.categoryList = asyncHandler(async (req, res) => {
   const category = await Category.find({})
   if (category) {
     res.json(category)

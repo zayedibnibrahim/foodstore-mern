@@ -53,7 +53,7 @@ export const listCategory = () => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     }
-    const { data } = await axios.get('/api/Category', config)
+    const { data } = await axios.get('/api/category', config)
 
     dispatch({ type: CATEGORY_LIST_SUCCESS, payload: data })
   } catch (error) {
@@ -80,7 +80,7 @@ export const deleteCategory = (slug) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    await axios.delete(`/api/Category/${slug}`, config)
+    await axios.delete(`/api/category/${slug}`, config)
 
     dispatch({ type: CATEGORY_DELETE_SUCCESS })
   } catch (error) {
@@ -103,7 +103,7 @@ export const detailsCategory = (slug) => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     }
-    const { data } = await axios.get(`/api/Category/${slug}`, config)
+    const { data } = await axios.get(`/api/category/${slug}`, config)
 
     dispatch({ type: CATEGORY_DETAILS_SUCCESS, payload: data })
   } catch (error) {
@@ -133,7 +133,7 @@ export const updateCategory =
         },
       }
 
-      await axios.put(`/api/Category/${slug}`, { name: newCategory }, config)
+      await axios.put(`/api/category/${slug}`, { name: newCategory }, config)
 
       dispatch({ type: CATEGORY_UPDATE_SUCCESS })
     } catch (error) {

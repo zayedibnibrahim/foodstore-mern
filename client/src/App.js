@@ -7,6 +7,8 @@ import Footer from './components/Footer'
 import Header from './components/Header'
 import { USER_LOGIN_SUCCESS } from './constants/userConstants'
 import { auth } from './firebase'
+import AddonScreen from './screens/admin/AddonScreen'
+import AddonEditScreen from './screens/admin/AddonEditScreen'
 import CategoryEditScreen from './screens/admin/CategoryEditScreen'
 import CategoryScreen from './screens/admin/CategoryScreen'
 import UserListScreen from './screens/admin/UserListScreen'
@@ -69,6 +71,12 @@ function App() {
             <Route
               path='/admin/category/:slug/edit'
               component={CategoryEditScreen}
+              exact
+            />
+            <Route path='/admin/addon' component={AddonScreen} exact />
+            <Route
+              path='/admin/addon/:slug/edit'
+              component={AddonEditScreen}
               exact
             />
           </Switch>

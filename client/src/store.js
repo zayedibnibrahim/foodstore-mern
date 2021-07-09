@@ -1,7 +1,13 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk'
-import { addonCreateReducer, addonListReducer } from './reducers/addonReducers'
+import {
+  addonCreateReducer,
+  addonDeleteReducer,
+  addonDetailsReducer,
+  addonListReducer,
+  addonUpdateReducer,
+} from './reducers/addonReducers'
 import {
   categoryCreateReducer,
   categoryDeleteReducer,
@@ -21,6 +27,9 @@ const reducer = combineReducers({
   categoryUpdate: categoryUpdateReducer,
   addonCreate: addonCreateReducer,
   addonList: addonListReducer,
+  addonDelete: addonDeleteReducer,
+  addonDetails: addonDetailsReducer,
+  addonUpdate: addonUpdateReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
