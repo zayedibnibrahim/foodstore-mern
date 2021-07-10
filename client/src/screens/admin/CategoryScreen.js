@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import FormContainer from '../../components/FormContainer'
+import ItemSearch from '../../components/ItemSearch'
 import { Form, Button, Row, Table } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { LinkContainer } from 'react-router-bootstrap'
@@ -14,8 +15,8 @@ import Loader from '../../components/Loader'
 import Message from '../../components/Message'
 
 const CategoryScreen = ({ history }) => {
-  const [category, setCategory] = useState('')
   const [keyword, setKeyword] = useState('')
+  const [category, setCategory] = useState('')
 
   //check logged in user
   const userLogIn = useSelector((state) => state.userLogIn)
@@ -44,15 +45,11 @@ const CategoryScreen = ({ history }) => {
     dispatch(createCategory(category))
     setCategory('')
   }
-  const handleSearchChange = (e) => {
-    e.preventDefault()
-    setKeyword(e.target.value.toLowerCase())
-  }
-  const searched = (keyword) => (category) =>
-    category.name.toLowerCase().includes(keyword)
 
   const deleteHandler = (slug) => {
-    dispatch(deleteCategory(slug))
+    if (window.confirm('Are You Sure?')) {
+      dispatch(deleteCategory(slug))
+    }
   }
 
   useEffect(() => {
@@ -62,6 +59,8 @@ const CategoryScreen = ({ history }) => {
     dispatch(listCategory())
   }, [dispatch, userInfo, history, success, successDelete])
 
+  const searched = (keyword) => (category) =>
+    category.name.toLowerCase().includes(keyword)
   return (
     <>
       <FormContainer>
@@ -94,12 +93,7 @@ const CategoryScreen = ({ history }) => {
           <Message variant='danger'>{errorCategory}</Message>
         ) : (
           <>
-            <input
-              type='search'
-              onChange={handleSearchChange}
-              placeholder='Filter Category'
-              value={keyword}
-            />
+            <ItemSearch setKeyword={setKeyword} keyword={keyword} />
             <Table
               striped
               bordered

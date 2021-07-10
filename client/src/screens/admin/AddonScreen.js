@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { createAddon, deleteAddon, listAddon } from '../../actions/addonActions'
 import Loader from '../../components/Loader'
 import Message from '../../components/Message'
+import ItemSearch from '../../components/ItemSearch'
 
 const AddonScreen = ({ history }) => {
   const [addon, setAddon] = useState('')
@@ -36,15 +37,13 @@ const AddonScreen = ({ history }) => {
     dispatch(createAddon(addon))
     setAddon('')
   }
-  const handleSearchChange = (e) => {
-    e.preventDefault()
-    setKeyword(e.target.value.toLowerCase())
-  }
   const searched = (keyword) => (addon) =>
     addon.name.toLowerCase().includes(keyword)
 
   const deleteHandler = (slug) => {
-    dispatch(deleteAddon(slug))
+    if (window.confirm('Are You Sure?')) {
+      dispatch(deleteAddon(slug))
+    }
   }
 
   useEffect(() => {
@@ -86,12 +85,7 @@ const AddonScreen = ({ history }) => {
           <Message variant='danger'>{errorAddon}</Message>
         ) : (
           <>
-            <input
-              type='search'
-              onChange={handleSearchChange}
-              placeholder='Filter Addon'
-              value={keyword}
-            />
+            <ItemSearch setKeyword={setKeyword} keyword={keyword} />
             <Table
               striped
               bordered

@@ -30,7 +30,7 @@ exports.addonCreate = asyncHandler(async (req, res) => {
 // @route   GET /api/addon
 // @access  Public
 exports.addonList = asyncHandler(async (req, res) => {
-  const addon = await Addon.find({})
+  const addon = await Addon.find({}).sort({ createdAt: -1 })
   if (addon) {
     res.json(addon)
   } else {
