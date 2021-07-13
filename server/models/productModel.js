@@ -3,9 +3,8 @@ const { ObjectId } = mongoose.Schema
 const productSchema = new mongoose.Schema(
   {
     user: {
-      type: ObjectId,
+      type: String,
       required: true,
-      ref: 'User',
     },
     title: {
       type: String,
@@ -21,22 +20,24 @@ const productSchema = new mongoose.Schema(
       index: true,
     },
     image: {
-      type: String,
+      type: Object,
+      required: true,
+    },
+    category: {
+      type: ObjectId,
+      ref: 'Category',
       required: true,
     },
     addon: [
       {
         type: ObjectId,
-        required: true,
+        ref: 'Addon',
       },
     ],
-    category: {
-      type: ObjectId,
-      ref: 'Category',
-    },
     sold: {
       type: Number,
       default: 0,
+      required: true,
     },
     description: {
       type: String,
@@ -44,9 +45,9 @@ const productSchema = new mongoose.Schema(
       maxlength: 2000,
       text: true,
     },
-    service: {
+    delivery: {
       type: String,
-      enum: ['Delivery', 'Pickup'],
+      enum: ['Yes', 'No'],
       required: true,
     },
     price: {
@@ -55,9 +56,9 @@ const productSchema = new mongoose.Schema(
       trim: true,
     },
     availability: {
-      type: Boolean,
+      type: String,
+      enum: ['Yes', 'No'],
       required: true,
-      default: true,
     },
   },
   {

@@ -15,6 +15,11 @@ import {
   categoryListReducer,
   categoryUpdateReducer,
 } from './reducers/categoryReducers'
+import {
+  fileRemoveReducer,
+  fileUploadReducer,
+  productCreateReducer,
+} from './reducers/productReducers'
 import { userListReducer, userLogInReducer } from './reducers/userReducers'
 
 const reducer = combineReducers({
@@ -30,6 +35,9 @@ const reducer = combineReducers({
   addonDelete: addonDeleteReducer,
   addonDetails: addonDetailsReducer,
   addonUpdate: addonUpdateReducer,
+  fileUpload: fileUploadReducer,
+  fileRemove: fileRemoveReducer,
+  productCreate: productCreateReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

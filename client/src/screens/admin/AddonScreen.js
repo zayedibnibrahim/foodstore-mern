@@ -20,7 +20,7 @@ const AddonScreen = ({ history }) => {
 
   //showAddon list
   const addonList = useSelector((state) => state.addonList)
-  const { loading: loadingAddon, categories, error: errorAddon } = addonList
+  const { loading: loadingAddon, addons, error: errorAddon } = addonList
 
   const dispatch = useDispatch()
 
@@ -102,7 +102,7 @@ const AddonScreen = ({ history }) => {
                 </tr>
               </thead>
               <tbody>
-                {categories.filter(searched(keyword)).map((addon) => (
+                {addons.filter(searched(keyword)).map((addon) => (
                   <tr key={addon._id}>
                     <td>{addon.name}</td>
                     <td>{addon.slug}</td>

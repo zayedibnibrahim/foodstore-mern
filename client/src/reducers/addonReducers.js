@@ -30,12 +30,12 @@ export const addonCreateReducer = (state = {}, action) => {
   }
 }
 
-export const addonListReducer = (state = { categories: [] }, action) => {
+export const addonListReducer = (state = { addons: [] }, action) => {
   switch (action.type) {
     case ADDON_LIST_REQUEST:
       return { ...state, loading: true }
     case ADDON_LIST_SUCCESS:
-      return { loading: false, categories: action.payload }
+      return { loading: false, addons: action.payload }
     case ADDON_LIST_FAIL:
       return { loading: false, error: action.payload }
     default:

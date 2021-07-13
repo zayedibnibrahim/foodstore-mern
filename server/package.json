@@ -10,6 +10,7 @@
   "author": "zayed ibn ibrahim",
   "license": "ISC",
   "dependencies": {
+    "cloudinary": "^1.26.2",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
@@ -19,7 +20,8 @@
     "firebase-admin": "^9.10.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.1",
-    "multer": "^1.4.2"
+    "multer": "^1.4.2",
+    "slugify": "^1.5.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.9"

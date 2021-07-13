@@ -20,6 +20,7 @@ import RegisterScreen from './screens/RegisterScreen'
 import HistoryScreen from './screens/user/HistoryScreen'
 import PasswordScreen from './screens/user/PasswordScreen'
 import wishlistScreen from './screens/user/WishlistScreen'
+import ProductCreateScreen from './screens/admin/ProductCreateScreen'
 
 function App() {
   const dispatch = useDispatch()
@@ -77,6 +78,11 @@ function App() {
             <Route
               path='/admin/addon/:slug/edit'
               component={AddonEditScreen}
+              exact
+            />
+            <Route
+              path='/admin/product/create'
+              component={ProductCreateScreen}
               exact
             />
           </Switch>
