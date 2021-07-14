@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { listProduct } from '../../actions/productActions'
+import { deleteProduct, listProduct } from '../../actions/productActions'
 import { Image, Button, Row, Col, Table } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -23,9 +23,16 @@ const ProductListScreen = ({ history }) => {
       dispatch(listProduct())
     }
   }, [dispatch, userInfo, history])
-
+  const deleteHandler = (id) => {
+    dispatch(deleteProduct(id))
+  }
   return (
     <>
+      <Row className='align-items-center'>
+        <Col>
+          <h1>Products</h1>
+        </Col>
+      </Row>
       <Table striped bordered hover responsive className='table-sm'>
         <thead>
           <tr>
@@ -69,7 +76,7 @@ const ProductListScreen = ({ history }) => {
                 <Button
                   variant='danger'
                   className='btn-sm'
-                  // onClick={() => deleteHandler(product._id)}
+                  onClick={() => deleteHandler(product._id)}
                 >
                   <FontAwesomeIcon icon={faTrash} />
                 </Button>

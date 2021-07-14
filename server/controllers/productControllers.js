@@ -83,6 +83,23 @@ exports.productCreate = asyncHandler(async (req, res) => {
 exports.getProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({})
     .populate('category', 'name')
-    .populate('addon')
+    .populate('addon', 'name price')
   res.json(products)
+})
+
+// @desc    delete Products
+// @route   DELETE /api/product/id
+// @access  Private admin
+exports.deleteProducts = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id)
+
+  if (product) {
+    await product.remove()
+    res.json({
+      message: 'Product Deleted',
+    })
+  } else {
+    res.status(500)
+    throw new Error('Product Not Found')
+  }
 })

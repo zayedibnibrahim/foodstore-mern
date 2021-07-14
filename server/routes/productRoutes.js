@@ -4,6 +4,7 @@ const {
   uploadImage,
   removeImage,
   getProducts,
+  deleteProducts,
 } = require('../controllers/productControllers')
 
 const { protect, adminCheck } = require('../middleware/authMiddleware')
@@ -17,5 +18,6 @@ router
   .route('/product')
   .post(protect, adminCheck, productCreate)
   .get(getProducts)
+router.route('/product/:id').delete(protect, adminCheck, deleteProducts)
 
 module.exports = router
