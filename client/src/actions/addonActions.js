@@ -17,7 +17,7 @@ import {
   ADDON_UPDATE_SUCCESS,
 } from '../constants/addonConstants'
 
-export const createAddon = (addon) => async (dispatch, getState) => {
+export const createAddon = (addon, price) => async (dispatch, getState) => {
   try {
     dispatch({ type: ADDON_CREATE_REQUEST })
     const {
@@ -30,7 +30,7 @@ export const createAddon = (addon) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    await axios.post('/api/addon', { name: addon }, config)
+    await axios.post('/api/addon', { name: addon, price }, config)
 
     dispatch({ type: ADDON_CREATE_SUCCESS })
   } catch (error) {
@@ -117,31 +117,32 @@ export const detailsAddon = (slug) => async (dispatch) => {
   }
 }
 
-export const updateAddon = (newAddon, slug) => async (dispatch, getState) => {
-  try {
-    dispatch({ type: ADDON_UPDATE_REQUEST })
+export const updateAddon =
+  (newAddon, price, slug) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: ADDON_UPDATE_REQUEST })
 
-    const {
-      userLogIn: { userInfo },
-    } = getState()
+      const {
+        userLogIn: { userInfo },
+      } = getState()
 
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${userInfo.token}`,
-      },
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+
+      await axios.put(`/api/addon/${slug}`, { name: newAddon, price }, config)
+
+      dispatch({ type: ADDON_UPDATE_SUCCESS })
+    } catch (error) {
+      dispatch({
+        type: ADDON_UPDATE_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      })
     }
-
-    await axios.put(`/api/addon/${slug}`, { name: newAddon }, config)
-
-    dispatch({ type: ADDON_UPDATE_SUCCESS })
-  } catch (error) {
-    dispatch({
-      type: ADDON_UPDATE_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    })
   }
-}

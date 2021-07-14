@@ -14,6 +14,11 @@ const AddonSchema = new mongoose.Schema(
       lowercase: true,
       index: true,
     },
+    price: {
+      type: Number,
+      trim: true,
+      require: true,
+    },
   },
   {
     timestamps: true,

@@ -6,7 +6,7 @@ const slugify = require('slugify')
 // @route   POST /api/addon
 // @access  Private admin
 exports.addonCreate = asyncHandler(async (req, res) => {
-  const { name } = req.body
+  const { name, price } = req.body
   const addonExist = await Addon.findOne({ slug: slugify(name) })
 
   if (addonExist) {
@@ -16,6 +16,7 @@ exports.addonCreate = asyncHandler(async (req, res) => {
     const addon = await Addon.create({
       name,
       slug: slugify(name),
+      price,
     })
     if (addon) {
       res.json(addon)
@@ -30,7 +31,7 @@ exports.addonCreate = asyncHandler(async (req, res) => {
 // @route   GET /api/addon
 // @access  Public
 exports.addonList = asyncHandler(async (req, res) => {
-  const addon = await Addon.find({}).sort({ createdAt: -1 })
+  const addon = await Addon.find({}).sort({ createdAt: 1 })
   if (addon) {
     res.json(addon)
   } else {
@@ -58,7 +59,7 @@ exports.addonById = asyncHandler(async (req, res) => {
 // @access  Private admin
 exports.addonUpdate = asyncHandler(async (req, res) => {
   const slug = req.params.slug
-  const { name } = req.body
+  const { name, price } = req.body
   const addon = await Addon.findOne({ slug })
   if (addon) {
     const addonExist = await Addon.findOne({ slug: slugify(name) })
@@ -68,6 +69,7 @@ exports.addonUpdate = asyncHandler(async (req, res) => {
     } else {
       addon.name = name
       addon.slug = slugify(name)
+      addon.price = price
       const updatedAddon = await addon.save()
       res.json(updatedAddon)
     }

@@ -3,6 +3,9 @@ import {
   CREATE_PRODUCT_REQUEST,
   CREATE_PRODUCT_RESET,
   CREATE_PRODUCT_SUCCESS,
+  LIST_PRODUCT_FAIL,
+  LIST_PRODUCT_REQUEST,
+  LIST_PRODUCT_SUCCESS,
   REMOVE_IMAGE_FAIL,
   REMOVE_IMAGE_REQUEST,
   REMOVE_IMAGE_RESET,
@@ -53,6 +56,19 @@ export const productCreateReducer = (state = {}, action) => {
       return { loading: false, error: action.payload }
     case CREATE_PRODUCT_RESET:
       return {}
+    default:
+      return state
+  }
+}
+
+export const productListReducer = (state = { products: [] }, action) => {
+  switch (action.type) {
+    case LIST_PRODUCT_REQUEST:
+      return { ...state, loading: true }
+    case LIST_PRODUCT_SUCCESS:
+      return { loading: false, products: action.payload }
+    case LIST_PRODUCT_FAIL:
+      return { loading: false, error: action.payload }
     default:
       return state
   }

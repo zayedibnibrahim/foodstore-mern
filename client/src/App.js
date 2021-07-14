@@ -21,6 +21,7 @@ import HistoryScreen from './screens/user/HistoryScreen'
 import PasswordScreen from './screens/user/PasswordScreen'
 import wishlistScreen from './screens/user/WishlistScreen'
 import ProductCreateScreen from './screens/admin/ProductCreateScreen'
+import ProductListScreen from './screens/admin/ProductListScreen'
 
 function App() {
   const dispatch = useDispatch()
@@ -80,6 +81,7 @@ function App() {
               component={AddonEditScreen}
               exact
             />
+            <Route path='/admin/products' component={ProductListScreen} exact />
             <Route
               path='/admin/product/create'
               component={ProductCreateScreen}

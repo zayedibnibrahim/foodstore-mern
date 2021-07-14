@@ -12,6 +12,7 @@ import ItemSearch from '../../components/ItemSearch'
 
 const AddonScreen = ({ history }) => {
   const [addon, setAddon] = useState('')
+  const [price, setPrice] = useState('')
   const [keyword, setKeyword] = useState('')
 
   //check logged in user
@@ -34,8 +35,9 @@ const AddonScreen = ({ history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault()
-    dispatch(createAddon(addon))
+    dispatch(createAddon(addon, price))
     setAddon('')
+    setPrice('')
   }
   const searched = (keyword) => (addon) =>
     addon.name.toLowerCase().includes(keyword)
@@ -68,6 +70,16 @@ const AddonScreen = ({ history }) => {
               onChange={(e) => setAddon(e.target.value)}
             ></Form.Control>
           </Form.Group>
+          <Form.Group controlId='price'>
+            <Form.Label>Price</Form.Label>
+            <Form.Control
+              type='number'
+              placeholder='Enter price($)'
+              value={price}
+              required
+              onChange={(e) => setPrice(e.target.value)}
+            ></Form.Control>
+          </Form.Group>
           <Button
             type='submit'
             variant='primary'
@@ -98,6 +110,7 @@ const AddonScreen = ({ history }) => {
                 <tr>
                   <th>NAME</th>
                   <th>SLUG</th>
+                  <th>PRICE</th>
                   <th>ACTION</th>
                 </tr>
               </thead>
@@ -106,6 +119,7 @@ const AddonScreen = ({ history }) => {
                   <tr key={addon._id}>
                     <td>{addon.name}</td>
                     <td>{addon.slug}</td>
+                    <td>${addon.price}</td>
                     <td>
                       <LinkContainer to={`/admin/addon/${addon.slug}/edit`}>
                         <Button variant='dark' className='btn-sm'>

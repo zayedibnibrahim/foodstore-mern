@@ -76,3 +76,13 @@ exports.productCreate = asyncHandler(async (req, res) => {
     }
   }
 })
+
+// @desc    get Products
+// @route   GET /api/product
+// @access  Public
+exports.getProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find({})
+    .populate('category', 'name')
+    .populate('addon')
+  res.json(products)
+})

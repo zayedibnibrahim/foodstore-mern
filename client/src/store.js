@@ -19,6 +19,7 @@ import {
   fileRemoveReducer,
   fileUploadReducer,
   productCreateReducer,
+  productListReducer,
 } from './reducers/productReducers'
 import { userListReducer, userLogInReducer } from './reducers/userReducers'
 
@@ -38,6 +39,7 @@ const reducer = combineReducers({
   fileUpload: fileUploadReducer,
   fileRemove: fileRemoveReducer,
   productCreate: productCreateReducer,
+  productList: productListReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

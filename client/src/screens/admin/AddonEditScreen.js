@@ -10,6 +10,7 @@ import { ADDON_UPDATE_RESET } from '../../constants/addonConstants'
 const AddonEditScreen = ({ history, match }) => {
   const addonSlug = match.params.slug
   const [addon, setAddon] = useState('')
+  const [price, setPrice] = useState('')
 
   const dispatch = useDispatch()
 
@@ -41,6 +42,7 @@ const AddonEditScreen = ({ history, match }) => {
         dispatch(detailsAddon(addonSlug))
       } else {
         setAddon(addonData.name)
+        setPrice(addonData.price)
       }
     }
   }, [dispatch, history, addonSlug, addonData, successUpdate, userInfo])
@@ -48,7 +50,7 @@ const AddonEditScreen = ({ history, match }) => {
   const submitHandler = (e) => {
     e.preventDefault()
 
-    dispatch(updateAddon(addon, addonSlug))
+    dispatch(updateAddon(addon, price, addonSlug))
   }
 
   return (
@@ -68,6 +70,16 @@ const AddonEditScreen = ({ history, match }) => {
               placeholder='Enter addon'
               value={addon}
               onChange={(e) => setAddon(e.target.value)}
+            ></Form.Control>
+          </Form.Group>
+          <Form.Group controlId='price'>
+            <Form.Label>Price($)</Form.Label>
+            <Form.Control
+              type='number'
+              placeholder='Enter price($)'
+              value={price}
+              required
+              onChange={(e) => setPrice(e.target.value)}
             ></Form.Control>
           </Form.Group>
           <Button

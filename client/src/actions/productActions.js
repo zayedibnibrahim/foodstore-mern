@@ -3,6 +3,9 @@ import {
   CREATE_PRODUCT_FAIL,
   CREATE_PRODUCT_REQUEST,
   CREATE_PRODUCT_SUCCESS,
+  LIST_PRODUCT_FAIL,
+  LIST_PRODUCT_REQUEST,
+  LIST_PRODUCT_SUCCESS,
   REMOVE_IMAGE_FAIL,
   REMOVE_IMAGE_REQUEST,
   REMOVE_IMAGE_SUCCESS,
@@ -82,6 +85,23 @@ export const createProduct = (product) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: CREATE_PRODUCT_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const listProduct = () => async (dispatch) => {
+  try {
+    dispatch({ type: LIST_PRODUCT_REQUEST })
+
+    const { data } = await axios.get('/api/product')
+    dispatch({ type: LIST_PRODUCT_SUCCESS, payload: data })
+  } catch (error) {
+    dispatch({
+      type: LIST_PRODUCT_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

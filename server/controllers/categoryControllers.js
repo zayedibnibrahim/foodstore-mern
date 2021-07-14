@@ -30,7 +30,7 @@ exports.categoryCreate = asyncHandler(async (req, res) => {
 // @route   GET /api/category
 // @access  Public
 exports.categoryList = asyncHandler(async (req, res) => {
-  const category = await Category.find({}).sort({ createdAt: -1 })
+  const category = await Category.find({}).sort({ createdAt: 1 })
   if (category) {
     res.json(category)
   } else {
