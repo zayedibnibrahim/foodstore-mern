@@ -6,12 +6,18 @@ import {
   DELETE_PRODUCT_FAIL,
   DELETE_PRODUCT_REQUEST,
   DELETE_PRODUCT_SUCCESS,
+  DETAILS_PRODUCT_FAIL,
+  DETAILS_PRODUCT_REQUEST,
+  DETAILS_PRODUCT_SUCCESS,
   LIST_PRODUCT_FAIL,
   LIST_PRODUCT_REQUEST,
   LIST_PRODUCT_SUCCESS,
   REMOVE_IMAGE_FAIL,
   REMOVE_IMAGE_REQUEST,
   REMOVE_IMAGE_SUCCESS,
+  UPDATE_PRODUCT_FAIL,
+  UPDATE_PRODUCT_REQUEST,
+  UPDATE_PRODUCT_SUCCESS,
   UPLOAD_IMAGE_FAIL,
   UPLOAD_IMAGE_REQUEST,
   UPLOAD_IMAGE_SUCCESS,
@@ -130,6 +136,50 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: DELETE_PRODUCT_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const updateProduct = (product) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: UPDATE_PRODUCT_REQUEST })
+    const {
+      userLogIn: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    await axios.put(`/api/product/${product._id}`, product, config)
+    dispatch({ type: UPDATE_PRODUCT_SUCCESS })
+  } catch (error) {
+    dispatch({
+      type: UPDATE_PRODUCT_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const detailsProduct = (slug) => async (dispatch) => {
+  try {
+    dispatch({ type: DETAILS_PRODUCT_REQUEST })
+
+    const { data } = await axios.get(`/api/product/${slug}`)
+
+    dispatch({ type: DETAILS_PRODUCT_SUCCESS, payload: data })
+  } catch (error) {
+    dispatch({
+      type: DETAILS_PRODUCT_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

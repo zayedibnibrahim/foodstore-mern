@@ -9,7 +9,7 @@ import {
   USER_LIST_RESET,
 } from '../constants/userConstants'
 
-export const userLogInReducer = (state = {}, action) => {
+export const userLogInReducer = (state = { userInfo: null }, action) => {
   switch (action.type) {
     case USER_LOGIN_REQUEST:
       return { ...state, loading: true }
@@ -18,7 +18,7 @@ export const userLogInReducer = (state = {}, action) => {
     case USER_LOGIN_FAIL:
       return { loading: false, error: action.payload }
     case USER_LOGOUT:
-      return {}
+      return { userInfo: null }
     default:
       return state
   }

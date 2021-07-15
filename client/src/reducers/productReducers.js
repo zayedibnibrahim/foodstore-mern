@@ -7,6 +7,10 @@ import {
   DELETE_PRODUCT_REQUEST,
   DELETE_PRODUCT_RESET,
   DELETE_PRODUCT_SUCCESS,
+  DETAILS_PRODUCT_FAIL,
+  DETAILS_PRODUCT_REQUEST,
+  DETAILS_PRODUCT_RESET,
+  DETAILS_PRODUCT_SUCCESS,
   LIST_PRODUCT_FAIL,
   LIST_PRODUCT_REQUEST,
   LIST_PRODUCT_SUCCESS,
@@ -14,6 +18,10 @@ import {
   REMOVE_IMAGE_REQUEST,
   REMOVE_IMAGE_RESET,
   REMOVE_IMAGE_SUCCESS,
+  UPDATE_PRODUCT_FAIL,
+  UPDATE_PRODUCT_REQUEST,
+  UPDATE_PRODUCT_RESET,
+  UPDATE_PRODUCT_SUCCESS,
   UPLOAD_IMAGE_FAIL,
   UPLOAD_IMAGE_REQUEST,
   UPLOAD_IMAGE_RESET,
@@ -88,6 +96,36 @@ export const productDeleteReducer = (state = {}, action) => {
       return { loading: false, error: action.payload }
     case DELETE_PRODUCT_RESET:
       return {}
+    default:
+      return state
+  }
+}
+
+export const productUpdateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case UPDATE_PRODUCT_REQUEST:
+      return { loading: true }
+    case UPDATE_PRODUCT_SUCCESS:
+      return { loading: false, success: true }
+    case UPDATE_PRODUCT_FAIL:
+      return { loading: false, error: action.payload }
+    case UPDATE_PRODUCT_RESET:
+      return {}
+    default:
+      return state
+  }
+}
+
+export const productDetailsReducer = (state = { product: {} }, action) => {
+  switch (action.type) {
+    case DETAILS_PRODUCT_REQUEST:
+      return { ...state, loading: true }
+    case DETAILS_PRODUCT_SUCCESS:
+      return { loading: false, product: action.payload }
+    case DETAILS_PRODUCT_FAIL:
+      return { loading: false, error: action.payload }
+    case DETAILS_PRODUCT_RESET:
+      return { loading: false, product: {} }
     default:
       return state
   }

@@ -5,7 +5,11 @@ import { Route, Switch } from 'react-router-dom'
 import { currentUser } from './actions/userActions'
 import Footer from './components/Footer'
 import Header from './components/Header'
-import { USER_LOGIN_SUCCESS } from './constants/userConstants'
+import {
+  USER_LOGIN_FAIL,
+  USER_LOGIN_REQUEST,
+  USER_LOGIN_SUCCESS,
+} from './constants/userConstants'
 import { auth } from './firebase'
 import AddonScreen from './screens/admin/AddonScreen'
 import AddonEditScreen from './screens/admin/AddonEditScreen'
@@ -22,6 +26,7 @@ import PasswordScreen from './screens/user/PasswordScreen'
 import wishlistScreen from './screens/user/WishlistScreen'
 import ProductCreateScreen from './screens/admin/ProductCreateScreen'
 import ProductListScreen from './screens/admin/ProductListScreen'
+import ProductEditScreen from './screens/admin/ProductEditScreen'
 
 function App() {
   const dispatch = useDispatch()
@@ -34,6 +39,7 @@ function App() {
 
         currentUser(idTokenResult.token)
           .then((res) => {
+            dispatch({ type: USER_LOGIN_REQUEST })
             dispatch({
               type: USER_LOGIN_SUCCESS,
               payload: {
@@ -45,7 +51,9 @@ function App() {
               },
             })
           })
-          .catch((err) => console.log(err))
+          .catch((err) => {
+            dispatch({ type: USER_LOGIN_FAIL, payload: err })
+          })
       }
     })
     // cleanup
@@ -85,6 +93,11 @@ function App() {
             <Route
               path='/admin/product/create'
               component={ProductCreateScreen}
+              exact
+            />
+            <Route
+              path='/admin/product/:slug'
+              component={ProductEditScreen}
               exact
             />
           </Switch>

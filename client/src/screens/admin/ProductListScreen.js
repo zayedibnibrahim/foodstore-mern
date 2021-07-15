@@ -29,18 +29,24 @@ const ProductListScreen = ({ history }) => {
   } = productDelete
 
   useEffect(() => {
-    if (userInfo && userInfo.role !== 'admin') {
+    if (userInfo && userInfo.role === 'admin') {
+      dispatch(listProduct())
+      if (successDelete) {
+        alert.success('Product Deleted')
+        dispatch({ type: DELETE_PRODUCT_RESET })
+      }
+    } else {
       history.push('/')
     }
-  }, [dispatch, userInfo, history])
+  }, [dispatch, userInfo, history, successDelete, alert])
 
-  useEffect(() => {
-    dispatch(listProduct())
-    if (successDelete) {
-      alert.success('Product Deleted')
-      dispatch({ type: DELETE_PRODUCT_RESET })
-    }
-  }, [dispatch, successDelete, alert])
+  // useEffect(() => {
+  //   dispatch(listProduct())
+  //   if (successDelete) {
+  //     alert.success('Product Deleted')
+  //     dispatch({ type: DELETE_PRODUCT_RESET })
+  //   }
+  // }, [dispatch, successDelete, alert])
 
   const deleteHandler = (id) => {
     if (window.confirm('Are You Sure?')) {
@@ -94,7 +100,7 @@ const ProductListScreen = ({ history }) => {
                   ))}
                 </td>
                 <td>
-                  <LinkContainer to={`/admin/product/${product._id}/edit`}>
+                  <LinkContainer to={`/admin/product/${product.slug}/edit`}>
                     <Button variant='dark' className='btn-sm'>
                       <FontAwesomeIcon icon={faEdit} />
                     </Button>

@@ -103,3 +103,18 @@ exports.deleteProducts = asyncHandler(async (req, res) => {
     throw new Error('Product Not Found')
   }
 })
+
+// @desc    get Products by slug
+// @route   GET /api/product
+// @access  Public
+exports.getProductDetails = asyncHandler(async (req, res) => {
+  const [product] = await Product.find({ slug: req.params.slug })
+    .populate('category', 'name')
+    .populate('addon', 'name price')
+  if (product) {
+    res.json(product)
+  } else {
+    res.status(500)
+    throw new Error('Product Not Found')
+  }
+})

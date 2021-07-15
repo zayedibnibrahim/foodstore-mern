@@ -40,6 +40,14 @@ const CategoryScreen = ({ history }) => {
   const categoryCreate = useSelector((state) => state.categoryCreate)
   const { loading, success, error } = categoryCreate
 
+  useEffect(() => {
+    if (userInfo && userInfo.role === 'admin') {
+      dispatch(listCategory())
+    } else {
+      history.push('/')
+    }
+  }, [dispatch, userInfo, history, success, successDelete])
+
   const submitHandler = (e) => {
     e.preventDefault()
     dispatch(createCategory(category))
@@ -51,13 +59,6 @@ const CategoryScreen = ({ history }) => {
       dispatch(deleteCategory(slug))
     }
   }
-
-  useEffect(() => {
-    if (userInfo && userInfo.role !== 'admin') {
-      history.push('/')
-    }
-    dispatch(listCategory())
-  }, [dispatch, userInfo, history, success, successDelete])
 
   const searched = (keyword) => (category) =>
     category.name.toLowerCase().includes(keyword)
