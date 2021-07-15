@@ -5,6 +5,7 @@ import {
   CREATE_PRODUCT_SUCCESS,
   DELETE_PRODUCT_FAIL,
   DELETE_PRODUCT_REQUEST,
+  DELETE_PRODUCT_RESET,
   DELETE_PRODUCT_SUCCESS,
   LIST_PRODUCT_FAIL,
   LIST_PRODUCT_REQUEST,
@@ -85,6 +86,8 @@ export const productDeleteReducer = (state = {}, action) => {
       return { loading: false, success: true }
     case DELETE_PRODUCT_FAIL:
       return { loading: false, error: action.payload }
+    case DELETE_PRODUCT_RESET:
+      return {}
     default:
       return state
   }

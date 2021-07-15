@@ -92,8 +92,8 @@ exports.getProducts = asyncHandler(async (req, res) => {
 // @access  Private admin
 exports.deleteProducts = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id)
-
   if (product) {
+    await cloudinary.v2.uploader.destroy(product.image.public_id)
     await product.remove()
     res.json({
       message: 'Product Deleted',

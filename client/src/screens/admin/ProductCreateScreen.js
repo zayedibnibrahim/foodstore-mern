@@ -9,12 +9,14 @@ import { listCategory } from '../../actions/categoryActions'
 import { listAddon } from '../../actions/addonActions'
 import MultiSelect from '../../components/form/MultiSelect'
 import ImageUploader from '../../components/form/ImageUploader'
+import { useAlert } from 'react-alert'
 import { createProduct } from '../../actions/productActions'
 import {
   CREATE_PRODUCT_RESET,
   UPLOAD_IMAGE_RESET,
 } from '../../constants/productConstants'
 const ProductCreateScreen = ({ history }) => {
+  const alert = useAlert()
   const [title, setTitle] = useState('')
   const [price, setPrice] = useState('')
   const [image, setImage] = useState({})
@@ -33,13 +35,25 @@ const ProductCreateScreen = ({ history }) => {
   const productCreate = useSelector((state) => state.productCreate)
   const { loading, success, error } = productCreate
 
+  //showCategory list
+  const categoryList = useSelector((state) => state.categoryList)
+  const { categories, error: errorCategory } = categoryList
+
+  //showAddon list
+  const addonList = useSelector((state) => state.addonList)
+  const { addons, error: errorAddon } = addonList
+
   useEffect(() => {
     if (userInfo && userInfo.role !== 'admin') {
       history.push('/')
     }
+  }, [userInfo, history])
+
+  useEffect(() => {
     dispatch(listCategory())
     dispatch(listAddon())
     if (success) {
+      alert.success('Product Created')
       setTitle('')
       setPrice('')
       setImage({})
@@ -49,18 +63,10 @@ const ProductCreateScreen = ({ history }) => {
       setDescription('')
       setDelivery('')
       setAvailability('')
-      dispatch({ type: CREATE_PRODUCT_RESET })
       dispatch({ type: UPLOAD_IMAGE_RESET })
+      dispatch({ type: CREATE_PRODUCT_RESET })
     }
-  }, [dispatch, userInfo, history, success])
-
-  //showCategory list
-  const categoryList = useSelector((state) => state.categoryList)
-  const { categories, error: errorCategory } = categoryList
-
-  //showAddon list
-  const addonList = useSelector((state) => state.addonList)
-  const { addons, error: errorAddon } = addonList
+  }, [dispatch, success, alert])
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -88,9 +94,6 @@ const ProductCreateScreen = ({ history }) => {
         {errorCategory && <Message variant='danger'>{errorCategory}</Message>}
         {errorAddon && <Message variant='danger'>{errorAddon}</Message>}
         {error && <Message variant='danger'>{error}</Message>}
-        {success && (
-          <Message variant='success'>Product Added Successfully</Message>
-        )}
         <Form onSubmit={submitHandler}>
           <Form.Group controlId='image' className='mt-1'>
             <ImageUploader setImage={setImage} image={image} />
