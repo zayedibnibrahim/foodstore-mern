@@ -93,10 +93,10 @@ const ProductListScreen = ({ history }) => {
                 <td>{product.category.name}</td>
                 <td>
                   {product.addon.map((a) => (
-                    <>
-                      <span>{a.name}</span>
+                    <span key={a._id}>
+                      {a.name}
                       <br />
-                    </>
+                    </span>
                   ))}
                 </td>
                 <td>

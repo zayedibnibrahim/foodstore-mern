@@ -42,7 +42,7 @@ exports.categoryList = asyncHandler(async (req, res) => {
 // @desc    Category By slug
 // @route   Get /api/category/:slug
 // @access  Public
-exports.categoryById = asyncHandler(async (req, res) => {
+exports.categoryBySlug = asyncHandler(async (req, res) => {
   const slug = req.params.slug
   const category = await Category.findOne({ slug })
   if (category) {

@@ -2,7 +2,7 @@ const express = require('express')
 const {
   addonCreate,
   addonList,
-  addonById,
+  addonBySlug,
   addonUpdate,
   addonDelete,
 } = require('../controllers/addonControllers')
@@ -13,7 +13,7 @@ const router = express.Router()
 router.route('/addon').post(protect, adminCheck, addonCreate).get(addonList)
 router
   .route('/addon/:slug')
-  .get(addonById)
+  .get(addonBySlug)
   .put(protect, adminCheck, addonUpdate)
   .delete(protect, adminCheck, addonDelete)
 

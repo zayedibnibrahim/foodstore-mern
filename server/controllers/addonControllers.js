@@ -43,7 +43,7 @@ exports.addonList = asyncHandler(async (req, res) => {
 // @desc    Addon By slug
 // @route   Get /api/addon/:slug
 // @access  Public
-exports.addonById = asyncHandler(async (req, res) => {
+exports.addonBySlug = asyncHandler(async (req, res) => {
   const slug = req.params.slug
   const addon = await Addon.findOne({ slug })
   if (addon) {

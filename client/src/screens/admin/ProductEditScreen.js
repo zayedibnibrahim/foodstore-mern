@@ -12,8 +12,8 @@ import ImageUploader from '../../components/form/ImageUploader'
 import { useAlert } from 'react-alert'
 import { createProduct, detailsProduct } from '../../actions/productActions'
 import {
-  CREATE_PRODUCT_RESET,
-  UPLOAD_IMAGE_RESET,
+  DETAILS_PRODUCT_RESET,
+  UPDATE_PRODUCT_RESET,
 } from '../../constants/productConstants'
 const ProductEditScreen = ({ history, match }) => {
   const productSlug = match.params.slug
@@ -33,8 +33,8 @@ const ProductEditScreen = ({ history, match }) => {
   const userLogIn = useSelector((state) => state.userLogIn)
   const { userInfo } = userLogIn
 
-  const productCreate = useSelector((state) => state.productCreate)
-  const { loading, success, error } = productCreate
+  const productUpdate = useSelector((state) => state.productUpdate)
+  const { loading, success: successUpdate, error } = productUpdate
 
   //showCategory list
   const categoryList = useSelector((state) => state.categoryList)
@@ -58,45 +58,46 @@ const ProductEditScreen = ({ history, match }) => {
   }, [userInfo, history])
 
   useEffect(() => {
-    // if (successUpdate) {
-    //   dispatch({ type: PRODUCT_UPDATE_RESET })
-    //   dispatch({ type: PRODUCT_DETAILS_RESET })
-    //   history.push('/admin/products')
-    // } else {
-    if (!product.name || product.slag !== productSlug) {
-      dispatch(detailsProduct(productSlug))
+    if (successUpdate) {
+      dispatch({ type: UPDATE_PRODUCT_RESET })
+      dispatch({ type: DETAILS_PRODUCT_RESET })
+      history.push('/admin/products')
     } else {
-      setTitle(product.name)
-      setPrice(product.price)
-      setImage(product.image)
-      setCategory(product.brand)
-      setAddon(product.category)
-      setSold(product.countInStock)
-      setDescription(product.description)
-      setDelivery(product.description)
-      setAvailability(product.description)
+      if (!product.title || product.slug !== productSlug) {
+        dispatch(detailsProduct(productSlug))
+      } else {
+        dispatch(listCategory())
+        setTitle(product.title)
+        setPrice(product.price)
+        // setImage(product.image)
+        setCategory(categories)
+        // setAddon(product.category)
+        setSold(product.sold)
+        setDescription(product.description)
+        setDelivery(product.delivery)
+        setAvailability(product.availability)
+      }
     }
-    //   }
-  }, [dispatch, history, productSlug, product])
+  }, [history, dispatch, productSlug, product, successUpdate, categories])
 
-  useEffect(() => {
-    dispatch(listCategory())
-    dispatch(listAddon())
-    if (success) {
-      alert.success('Product Created')
-      setTitle('')
-      setPrice('')
-      setImage({})
-      setCategory('')
-      setAddon([])
-      setSold(0)
-      setDescription('')
-      setDelivery('')
-      setAvailability('')
-      dispatch({ type: UPLOAD_IMAGE_RESET })
-      dispatch({ type: CREATE_PRODUCT_RESET })
-    }
-  }, [dispatch, success, alert])
+  // useEffect(() => {
+  //   dispatch(listCategory())
+  //   dispatch(listAddon())
+  //   if (success) {
+  //     alert.success('Product Created')
+  //     setTitle('')
+  //     setPrice('')
+  //     setImage({})
+  //     setCategory('')
+  //     setAddon([])
+  //     setSold(0)
+  //     setDescription('')
+  //     setDelivery('')
+  //     setAvailability('')
+  //     dispatch({ type: UPLOAD_IMAGE_RESET })
+  //     dispatch({ type: CREATE_PRODUCT_RESET })
+  //   }
+  // }, [dispatch, success, alert])
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -120,7 +121,7 @@ const ProductEditScreen = ({ history, match }) => {
         Go Back
       </Link>
       <FormContainer>
-        <h1>Add Product</h1>
+        <h1>Update Product</h1>
         {errorCategory && <Message variant='danger'>{errorCategory}</Message>}
         {errorAddon && <Message variant='danger'>{errorAddon}</Message>}
         {error && <Message variant='danger'>{error}</Message>}
@@ -151,14 +152,14 @@ const ProductEditScreen = ({ history, match }) => {
           <Form.Group controlId='category'>
             <Form.Label className='Font'>Category</Form.Label>
             <Form.Control
-              onChange={(e) => setCategory(e.target.value)}
+              // onChange={(e) => setCategory(e.target.value)}
               as='select'
               required
-              value={category}
+              // value={category}
             >
               <option>Select Category</option>
-              {categories.length > 0 &&
-                categories.map((c) => (
+              {category.length > 0 &&
+                category.map((c) => (
                   <option key={c._id} value={c._id}>
                     {c.name}
                   </option>
@@ -223,7 +224,7 @@ const ProductEditScreen = ({ history, match }) => {
                 className='my-5'
                 disabled={loading}
               >
-                Create
+                Update
               </Button>
             </Col>
             <Col md={6}>{loading && <Loader size='size-sm' />}</Col>

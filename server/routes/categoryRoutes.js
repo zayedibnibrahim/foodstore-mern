@@ -2,7 +2,7 @@ const express = require('express')
 const {
   categoryCreate,
   categoryList,
-  categoryById,
+  categoryBySlug,
   categoryUpdate,
   categoryDelete,
 } = require('../controllers/categoryControllers')
@@ -16,7 +16,7 @@ router
   .get(categoryList)
 router
   .route('/category/:slug')
-  .get(categoryById)
+  .get(categoryBySlug)
   .put(protect, adminCheck, categoryUpdate)
   .delete(protect, adminCheck, categoryDelete)
 

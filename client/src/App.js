@@ -96,7 +96,7 @@ function App() {
               exact
             />
             <Route
-              path='/admin/product/:slug'
+              path='/admin/product/:slug/edit'
               component={ProductEditScreen}
               exact
             />

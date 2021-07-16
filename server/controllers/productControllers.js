@@ -82,8 +82,8 @@ exports.productCreate = asyncHandler(async (req, res) => {
 // @access  Public
 exports.getProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({})
-    .populate('category', 'name')
-    .populate('addon', 'name price')
+    .populate('category', 'name slug')
+    .populate('addon', 'name price slug')
   res.json(products)
 })
 
@@ -108,9 +108,9 @@ exports.deleteProducts = asyncHandler(async (req, res) => {
 // @route   GET /api/product
 // @access  Public
 exports.getProductDetails = asyncHandler(async (req, res) => {
-  const [product] = await Product.find({ slug: req.params.slug })
-    .populate('category', 'name')
-    .populate('addon', 'name price')
+  const product = await Product.findOne({ slug: req.params.slug })
+    .populate('category', 'name slug')
+    .populate('addon', 'name price slug')
   if (product) {
     res.json(product)
   } else {
