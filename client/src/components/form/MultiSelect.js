@@ -2,15 +2,15 @@ import React from 'react'
 import { Select } from 'antd'
 const { Option } = Select
 
-const MultiSelect = ({ addons, addon, setAddon }) => {
+const MultiSelect = ({ addons, addonPrev, setAddonPrev }) => {
   return (
     <>
       <Select
         mode='multiple'
         style={{ width: '100%' }}
         placeholder='Please select'
-        value={addon}
-        onChange={(value) => setAddon(value)}
+        value={addonPrev}
+        onChange={(value) => setAddonPrev(value)}
       >
         {addons.length &&
           addons.map((s) => (

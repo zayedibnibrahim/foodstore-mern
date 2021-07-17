@@ -22,7 +22,8 @@ const ProductEditScreen = ({ history, match }) => {
   const [price, setPrice] = useState('')
   const [image, setImage] = useState({})
   const [category, setCategory] = useState('')
-  const [addon, setAddon] = useState([])
+  const [SelectedCategory, setSelectedCategory] = useState('')
+  const [addonPrev, setAddonPrev] = useState([])
   const [sold, setSold] = useState(0)
   const [description, setDescription] = useState('')
   const [delivery, setDelivery] = useState('')
@@ -65,13 +66,18 @@ const ProductEditScreen = ({ history, match }) => {
     } else {
       if (!product.title || product.slug !== productSlug) {
         dispatch(detailsProduct(productSlug))
-      } else {
         dispatch(listCategory())
+        dispatch(listAddon())
+      } else {
         setTitle(product.title)
         setPrice(product.price)
-        // setImage(product.image)
-        setCategory(categories)
-        // setAddon(product.category)
+        setImage(product.image)
+        setCategory(product.category._id)
+        if (product.addon.length > 0) {
+          let addonArray = []
+          product.addon.map((adn) => addonArray.push(adn._id))
+          setAddonPrev(addonArray)
+        }
         setSold(product.sold)
         setDescription(product.description)
         setDelivery(product.delivery)
@@ -106,8 +112,8 @@ const ProductEditScreen = ({ history, match }) => {
         title,
         price,
         image,
-        category,
-        addon,
+        SelectedCategory,
+        addonPrev,
         sold,
         description,
         delivery,
@@ -152,14 +158,14 @@ const ProductEditScreen = ({ history, match }) => {
           <Form.Group controlId='category'>
             <Form.Label className='Font'>Category</Form.Label>
             <Form.Control
-              // onChange={(e) => setCategory(e.target.value)}
+              onChange={(e) => setSelectedCategory(e.target.value)}
               as='select'
               required
-              // value={category}
+              value={SelectedCategory ? SelectedCategory : category}
             >
               <option>Select Category</option>
-              {category.length > 0 &&
-                category.map((c) => (
+              {categories.length > 0 &&
+                categories.map((c) => (
                   <option key={c._id} value={c._id}>
                     {c.name}
                   </option>
@@ -168,7 +174,11 @@ const ProductEditScreen = ({ history, match }) => {
           </Form.Group>
           <Form.Group controlId='addon'>
             <Form.Label>Addon</Form.Label>
-            <MultiSelect addons={addons} setAddon={setAddon} addon={addon} />
+            <MultiSelect
+              addons={addons}
+              addonPrev={addonPrev}
+              setAddonPrev={setAddonPrev}
+            />
           </Form.Group>
           <Form.Group controlId='sold'>
             <Form.Label>Sold</Form.Label>
