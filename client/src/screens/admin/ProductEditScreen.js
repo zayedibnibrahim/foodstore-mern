@@ -7,13 +7,14 @@ import Loader from '../../components/Loader'
 import FormContainer from '../../components/FormContainer'
 import { listCategory } from '../../actions/categoryActions'
 import { listAddon } from '../../actions/addonActions'
-import MultiSelect from '../../components/form/MultiSelect'
+import MultiSelectOnEdit from '../../components/form/MultiSelectOnEdit'
 import ImageUploader from '../../components/form/ImageUploader'
 import { useAlert } from 'react-alert'
-import { createProduct, detailsProduct } from '../../actions/productActions'
+import { detailsProduct, updateProduct } from '../../actions/productActions'
 import {
   DETAILS_PRODUCT_RESET,
   UPDATE_PRODUCT_RESET,
+  UPLOAD_IMAGE_RESET,
 } from '../../constants/productConstants'
 const ProductEditScreen = ({ history, match }) => {
   const productSlug = match.params.slug
@@ -22,13 +23,11 @@ const ProductEditScreen = ({ history, match }) => {
   const [price, setPrice] = useState('')
   const [image, setImage] = useState({})
   const [category, setCategory] = useState('')
-  const [SelectedCategory, setSelectedCategory] = useState('')
   const [addonPrev, setAddonPrev] = useState([])
   const [sold, setSold] = useState(0)
   const [description, setDescription] = useState('')
   const [delivery, setDelivery] = useState('')
   const [availability, setAvailability] = useState('')
-
   const dispatch = useDispatch()
   //check logged in user
   const userLogIn = useSelector((state) => state.userLogIn)
@@ -51,7 +50,6 @@ const ProductEditScreen = ({ history, match }) => {
     product,
     error: errorDetails,
   } = productDetails
-
   useEffect(() => {
     if (userInfo && userInfo.role !== 'admin') {
       history.push('/')
@@ -60,8 +58,10 @@ const ProductEditScreen = ({ history, match }) => {
 
   useEffect(() => {
     if (successUpdate) {
+      alert.success('Product Updated')
       dispatch({ type: UPDATE_PRODUCT_RESET })
       dispatch({ type: DETAILS_PRODUCT_RESET })
+      dispatch({ type: UPLOAD_IMAGE_RESET })
       history.push('/admin/products')
     } else {
       if (!product.title || product.slug !== productSlug) {
@@ -84,35 +84,25 @@ const ProductEditScreen = ({ history, match }) => {
         setAvailability(product.availability)
       }
     }
-  }, [history, dispatch, productSlug, product, successUpdate, categories])
-
-  // useEffect(() => {
-  //   dispatch(listCategory())
-  //   dispatch(listAddon())
-  //   if (success) {
-  //     alert.success('Product Created')
-  //     setTitle('')
-  //     setPrice('')
-  //     setImage({})
-  //     setCategory('')
-  //     setAddon([])
-  //     setSold(0)
-  //     setDescription('')
-  //     setDelivery('')
-  //     setAvailability('')
-  //     dispatch({ type: UPLOAD_IMAGE_RESET })
-  //     dispatch({ type: CREATE_PRODUCT_RESET })
-  //   }
-  // }, [dispatch, success, alert])
+  }, [
+    history,
+    dispatch,
+    productSlug,
+    product,
+    successUpdate,
+    categories,
+    alert,
+  ])
 
   const submitHandler = (e) => {
     e.preventDefault()
     dispatch(
-      createProduct({
+      updateProduct({
+        slug: productSlug,
         title,
         price,
         image,
-        SelectedCategory,
+        category,
         addonPrev,
         sold,
         description,
@@ -130,7 +120,9 @@ const ProductEditScreen = ({ history, match }) => {
         <h1>Update Product</h1>
         {errorCategory && <Message variant='danger'>{errorCategory}</Message>}
         {errorAddon && <Message variant='danger'>{errorAddon}</Message>}
+        {errorDetails && <Message variant='danger'>{errorDetails}</Message>}
         {error && <Message variant='danger'>{error}</Message>}
+        {loadingDetails && <Loader />}
         <Form onSubmit={submitHandler}>
           <Form.Group controlId='image' className='mt-1'>
             <ImageUploader setImage={setImage} image={image} />
@@ -158,10 +150,10 @@ const ProductEditScreen = ({ history, match }) => {
           <Form.Group controlId='category'>
             <Form.Label className='Font'>Category</Form.Label>
             <Form.Control
-              onChange={(e) => setSelectedCategory(e.target.value)}
+              onChange={(e) => setCategory(e.target.value)}
               as='select'
               required
-              value={SelectedCategory ? SelectedCategory : category}
+              value={category}
             >
               <option>Select Category</option>
               {categories.length > 0 &&
@@ -174,7 +166,7 @@ const ProductEditScreen = ({ history, match }) => {
           </Form.Group>
           <Form.Group controlId='addon'>
             <Form.Label>Addon</Form.Label>
-            <MultiSelect
+            <MultiSelectOnEdit
               addons={addons}
               addonPrev={addonPrev}
               setAddonPrev={setAddonPrev}

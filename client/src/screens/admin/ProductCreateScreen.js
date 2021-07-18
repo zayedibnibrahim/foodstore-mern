@@ -7,7 +7,7 @@ import Loader from '../../components/Loader'
 import FormContainer from '../../components/FormContainer'
 import { listCategory } from '../../actions/categoryActions'
 import { listAddon } from '../../actions/addonActions'
-import MultiSelect from '../../components/form/MultiSelect'
+import MultiSelectOnCreate from '../../components/form/MultiSelectOnCreate'
 import ImageUploader from '../../components/form/ImageUploader'
 import { useAlert } from 'react-alert'
 import { createProduct } from '../../actions/productActions'
@@ -137,7 +137,11 @@ const ProductCreateScreen = ({ history }) => {
           </Form.Group>
           <Form.Group controlId='addon'>
             <Form.Label>Addon</Form.Label>
-            <MultiSelect addons={addons} setAddon={setAddon} addon={addon} />
+            <MultiSelectOnCreate
+              addons={addons}
+              setAddon={setAddon}
+              addon={addon}
+            />
           </Form.Group>
           <Form.Group controlId='sold'>
             <Form.Label>Sold</Form.Label>

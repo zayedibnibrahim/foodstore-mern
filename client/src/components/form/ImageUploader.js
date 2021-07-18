@@ -64,17 +64,17 @@ const ImageUploader = ({ setImage, image }) => {
       {errorMessage && <Message variant='danger'>{errorMessage}</Message>}
       {errorFileRemove && <Message variant='danger'>{errorFileRemove}</Message>}
       <Col md={4}>
-        {uploadData && uploadData.url ? (
-          <Image src={uploadData.url} thumbnail fluid />
+        {image && image.url ? (
+          <Image src={image.url} thumbnail fluid />
         ) : (
           <Image src={demoImage} thumbnail fluid />
         )}
       </Col>
       <Col md={6}>
-        {uploadData && uploadData.public_id ? (
+        {image && image.public_id ? (
           <Button
             variant='danger'
-            onClick={() => removeImageHandler(uploadData.public_id)}
+            onClick={() => removeImageHandler(image.public_id)}
           >
             Remove Image
           </Button>

@@ -118,3 +118,39 @@ exports.getProductDetails = asyncHandler(async (req, res) => {
     throw new Error('Product Not Found')
   }
 })
+
+// @desc    update product by slug
+// @route   PUT /api/product/:SLUG
+// @access  Private admin
+exports.updateProduct = asyncHandler(async (req, res) => {
+  const product = await Product.findOne({ slug: req.params.slug })
+  const {
+    title,
+    price,
+    image,
+    category,
+    addonPrev: addon,
+    sold,
+    description,
+    delivery,
+    availability,
+  } = req.body
+
+  if (product) {
+    product.title = title
+    product.slug = slugify(title)
+    product.price = price
+    product.image = image
+    product.category = category
+    product.addon = addon
+    product.sold = sold
+    product.description = description
+    product.delivery = delivery
+    product.availability = availability
+    const updatedProduct = await product.save()
+    res.json(updatedProduct)
+  } else {
+    res.status(500)
+    throw new Error('Product Not Found')
+  }
+})
