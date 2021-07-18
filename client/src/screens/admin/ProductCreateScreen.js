@@ -18,7 +18,9 @@ import {
 const ProductCreateScreen = ({ history }) => {
   const alert = useAlert()
   const [title, setTitle] = useState('')
+  const [productType, setProductType] = useState('simple')
   const [price, setPrice] = useState('')
+  const [variable, setVariable] = useState('')
   const [image, setImage] = useState({})
   const [category, setCategory] = useState('')
   const [addon, setAddon] = useState([])
@@ -108,16 +110,42 @@ const ProductCreateScreen = ({ history }) => {
               onChange={(e) => setTitle(e.target.value)}
             ></Form.Control>
           </Form.Group>
-          <Form.Group controlId='price'>
-            <Form.Label>Price</Form.Label>
+          <Form.Group controlId='productType'>
+            <Form.Label>Product Type</Form.Label>
             <Form.Control
-              type='number'
-              placeholder='Enter price'
-              value={price}
-              required
-              onChange={(e) => setPrice(e.target.value)}
-            ></Form.Control>
+              onChange={(e) => setProductType(e.target.value)}
+              as='select'
+              value={productType}
+            >
+              <option value='simple'>Simple Product</option>
+              <option value='variable'>Variable Product</option>
+            </Form.Control>
           </Form.Group>
+          {productType === 'simple' ? (
+            <Form.Group controlId='price'>
+              <Form.Label>Price</Form.Label>
+              <Form.Control
+                type='number'
+                placeholder='Enter price'
+                value={price}
+                required
+                onChange={(e) => setPrice(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+          ) : (
+            <Form.Group controlId='variable'>
+              <Form.Label>Variable</Form.Label>
+              <Form.Control
+                onChange={(e) => setVariable(e.target.value)}
+                as='select'
+                value={variable}
+              >
+                <option value='simple'>Simple Product</option>
+                <option value='variable'>Variable Product</option>
+              </Form.Control>
+            </Form.Group>
+          )}
+
           <Form.Group controlId='category'>
             <Form.Label className='Font'>Category</Form.Label>
             <Form.Control

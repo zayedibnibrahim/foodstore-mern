@@ -40,14 +40,6 @@ const ProductListScreen = ({ history }) => {
     }
   }, [dispatch, userInfo, history, successDelete, alert])
 
-  // useEffect(() => {
-  //   dispatch(listProduct())
-  //   if (successDelete) {
-  //     alert.success('Product Deleted')
-  //     dispatch({ type: DELETE_PRODUCT_RESET })
-  //   }
-  // }, [dispatch, successDelete, alert])
-
   const deleteHandler = (id) => {
     if (window.confirm('Are You Sure?')) {
       dispatch(deleteProduct(id))
@@ -59,7 +51,10 @@ const ProductListScreen = ({ history }) => {
         <Col>
           <h1>Products</h1>
         </Col>
-        <Col>{loading || (loadingDelete && <Loader></Loader>)}</Col>
+        <Col>
+          {loading && <Loader />}
+          {loadingDelete && <Loader />}
+        </Col>
       </Row>
       <Row>
         {error && <Message variant='danger'>{error}</Message>}

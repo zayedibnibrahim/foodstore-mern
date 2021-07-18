@@ -52,8 +52,11 @@ const productSchema = new mongoose.Schema(
     },
     price: {
       type: Number,
-      required: true,
       trim: true,
+    },
+    variable: {
+      type: ObjectId,
+      ref: 'Variable',
     },
     availability: {
       type: String,

@@ -27,6 +27,7 @@ import wishlistScreen from './screens/user/WishlistScreen'
 import ProductCreateScreen from './screens/admin/ProductCreateScreen'
 import ProductListScreen from './screens/admin/ProductListScreen'
 import ProductEditScreen from './screens/admin/ProductEditScreen'
+import VariableCreateScreen from './screens/admin/VariableCreateScreen'
 
 function App() {
   const dispatch = useDispatch()
@@ -98,6 +99,11 @@ function App() {
             <Route
               path='/admin/product/:slug/edit'
               component={ProductEditScreen}
+              exact
+            />
+            <Route
+              path='/admin/variables'
+              component={VariableCreateScreen}
               exact
             />
           </Switch>

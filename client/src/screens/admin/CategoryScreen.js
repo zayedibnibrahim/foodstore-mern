@@ -17,7 +17,7 @@ import Message from '../../components/Message'
 const CategoryScreen = ({ history }) => {
   const [keyword, setKeyword] = useState('')
   const [category, setCategory] = useState('')
-
+  const dispatch = useDispatch()
   //check logged in user
   const userLogIn = useSelector((state) => state.userLogIn)
   const { userInfo } = userLogIn
@@ -29,8 +29,6 @@ const CategoryScreen = ({ history }) => {
     categories,
     error: errorCategory,
   } = categoryList
-
-  const dispatch = useDispatch()
 
   //delete category
   const categoryDelete = useSelector((state) => state.categoryDelete)
