@@ -9,6 +9,13 @@ import {
   addonUpdateReducer,
 } from './reducers/addonReducers'
 import {
+  attributeCreateReducer,
+  attributeDeleteReducer,
+  attributeDetailsReducer,
+  attributeListReducer,
+  attributeUpdateReducer,
+} from './reducers/attributeReducers'
+import {
   categoryCreateReducer,
   categoryDeleteReducer,
   categoryDetailsReducer,
@@ -46,6 +53,11 @@ const reducer = combineReducers({
   productDelete: productDeleteReducer,
   productUpdate: productUpdateReducer,
   productDetails: productDetailsReducer,
+  attributeCreate: attributeCreateReducer,
+  attributeList: attributeListReducer,
+  attributeDelete: attributeDeleteReducer,
+  attributeDetails: attributeDetailsReducer,
+  attributeUpdate: attributeUpdateReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

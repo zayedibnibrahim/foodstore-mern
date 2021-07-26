@@ -28,6 +28,7 @@ import ProductCreateScreen from './screens/admin/ProductCreateScreen'
 import ProductListScreen from './screens/admin/ProductListScreen'
 import ProductEditScreen from './screens/admin/ProductEditScreen'
 import VariableCreateScreen from './screens/admin/VariableCreateScreen'
+import AttributeScreen from './screens/admin/AttributeScreen'
 
 function App() {
   const dispatch = useDispatch()
@@ -99,6 +100,12 @@ function App() {
             <Route
               path='/admin/product/:slug/edit'
               component={ProductEditScreen}
+              exact
+            />
+            <Route path='/admin/attribute' component={AttributeScreen} exact />
+            <Route
+              path='/admin/attribute/:slug/edit'
+              component={AttributeScreen}
               exact
             />
             <Route
