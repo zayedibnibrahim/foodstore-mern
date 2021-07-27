@@ -32,6 +32,10 @@ import {
   productUpdateReducer,
 } from './reducers/productReducers'
 import { userListReducer, userLogInReducer } from './reducers/userReducers'
+import {
+  variableCreateReducer,
+  variableListReducer,
+} from './reducers/variableReducers'
 
 const reducer = combineReducers({
   userLogIn: userLogInReducer,
@@ -58,6 +62,8 @@ const reducer = combineReducers({
   attributeDelete: attributeDeleteReducer,
   attributeDetails: attributeDetailsReducer,
   attributeUpdate: attributeUpdateReducer,
+  variableCreate: variableCreateReducer,
+  variableList: variableListReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

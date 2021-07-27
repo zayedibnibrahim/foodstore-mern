@@ -2,17 +2,14 @@ const mongoose = require('mongoose')
 const { ObjectId } = mongoose.Schema
 const variableSchema = new mongoose.Schema(
   {
-    label: {
+    name: {
       type: String,
       require: true,
     },
-    meta: {
-      type: String,
-      require: true,
-    },
-    variable: [
+    attribute: [
       {
-        type: Object,
+        type: ObjectId,
+        ref: 'Attribute',
       },
     ],
   },

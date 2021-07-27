@@ -2,7 +2,7 @@ import React from 'react'
 import { Select } from 'antd'
 const { Option } = Select
 
-const MultiSelect = ({ addons, addon, setAddon }) => {
+const MultiSelectOnCreateAddon = ({ addons, addon, setAddon }) => {
   return (
     <>
       <Select
@@ -23,4 +23,4 @@ const MultiSelect = ({ addons, addon, setAddon }) => {
   )
 }
 
-export default MultiSelect
+export default MultiSelectOnCreateAddon

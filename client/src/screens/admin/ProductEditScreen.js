@@ -7,7 +7,7 @@ import Loader from '../../components/Loader'
 import FormContainer from '../../components/FormContainer'
 import { listCategory } from '../../actions/categoryActions'
 import { listAddon } from '../../actions/addonActions'
-import MultiSelectOnEdit from '../../components/form/MultiSelectOnEdit'
+import MultiSelectOnEditAddon from '../../components/form/MultiSelectOnEditAddon'
 import ImageUploader from '../../components/form/ImageUploader'
 import { useAlert } from 'react-alert'
 import { detailsProduct, updateProduct } from '../../actions/productActions'
@@ -166,7 +166,7 @@ const ProductEditScreen = ({ history, match }) => {
           </Form.Group>
           <Form.Group controlId='addon'>
             <Form.Label>Addon</Form.Label>
-            <MultiSelectOnEdit
+            <MultiSelectOnEditAddon
               addons={addons}
               addonPrev={addonPrev}
               setAddonPrev={setAddonPrev}

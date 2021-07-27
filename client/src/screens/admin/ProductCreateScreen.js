@@ -7,7 +7,7 @@ import Loader from '../../components/Loader'
 import FormContainer from '../../components/FormContainer'
 import { listCategory } from '../../actions/categoryActions'
 import { listAddon } from '../../actions/addonActions'
-import MultiSelectOnCreate from '../../components/form/MultiSelectOnCreate'
+import MultiSelectOnCreateAddon from '../../components/form/MultiSelectOnCreateAddon'
 import ImageUploader from '../../components/form/ImageUploader'
 import { useAlert } from 'react-alert'
 import { createProduct } from '../../actions/productActions'
@@ -15,6 +15,7 @@ import {
   CREATE_PRODUCT_RESET,
   UPLOAD_IMAGE_RESET,
 } from '../../constants/productConstants'
+import { listVariable } from '../../actions/variableActions'
 const ProductCreateScreen = ({ history }) => {
   const alert = useAlert()
   const [title, setTitle] = useState('')
@@ -45,6 +46,13 @@ const ProductCreateScreen = ({ history }) => {
   const addonList = useSelector((state) => state.addonList)
   const { addons, error: errorAddon } = addonList
 
+  const variableList = useSelector((state) => state.variableList)
+  const {
+    loading: loadingVariables,
+    variables,
+    error: errorVariables,
+  } = variableList
+
   useEffect(() => {
     if (userInfo && userInfo.role !== 'admin') {
       history.push('/')
@@ -54,6 +62,7 @@ const ProductCreateScreen = ({ history }) => {
   useEffect(() => {
     dispatch(listCategory())
     dispatch(listAddon())
+    dispatch(listVariable())
     if (success) {
       alert.success('Product Created')
       setTitle('')
@@ -140,8 +149,10 @@ const ProductCreateScreen = ({ history }) => {
                 as='select'
                 value={variable}
               >
-                <option value='simple'>Simple Product</option>
-                <option value='variable'>Variable Product</option>
+                {variables &&
+                  variables.map((variable) => (
+                    <option value='simple'>{variable.name}</option>
+                  ))}
               </Form.Control>
             </Form.Group>
           )}
@@ -165,7 +176,7 @@ const ProductCreateScreen = ({ history }) => {
           </Form.Group>
           <Form.Group controlId='addon'>
             <Form.Label>Addon</Form.Label>
-            <MultiSelectOnCreate
+            <MultiSelectOnCreateAddon
               addons={addons}
               setAddon={setAddon}
               addon={addon}
