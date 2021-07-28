@@ -5,14 +5,12 @@ const Variable = require('../models/variableModel')
 // @route   POST /api/variable
 // @access  Private admin
 exports.variableCreate = asyncHandler(async (req, res) => {
-  console.log(req.body)
   const { name, attribute } = req.body
 
   const variable = await Variable.create({
     name,
     attribute,
   })
-  // console.log(variable)
   if (variable) {
     res.json(variable)
   } else {
@@ -33,5 +31,54 @@ exports.variableList = asyncHandler(async (req, res) => {
   } else {
     res.status(500)
     throw new Error("Variable can't found")
+  }
+})
+
+// @desc    DELETE a variable
+// @route   DELETE /api/variable/:id
+// @access  Private admin
+exports.variableDelete = asyncHandler(async (req, res) => {
+  const variableId = req.params.id
+  const variable = await Variable.findById(variableId)
+  if (variable) {
+    await Variable.deleteOne({ _id: variableId })
+    res.json({
+      message: 'Variable Deleted',
+    })
+  } else {
+    res.status(500)
+    throw new Error('Variable Not Found')
+  }
+})
+
+// @desc    variable By id
+// @route   Get /api/variable/:id
+// @access  Public
+exports.variableById = asyncHandler(async (req, res) => {
+  const variableId = req.params.id
+  const variable = await Variable.findById(variableId).populate('attribute')
+  if (variable) {
+    res.json(variable)
+  } else {
+    res.status(500)
+    throw new Error('Variable Not Found')
+  }
+})
+
+// @desc    Update a variable
+// @route   PUT /api/variable/:id
+// @access  Private admin
+exports.variableUpdate = asyncHandler(async (req, res) => {
+  const variableId = req.params.id
+  const { name, attribute } = req.body
+  const variable = await Variable.findById(variableId)
+  if (variable) {
+    variable.name = name
+    variable.attribute = attribute
+    const updatedVariable = await variable.save()
+    res.json(updatedVariable)
+  } else {
+    res.status(500)
+    throw new Error('Variable Not Found')
   }
 })

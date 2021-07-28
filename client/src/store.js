@@ -34,7 +34,10 @@ import {
 import { userListReducer, userLogInReducer } from './reducers/userReducers'
 import {
   variableCreateReducer,
+  variableDeleteReducer,
+  variableDetailsReducer,
   variableListReducer,
+  variableUpdateReducer,
 } from './reducers/variableReducers'
 
 const reducer = combineReducers({
@@ -64,6 +67,9 @@ const reducer = combineReducers({
   attributeUpdate: attributeUpdateReducer,
   variableCreate: variableCreateReducer,
   variableList: variableListReducer,
+  variableDelete: variableDeleteReducer,
+  variableDetails: variableDetailsReducer,
+  variableUpdate: variableUpdateReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

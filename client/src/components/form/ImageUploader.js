@@ -14,7 +14,6 @@ import {
 } from '../../constants/productConstants'
 
 const ImageUploader = ({ setImage, image }) => {
-  console.log(image)
   const [errorMessage, setErrorMessage] = useState('')
   const dispatch = useDispatch()
   const fileUpload = useSelector((state) => state.fileUpload)

@@ -2,6 +2,9 @@ const express = require('express')
 const {
   variableCreate,
   variableList,
+  variableDelete,
+  variableById,
+  variableUpdate,
 } = require('../controllers/variableControllers')
 
 const { protect, adminCheck } = require('../middleware/authMiddleware')
@@ -12,10 +15,10 @@ router
   .route('/variable')
   .post(protect, adminCheck, variableCreate)
   .get(variableList)
-// router
-//   .route('/variable/:id')
-//   .get(variableById)
-//   .put(protect, adminCheck, variableUpdate)
-//   .delete(protect, adminCheck, variableDelete)
+router
+  .route('/variable/:id')
+  .delete(protect, adminCheck, variableDelete)
+  .get(variableById)
+  .put(protect, adminCheck, variableUpdate)
 
 module.exports = router

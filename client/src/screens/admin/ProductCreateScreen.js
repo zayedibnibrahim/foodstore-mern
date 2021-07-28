@@ -67,6 +67,8 @@ const ProductCreateScreen = ({ history }) => {
       alert.success('Product Created')
       setTitle('')
       setPrice('')
+      setVariable([])
+      setProductType('simple')
       setImage({})
       setCategory('')
       setAddon([])
@@ -151,7 +153,9 @@ const ProductCreateScreen = ({ history }) => {
               >
                 {variables &&
                   variables.map((variable) => (
-                    <option value='simple'>{variable.name}</option>
+                    <option key={variable._id} value={variable._id}>
+                      {variable.name}
+                    </option>
                   ))}
               </Form.Control>
             </Form.Group>

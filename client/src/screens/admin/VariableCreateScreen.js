@@ -9,7 +9,11 @@ import Loader from '../../components/Loader'
 import Message from '../../components/Message'
 import MultiSelectOnCreateAttribute from '../../components/form/MultiSelectOnCreateAttribute'
 import { listAttribute } from '../../actions/attributeActions'
-import { createVariable, listVariable } from '../../actions/variableActions'
+import {
+  createVariable,
+  deleteVariable,
+  listVariable,
+} from '../../actions/variableActions'
 import ItemSearch from '../../components/ItemSearch'
 
 const VariableCreateScreen = ({ history }) => {
@@ -23,18 +27,17 @@ const VariableCreateScreen = ({ history }) => {
 
   //show variable list
   const attributeList = useSelector((state) => state.attributeList)
-  const { attributes, error: errorAttributes } = attributeList
+  const { attributes, error: errorListAttribute } = attributeList
 
   //show variable list
   const variableCreate = useSelector((state) => state.variableCreate)
-  const { success: successVariable, error: errorVariable } = variableCreate
+  const { success: successCreate, error: errorCreate } = variableCreate
 
   const variableList = useSelector((state) => state.variableList)
-  const {
-    loading: loadingVariables,
-    variables,
-    error: errorVariables,
-  } = variableList
+  const { loading: loadingList, variables, error: errorList } = variableList
+
+  const variableDelete = useSelector((state) => state.variableDelete)
+  const { success: successDelete, error: errorDelete } = variableDelete
 
   useEffect(() => {
     if (userInfo && userInfo.role !== 'admin') {
@@ -45,17 +48,21 @@ const VariableCreateScreen = ({ history }) => {
   useEffect(() => {
     dispatch(listAttribute())
     dispatch(listVariable())
-  }, [dispatch])
+    if (successCreate) {
+      setLabel('')
+      setAttribute([])
+    }
+  }, [dispatch, successDelete, successCreate])
 
   const submitHandler = (e) => {
     e.preventDefault()
     dispatch(createVariable({ name: label, attribute }))
-    if (successVariable) {
-      setLabel('')
-      setAttribute([])
+  }
+  const deleteHandler = (id) => {
+    if (window.confirm('Are You Sure?')) {
+      dispatch(deleteVariable(id))
     }
   }
-  const deleteHandler = () => {}
 
   const searched = (keyword) => (attribute) =>
     attribute.name.toLowerCase().includes(keyword)
@@ -86,10 +93,10 @@ const VariableCreateScreen = ({ history }) => {
         </Form>
       </FormContainer>
       <Row>
-        {loadingVariables ? (
+        {loadingList ? (
           <Loader />
-        ) : errorVariables ? (
-          <Message variant='danger'>{errorVariables}</Message>
+        ) : errorList ? (
+          <Message variant='danger'>{errorList}</Message>
         ) : (
           <>
             <ItemSearch setKeyword={setKeyword} keyword={keyword} />
@@ -122,7 +129,7 @@ const VariableCreateScreen = ({ history }) => {
                     </td>
                     <td>
                       <LinkContainer
-                        to={`/admin/attribute/${variable.id}/edit`}
+                        to={`/admin/variable/${variable._id}/edit`}
                       >
                         <Button variant='dark' className='btn-sm'>
                           <FontAwesomeIcon icon={faEdit} />
@@ -131,7 +138,7 @@ const VariableCreateScreen = ({ history }) => {
                       <Button
                         variant='danger'
                         className='btn-sm'
-                        onClick={() => deleteHandler(variable.id)}
+                        onClick={() => deleteHandler(variable._id)}
                       >
                         <FontAwesomeIcon icon={faTrash} />
                       </Button>

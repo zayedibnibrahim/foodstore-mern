@@ -2,18 +2,22 @@ import React from 'react'
 import { Select } from 'antd'
 const { Option } = Select
 
-const MultiSelectOnEditAddon = ({ addons, addonPrev, setAddonPrev }) => {
+const MultiSelectOnEditAttribute = ({
+  attributes,
+  attributePrev,
+  setAttributePrev,
+}) => {
   return (
     <>
       <Select
         mode='multiple'
         style={{ width: '100%' }}
         placeholder='Please select'
-        value={addonPrev}
-        onChange={(value) => setAddonPrev(value)}
+        value={attributePrev}
+        onChange={(value) => setAttributePrev(value)}
       >
-        {addons.length &&
-          addons.map((s) => (
+        {attributes.length &&
+          attributes.map((s) => (
             <Option key={s._id} value={s._id}>
               {s.name}
             </Option>
@@ -23,4 +27,4 @@ const MultiSelectOnEditAddon = ({ addons, addonPrev, setAddonPrev }) => {
   )
 }
 
-export default MultiSelectOnEditAddon
+export default MultiSelectOnEditAttribute

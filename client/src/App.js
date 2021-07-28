@@ -30,6 +30,7 @@ import ProductEditScreen from './screens/admin/ProductEditScreen'
 import VariableCreateScreen from './screens/admin/VariableCreateScreen'
 import AttributeScreen from './screens/admin/AttributeScreen'
 import AttributeEditScreen from './screens/admin/AttributeEditScreen'
+import VariableEditScreen from './screens/admin/VariableEditScreen'
 
 function App() {
   const dispatch = useDispatch()
@@ -112,6 +113,11 @@ function App() {
             <Route
               path='/admin/variables'
               component={VariableCreateScreen}
+              exact
+            />
+            <Route
+              path='/admin/variable/:id/edit'
+              component={VariableEditScreen}
               exact
             />
           </Switch>
