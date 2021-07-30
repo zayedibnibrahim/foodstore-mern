@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const { ObjectId } = mongoose.Schema
 const AttributeSchema = new mongoose.Schema(
   {
     name: {
@@ -8,16 +9,14 @@ const AttributeSchema = new mongoose.Schema(
       trim: true,
       require: true,
     },
-    slug: {
-      type: String,
-      unique: true,
-      lowercase: true,
-      index: true,
-    },
     price: {
       type: Number,
       trim: true,
       require: true,
+    },
+    product: {
+      type: ObjectId,
+      ref: 'Product',
     },
   },
   {

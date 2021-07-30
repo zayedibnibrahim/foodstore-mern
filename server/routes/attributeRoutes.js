@@ -2,7 +2,7 @@ const express = require('express')
 const {
   attributeCreate,
   attributeList,
-  attributeBySlug,
+  attributeById,
   attributeUpdate,
   attributeDelete,
 } = require('../controllers/attributeControllers')
@@ -15,8 +15,8 @@ router
   .post(protect, adminCheck, attributeCreate)
   .get(attributeList)
 router
-  .route('/attribute/:slug')
-  .get(attributeBySlug)
+  .route('/attribute/:id')
+  .get(attributeById)
   .put(protect, adminCheck, attributeUpdate)
   .delete(protect, adminCheck, attributeDelete)
 

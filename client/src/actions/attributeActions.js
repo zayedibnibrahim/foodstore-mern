@@ -18,7 +18,7 @@ import {
 } from '../constants/attributeConstants'
 
 export const createAttribute =
-  (attribute, price) => async (dispatch, getState) => {
+  (attribute, price, product) => async (dispatch, getState) => {
     try {
       dispatch({ type: ATTRIBUTE_CREATE_REQUEST })
       const {
@@ -31,7 +31,11 @@ export const createAttribute =
           Authorization: `Bearer ${userInfo.token}`,
         },
       }
-      await axios.post('/api/attribute', { name: attribute, price }, config)
+      await axios.post(
+        '/api/attribute',
+        { name: attribute, price, product },
+        config
+      )
 
       dispatch({ type: ATTRIBUTE_CREATE_SUCCESS })
     } catch (error) {
@@ -68,7 +72,7 @@ export const listAttribute = () => async (dispatch) => {
   }
 }
 
-export const deleteAttribute = (slug) => async (dispatch, getState) => {
+export const deleteAttribute = (id) => async (dispatch, getState) => {
   try {
     dispatch({ type: ATTRIBUTE_DELETE_REQUEST })
 
@@ -81,7 +85,7 @@ export const deleteAttribute = (slug) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    await axios.delete(`/api/attribute/${slug}`, config)
+    await axios.delete(`/api/attribute/${id}`, config)
 
     dispatch({ type: ATTRIBUTE_DELETE_SUCCESS })
   } catch (error) {
@@ -95,7 +99,7 @@ export const deleteAttribute = (slug) => async (dispatch, getState) => {
   }
 }
 
-export const detailsAttribute = (slug) => async (dispatch) => {
+export const detailsAttribute = (id) => async (dispatch) => {
   try {
     dispatch({ type: ATTRIBUTE_DETAILS_REQUEST })
 
@@ -104,7 +108,7 @@ export const detailsAttribute = (slug) => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     }
-    const { data } = await axios.get(`/api/attribute/${slug}`, config)
+    const { data } = await axios.get(`/api/attribute/${id}`, config)
 
     dispatch({ type: ATTRIBUTE_DETAILS_SUCCESS, payload: data })
   } catch (error) {
@@ -119,7 +123,7 @@ export const detailsAttribute = (slug) => async (dispatch) => {
 }
 
 export const updateAttribute =
-  (newAttribute, price, slug) => async (dispatch, getState) => {
+  (newAttribute, price, attributeId) => async (dispatch, getState) => {
     try {
       dispatch({ type: ATTRIBUTE_UPDATE_REQUEST })
 
@@ -135,7 +139,7 @@ export const updateAttribute =
       }
 
       await axios.put(
-        `/api/attribute/${slug}`,
+        `/api/attribute/${attributeId}`,
         { name: newAttribute, price },
         config
       )

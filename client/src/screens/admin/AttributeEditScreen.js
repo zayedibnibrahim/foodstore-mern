@@ -9,9 +9,12 @@ import {
   detailsAttribute,
   updateAttribute,
 } from '../../actions/attributeActions'
-import { ATTRIBUTE_UPDATE_RESET } from '../../constants/attributeConstants'
+import {
+  ATTRIBUTE_DETAILS_RESET,
+  ATTRIBUTE_UPDATE_RESET,
+} from '../../constants/attributeConstants'
 const AttributeEditScreen = ({ history, match }) => {
-  const attributeSlug = match.params.slug
+  const attributeId = match.params.id
   const [attribute, setAttribute] = useState('')
   const [price, setPrice] = useState('')
 
@@ -39,21 +42,22 @@ const AttributeEditScreen = ({ history, match }) => {
 
     if (successUpdate) {
       dispatch({ type: ATTRIBUTE_UPDATE_RESET })
+      dispatch({ type: ATTRIBUTE_DETAILS_RESET })
       history.push('/admin/attribute')
     } else {
-      if (!attributeData.name || attributeData.slug !== attributeSlug) {
-        dispatch(detailsAttribute(attributeSlug))
+      if (!attributeData.name || attributeData._id !== attributeId) {
+        dispatch(detailsAttribute(attributeId))
       } else {
         setAttribute(attributeData.name)
         setPrice(attributeData.price)
       }
     }
-  }, [dispatch, history, attributeSlug, attributeData, successUpdate, userInfo])
+  }, [dispatch, history, attributeId, attributeData, successUpdate, userInfo])
 
   const submitHandler = (e) => {
     e.preventDefault()
 
-    dispatch(updateAttribute(attribute, price, attributeSlug))
+    dispatch(updateAttribute(attribute, price, attributeId))
   }
 
   return (

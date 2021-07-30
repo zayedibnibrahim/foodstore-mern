@@ -13,9 +13,12 @@ import {
 import Loader from '../../components/Loader'
 import Message from '../../components/Message'
 import ItemSearch from '../../components/ItemSearch'
+import { listProduct } from '../../actions/productActions'
 const AttributeScreen = ({ history }) => {
   const [attribute, setAttribute] = useState('')
   const [price, setPrice] = useState('')
+  const [product, setProduct] = useState('')
+
   const [keyword, setKeyword] = useState('')
 
   //check logged in user
@@ -30,6 +33,9 @@ const AttributeScreen = ({ history }) => {
     error: errorAttribute,
   } = attributeList
 
+  const productList = useSelector((state) => state.productList)
+  const { loading: loadingProduct, error: errorProduct, products } = productList
+
   const dispatch = useDispatch()
 
   //delete attribute
@@ -42,16 +48,17 @@ const AttributeScreen = ({ history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault()
-    dispatch(createAttribute(attribute, price))
+    dispatch(createAttribute(attribute, price, product))
     setAttribute('')
     setPrice('')
+    setProduct('')
   }
   const searched = (keyword) => (attribute) =>
     attribute.name.toLowerCase().includes(keyword)
 
-  const deleteHandler = (slug) => {
+  const deleteHandler = (id) => {
     if (window.confirm('Are You Sure?')) {
-      dispatch(deleteAttribute(slug))
+      dispatch(deleteAttribute(id))
     }
   }
 
@@ -60,6 +67,7 @@ const AttributeScreen = ({ history }) => {
       history.push('/')
     }
     dispatch(listAttribute())
+    dispatch(listProduct())
   }, [dispatch, userInfo, history, success, successDelete])
 
   return (
@@ -86,6 +94,22 @@ const AttributeScreen = ({ history }) => {
               required
               onChange={(e) => setPrice(e.target.value)}
             ></Form.Control>
+          </Form.Group>
+          <Form.Group controlId='product'>
+            <Form.Label className='Font'>Product</Form.Label>
+            <Form.Control
+              onChange={(e) => setProduct(e.target.value)}
+              as='select'
+              value={product}
+            >
+              <option>Select Product</option>
+              {products.length > 0 &&
+                products.map((p) => (
+                  <option key={p._id} value={p._id}>
+                    {p.title}
+                  </option>
+                ))}
+            </Form.Control>
           </Form.Group>
           <Button
             type='submit'
@@ -116,8 +140,8 @@ const AttributeScreen = ({ history }) => {
               <thead>
                 <tr>
                   <th>NAME</th>
-                  <th>SLUG</th>
                   <th>PRICE</th>
+                  <th>PRODUCT</th>
                   <th>ACTION</th>
                 </tr>
               </thead>
@@ -125,11 +149,11 @@ const AttributeScreen = ({ history }) => {
                 {attributes.filter(searched(keyword)).map((attribute) => (
                   <tr key={attribute._id}>
                     <td>{attribute.name}</td>
-                    <td>{attribute.slug}</td>
                     <td>${attribute.price}</td>
+                    <td>{attribute.product}</td>
                     <td>
                       <LinkContainer
-                        to={`/admin/attribute/${attribute.slug}/edit`}
+                        to={`/admin/attribute/${attribute._id}/edit`}
                       >
                         <Button variant='dark' className='btn-sm'>
                           <FontAwesomeIcon icon={faEdit} />
@@ -138,7 +162,7 @@ const AttributeScreen = ({ history }) => {
                       <Button
                         variant='danger'
                         className='btn-sm'
-                        onClick={() => deleteHandler(attribute.slug)}
+                        onClick={() => deleteHandler(attribute._id)}
                       >
                         <FontAwesomeIcon icon={faTrash} />
                       </Button>

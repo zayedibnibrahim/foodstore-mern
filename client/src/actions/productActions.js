@@ -77,6 +77,7 @@ export const removeFile = (id) => async (dispatch, getState) => {
 }
 
 export const createProduct = (product) => async (dispatch, getState) => {
+  console.log(product)
   try {
     dispatch({ type: CREATE_PRODUCT_REQUEST })
     const {

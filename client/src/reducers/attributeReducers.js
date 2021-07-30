@@ -7,6 +7,7 @@ import {
   ATTRIBUTE_DELETE_SUCCESS,
   ATTRIBUTE_DETAILS_FAIL,
   ATTRIBUTE_DETAILS_REQUEST,
+  ATTRIBUTE_DETAILS_RESET,
   ATTRIBUTE_DETAILS_SUCCESS,
   ATTRIBUTE_LIST_FAIL,
   ATTRIBUTE_LIST_REQUEST,
@@ -67,6 +68,8 @@ export const attributeDetailsReducer = (
       return { loading: false, attributeData: action.payload }
     case ATTRIBUTE_DETAILS_FAIL:
       return { loading: false, error: action.payload }
+    case ATTRIBUTE_DETAILS_RESET:
+      return { loading: false, attributeData: {} }
     default:
       return state
   }

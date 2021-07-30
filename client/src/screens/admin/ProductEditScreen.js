@@ -16,11 +16,13 @@ import {
   UPDATE_PRODUCT_RESET,
   UPLOAD_IMAGE_RESET,
 } from '../../constants/productConstants'
+import { listVariable } from '../../actions/variableActions'
 const ProductEditScreen = ({ history, match }) => {
   const productSlug = match.params.slug
   const alert = useAlert()
   const [title, setTitle] = useState('')
   const [price, setPrice] = useState('')
+  const [variable, setVariable] = useState('')
   const [image, setImage] = useState({})
   const [category, setCategory] = useState('')
   const [addonPrev, setAddonPrev] = useState([])
@@ -50,6 +52,13 @@ const ProductEditScreen = ({ history, match }) => {
     product,
     error: errorDetails,
   } = productDetails
+
+  const variableList = useSelector((state) => state.variableList)
+  const {
+    loading: loadingVariables,
+    variables,
+    error: errorVariables,
+  } = variableList
   useEffect(() => {
     if (userInfo && userInfo.role !== 'admin') {
       history.push('/')
@@ -66,11 +75,15 @@ const ProductEditScreen = ({ history, match }) => {
     } else {
       if (!product.title || product.slug !== productSlug) {
         dispatch(detailsProduct(productSlug))
+        dispatch(listVariable())
         dispatch(listCategory())
         dispatch(listAddon())
       } else {
         setTitle(product.title)
         setPrice(product.price)
+        if (product.variable && product.variable._id) {
+          setVariable(product.variable._id)
+        }
         setImage(product.image)
         setCategory(product.category._id)
         if (product.addon.length > 0) {
@@ -101,6 +114,7 @@ const ProductEditScreen = ({ history, match }) => {
         slug: productSlug,
         title,
         price,
+        variable,
         image,
         category,
         addonPrev,
@@ -137,16 +151,37 @@ const ProductEditScreen = ({ history, match }) => {
               onChange={(e) => setTitle(e.target.value)}
             ></Form.Control>
           </Form.Group>
-          <Form.Group controlId='price'>
-            <Form.Label>Price</Form.Label>
-            <Form.Control
-              type='number'
-              placeholder='Enter price'
-              value={price}
-              required
-              onChange={(e) => setPrice(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
+          {price ? (
+            <Form.Group controlId='price'>
+              <Form.Label>Price</Form.Label>
+              <Form.Control
+                type='number'
+                placeholder='Enter price'
+                value={price}
+                required
+                onChange={(e) => setPrice(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+          ) : variable ? (
+            <Form.Group controlId='variable'>
+              <Form.Label>Variable</Form.Label>
+              <Form.Control
+                onChange={(e) => setVariable(e.target.value)}
+                as='select'
+                value={variable}
+              >
+                {variables &&
+                  variables.map((v) => (
+                    <option key={v._id} value={v._id}>
+                      {v.name}
+                    </option>
+                  ))}
+              </Form.Control>
+            </Form.Group>
+          ) : (
+            ''
+          )}
+
           <Form.Group controlId='category'>
             <Form.Label className='Font'>Category</Form.Label>
             <Form.Control

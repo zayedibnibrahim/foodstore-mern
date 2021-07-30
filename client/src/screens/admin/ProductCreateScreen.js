@@ -29,7 +29,7 @@ const ProductCreateScreen = ({ history }) => {
   const [description, setDescription] = useState('')
   const [delivery, setDelivery] = useState('')
   const [availability, setAvailability] = useState('')
-
+  console.log(variable)
   const dispatch = useDispatch()
   //check logged in user
   const userLogIn = useSelector((state) => state.userLogIn)
@@ -67,7 +67,7 @@ const ProductCreateScreen = ({ history }) => {
       alert.success('Product Created')
       setTitle('')
       setPrice('')
-      setVariable([])
+      setVariable('')
       setProductType('simple')
       setImage({})
       setCategory('')
@@ -85,9 +85,10 @@ const ProductCreateScreen = ({ history }) => {
     e.preventDefault()
     dispatch(
       createProduct({
+        image,
         title,
         price,
-        image,
+        variable,
         category,
         addon,
         sold,
@@ -152,9 +153,9 @@ const ProductCreateScreen = ({ history }) => {
                 value={variable}
               >
                 {variables &&
-                  variables.map((variable) => (
-                    <option key={variable._id} value={variable._id}>
-                      {variable.name}
+                  variables.map((v) => (
+                    <option key={v._id} value={v._id}>
+                      {v.name}
                     </option>
                   ))}
               </Form.Control>

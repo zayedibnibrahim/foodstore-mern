@@ -43,12 +43,14 @@ exports.productCreate = asyncHandler(async (req, res) => {
     price,
     image,
     category,
+    variable,
     addon,
     sold,
     description,
     delivery,
     availability,
   } = req.body
+
   const productExist = await Product.findOne({ slug: slugify(title) })
 
   if (productExist) {
@@ -61,6 +63,7 @@ exports.productCreate = asyncHandler(async (req, res) => {
       slug: slugify(title),
       price,
       image,
+      variable,
       category,
       addon,
       sold,
@@ -84,6 +87,10 @@ exports.getProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({})
     .populate('category', 'name slug')
     .populate('addon', 'name price slug')
+    .populate({
+      path: 'variable',
+      populate: { path: 'attribute' },
+    })
   res.json(products)
 })
 
@@ -111,6 +118,10 @@ exports.getProductDetails = asyncHandler(async (req, res) => {
   const product = await Product.findOne({ slug: req.params.slug })
     .populate('category', 'name slug')
     .populate('addon', 'name price slug')
+    .populate({
+      path: 'variable',
+      populate: { path: 'attribute' },
+    })
   if (product) {
     res.json(product)
   } else {
@@ -127,6 +138,7 @@ exports.updateProduct = asyncHandler(async (req, res) => {
   const {
     title,
     price,
+    variable,
     image,
     category,
     addonPrev: addon,
@@ -140,6 +152,7 @@ exports.updateProduct = asyncHandler(async (req, res) => {
     product.title = title
     product.slug = slugify(title)
     product.price = price
+    product.variable = variable
     product.image = image
     product.category = category
     product.addon = addon

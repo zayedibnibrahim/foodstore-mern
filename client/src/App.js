@@ -106,7 +106,7 @@ function App() {
             />
             <Route path='/admin/attribute' component={AttributeScreen} exact />
             <Route
-              path='/admin/attribute/:slug/edit'
+              path='/admin/attribute/:id/edit'
               component={AttributeEditScreen}
               exact
             />

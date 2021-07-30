@@ -84,7 +84,20 @@ const ProductListScreen = ({ history }) => {
                   />
                 </td>
                 <td>{product.title}</td>
-                <td>${product.price}</td>
+                <td>
+                  {product.price ? (
+                    <span>${product.price}</span>
+                  ) : product.variable && product.variable.attribute ? (
+                    product.variable.attribute.map((attr) => (
+                      <span key={attr._id}>
+                        Attr: ${attr.price}
+                        <br />
+                      </span>
+                    ))
+                  ) : (
+                    'No Price'
+                  )}
+                </td>
                 <td>{product.category.name}</td>
                 <td>
                   {product.addon.map((a) => (
