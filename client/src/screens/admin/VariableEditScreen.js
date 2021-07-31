@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import FormContainer from '../../components/FormContainer'
 import { Link } from 'react-router-dom'
-import { Form, Button } from 'react-bootstrap'
+import { Form, Button, Row, Col } from 'react-bootstrap'
 import Loader from '../../components/Loader'
 import Message from '../../components/Message'
 import { useDispatch, useSelector } from 'react-redux'
 import { detailsVariable, updateVariable } from '../../actions/variableActions'
+import { useAlert } from 'react-alert'
 import {
   VARIABLE_DETAILS_RESET,
   VARIABLE_UPDATE_RESET,
@@ -14,10 +15,10 @@ import MultiSelectOnEditAttribute from '../../components/form/MultiSelectOnEditA
 import { listAttribute } from '../../actions/attributeActions'
 
 const VariableEditScreen = ({ history, match }) => {
+  const alert = useAlert()
   const variableId = match.params.id
   const [label, setLabel] = useState('')
   const [attributePrev, setAttributePrev] = useState([])
-  console.log(attributePrev)
   const dispatch = useDispatch()
 
   //check logged in user
@@ -46,6 +47,7 @@ const VariableEditScreen = ({ history, match }) => {
 
   useEffect(() => {
     if (successUpdate) {
+      alert.success('Variable Updated')
       dispatch({ type: VARIABLE_UPDATE_RESET })
       dispatch({ type: VARIABLE_DETAILS_RESET })
       history.push('/admin/variables')
@@ -62,7 +64,7 @@ const VariableEditScreen = ({ history, match }) => {
         }
       }
     }
-  }, [dispatch, history, variableId, variableData, successUpdate])
+  }, [dispatch, history, variableId, variableData, successUpdate, alert])
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -72,12 +74,23 @@ const VariableEditScreen = ({ history, match }) => {
 
   return (
     <>
-      <Link to='/admin/variables' className='btn btn-dark my-3'>
-        Go Back
-      </Link>
+      <Row className='align-items-center'>
+        <Col>
+          <Link to='/admin/variables' className='btn btn-dark my-3'>
+            Go Back
+          </Link>
+        </Col>
+        <Col>
+          {loading && <Loader />}
+          {loadingUpdate && <Loader />}
+        </Col>
+      </Row>
+
       <FormContainer>
-        {successUpdate && <Message variant='success'>Variable Updated</Message>}
         {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
+        {errorListAttribute && (
+          <Message variant='danger'>{errorListAttribute}</Message>
+        )}
         {error && <Message variant='danger'>{error}</Message>}
         <Form onSubmit={submitHandler} className='my-5'>
           <Form.Group controlId='label'>

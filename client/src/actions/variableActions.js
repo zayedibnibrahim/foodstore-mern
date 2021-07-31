@@ -119,7 +119,6 @@ export const detailsVariable = (id) => async (dispatch) => {
 
 export const updateVariable = (variable) => async (dispatch, getState) => {
   const { label: name, attributePrev: attribute, variableId } = variable
-  console.log(variable)
   try {
     dispatch({ type: VARIABLE_UPDATE_REQUEST })
 

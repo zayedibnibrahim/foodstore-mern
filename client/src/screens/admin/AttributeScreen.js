@@ -13,7 +13,6 @@ import {
 import Loader from '../../components/Loader'
 import Message from '../../components/Message'
 import ItemSearch from '../../components/ItemSearch'
-import { listProduct } from '../../actions/productActions'
 const AttributeScreen = ({ history }) => {
   const [attribute, setAttribute] = useState('')
   const [price, setPrice] = useState('')
@@ -33,9 +32,6 @@ const AttributeScreen = ({ history }) => {
     error: errorAttribute,
   } = attributeList
 
-  const productList = useSelector((state) => state.productList)
-  const { loading: loadingProduct, error: errorProduct, products } = productList
-
   const dispatch = useDispatch()
 
   //delete attribute
@@ -54,7 +50,7 @@ const AttributeScreen = ({ history }) => {
     setProduct('')
   }
   const searched = (keyword) => (attribute) =>
-    attribute.name.toLowerCase().includes(keyword)
+    attribute.product.toLowerCase().includes(keyword)
 
   const deleteHandler = (id) => {
     if (window.confirm('Are You Sure?')) {
@@ -67,7 +63,6 @@ const AttributeScreen = ({ history }) => {
       history.push('/')
     }
     dispatch(listAttribute())
-    dispatch(listProduct())
   }, [dispatch, userInfo, history, success, successDelete])
 
   return (
@@ -96,20 +91,13 @@ const AttributeScreen = ({ history }) => {
             ></Form.Control>
           </Form.Group>
           <Form.Group controlId='product'>
-            <Form.Label className='Font'>Product</Form.Label>
+            <Form.Label>Product Name</Form.Label>
             <Form.Control
-              onChange={(e) => setProduct(e.target.value)}
-              as='select'
+              type='text'
+              placeholder='Enter Product Name'
               value={product}
-            >
-              <option>Select Product</option>
-              {products.length > 0 &&
-                products.map((p) => (
-                  <option key={p._id} value={p._id}>
-                    {p.title}
-                  </option>
-                ))}
-            </Form.Control>
+              onChange={(e) => setProduct(e.target.value)}
+            ></Form.Control>
           </Form.Group>
           <Button
             type='submit'

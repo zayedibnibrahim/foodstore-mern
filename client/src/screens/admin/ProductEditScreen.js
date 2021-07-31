@@ -54,11 +54,7 @@ const ProductEditScreen = ({ history, match }) => {
   } = productDetails
 
   const variableList = useSelector((state) => state.variableList)
-  const {
-    loading: loadingVariables,
-    variables,
-    error: errorVariables,
-  } = variableList
+  const { variables } = variableList
   useEffect(() => {
     if (userInfo && userInfo.role !== 'admin') {
       history.push('/')

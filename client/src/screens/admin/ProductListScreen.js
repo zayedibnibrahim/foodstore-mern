@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteProduct, listProduct } from '../../actions/productActions'
 import { Image, Button, Row, Col, Table } from 'react-bootstrap'
@@ -10,8 +10,10 @@ import { useAlert } from 'react-alert'
 import Loader from '../../components/Loader'
 import Message from '../../components/Message'
 import { DELETE_PRODUCT_RESET } from '../../constants/productConstants'
+import ItemSearch from '../../components/ItemSearch'
 
 const ProductListScreen = ({ history }) => {
+  const [keyword, setKeyword] = useState('')
   const alert = useAlert()
   const dispatch = useDispatch()
   //check logged in user
@@ -45,6 +47,8 @@ const ProductListScreen = ({ history }) => {
       dispatch(deleteProduct(id))
     }
   }
+  const searched = (keyword) => (category) =>
+    category.title.toLowerCase().includes(keyword)
   return (
     <>
       <Row className='align-items-center'>
@@ -59,7 +63,7 @@ const ProductListScreen = ({ history }) => {
       <Row>
         {error && <Message variant='danger'>{error}</Message>}
         {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
-
+        <ItemSearch setKeyword={setKeyword} keyword={keyword} />
         <Table striped bordered hover responsive className='table-sm'>
           <thead>
             <tr>
@@ -73,7 +77,7 @@ const ProductListScreen = ({ history }) => {
             </tr>
           </thead>
           <tbody>
-            {products.map((product, index) => (
+            {products.filter(searched(keyword)).map((product, index) => (
               <tr key={product._id}>
                 <td>{index + 1}</td>
                 <td>

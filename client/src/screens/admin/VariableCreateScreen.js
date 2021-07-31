@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import FormContainer from '../../components/FormContainer'
-import { Form, Button, Row, Table } from 'react-bootstrap'
+import { Form, Button, Row, Table, Col } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { LinkContainer } from 'react-router-bootstrap'
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
@@ -25,19 +25,25 @@ const VariableCreateScreen = ({ history }) => {
   const userLogIn = useSelector((state) => state.userLogIn)
   const { userInfo } = userLogIn
 
-  //show variable list
+  //show attribute list
   const attributeList = useSelector((state) => state.attributeList)
   const { attributes, error: errorListAttribute } = attributeList
 
-  //show variable list
+  //Create variable list
   const variableCreate = useSelector((state) => state.variableCreate)
-  const { success: successCreate, error: errorCreate } = variableCreate
+  const { loading, success: successCreate, error: errorCreate } = variableCreate
 
+  //Show variable list
   const variableList = useSelector((state) => state.variableList)
   const { loading: loadingList, variables, error: errorList } = variableList
 
+  //Delete variable
   const variableDelete = useSelector((state) => state.variableDelete)
-  const { success: successDelete, error: errorDelete } = variableDelete
+  const {
+    loading: loadingDelete,
+    success: successDelete,
+    error: errorDelete,
+  } = variableDelete
 
   useEffect(() => {
     if (userInfo && userInfo.role !== 'admin') {
@@ -68,35 +74,50 @@ const VariableCreateScreen = ({ history }) => {
     attribute.name.toLowerCase().includes(keyword)
   return (
     <>
-      <FormContainer>
-        <Form onSubmit={submitHandler} className='my-5'>
-          <Form.Group controlId='label'>
-            <Form.Label>Label</Form.Label>
-            <Form.Control
-              type='text'
-              placeholder='Enter Label'
-              value={label}
-              onChange={(e) => setLabel(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
-          <Form.Group controlId='attribute'>
-            <Form.Label>Attribute</Form.Label>
-            <MultiSelectOnCreateAttribute
-              attributes={attributes}
-              setAttribute={setAttribute}
-              attribute={attribute}
-            />
-          </Form.Group>
-          <Button type='submit' variant='primary' className='my-3'>
-            Create
-          </Button>
-        </Form>
-      </FormContainer>
+      <Row className='align-items-center'>
+        <Col>
+          <h1>Manage Variable</h1>
+        </Col>
+        <Col>
+          {loading && <Loader />}
+          {loadingDelete && <Loader />}
+        </Col>
+      </Row>
       <Row>
+        <FormContainer>
+          <Form onSubmit={submitHandler} className='my-5'>
+            <Form.Group controlId='label'>
+              <Form.Label>Label</Form.Label>
+              <Form.Control
+                type='text'
+                placeholder='Enter Label'
+                value={label}
+                onChange={(e) => setLabel(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+            <Form.Group controlId='attribute'>
+              <Form.Label>Attribute</Form.Label>
+              <MultiSelectOnCreateAttribute
+                attributes={attributes}
+                setAttribute={setAttribute}
+                attribute={attribute}
+              />
+            </Form.Group>
+            <Button type='submit' variant='primary' className='my-3'>
+              Create
+            </Button>
+          </Form>
+        </FormContainer>
+      </Row>
+      <Row>
+        {errorList && <Message variant='danger'>{errorList}</Message>}
+        {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
+        {errorListAttribute && (
+          <Message variant='danger'>{errorListAttribute}</Message>
+        )}
+        {errorCreate && <Message variant='danger'>{errorCreate}</Message>}
         {loadingList ? (
           <Loader />
-        ) : errorList ? (
-          <Message variant='danger'>{errorList}</Message>
         ) : (
           <>
             <ItemSearch setKeyword={setKeyword} keyword={keyword} />

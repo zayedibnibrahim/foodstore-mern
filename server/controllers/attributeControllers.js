@@ -51,11 +51,12 @@ exports.attributeById = asyncHandler(async (req, res) => {
 // @access  Private admin
 exports.attributeUpdate = asyncHandler(async (req, res) => {
   const id = req.params.id
-  const { name, price } = req.body
+  const { name, price, product } = req.body
   const attribute = await Attribute.findById(id)
   if (attribute) {
     attribute.name = name
     attribute.price = price
+    attribute.product = product
     const updatedAttribute = await attribute.save()
     res.json(updatedAttribute)
   } else {

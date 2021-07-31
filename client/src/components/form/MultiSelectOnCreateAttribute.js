@@ -19,7 +19,7 @@ const MultiSelectOnCreateAttribute = ({
         {attributes.length &&
           attributes.map((s) => (
             <Option key={s._id} value={s._id}>
-              {s.name}
+              {s.name} - {s.product}
             </Option>
           ))}
       </Select>

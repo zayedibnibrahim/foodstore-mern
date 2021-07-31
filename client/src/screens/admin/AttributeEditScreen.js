@@ -17,6 +17,7 @@ const AttributeEditScreen = ({ history, match }) => {
   const attributeId = match.params.id
   const [attribute, setAttribute] = useState('')
   const [price, setPrice] = useState('')
+  const [product, setProduct] = useState('')
 
   const dispatch = useDispatch()
 
@@ -50,6 +51,7 @@ const AttributeEditScreen = ({ history, match }) => {
       } else {
         setAttribute(attributeData.name)
         setPrice(attributeData.price)
+        setProduct(attributeData.product)
       }
     }
   }, [dispatch, history, attributeId, attributeData, successUpdate, userInfo])
@@ -57,7 +59,7 @@ const AttributeEditScreen = ({ history, match }) => {
   const submitHandler = (e) => {
     e.preventDefault()
 
-    dispatch(updateAttribute(attribute, price, attributeId))
+    dispatch(updateAttribute(attribute, price, product, attributeId))
   }
 
   return (
@@ -89,6 +91,15 @@ const AttributeEditScreen = ({ history, match }) => {
               value={price}
               required
               onChange={(e) => setPrice(e.target.value)}
+            ></Form.Control>
+          </Form.Group>
+          <Form.Group controlId='product'>
+            <Form.Label>Product Name</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder='Enter Product Name'
+              value={product}
+              onChange={(e) => setProduct(e.target.value)}
             ></Form.Control>
           </Form.Group>
           <Button

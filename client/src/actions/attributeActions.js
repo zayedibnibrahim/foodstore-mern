@@ -123,7 +123,7 @@ export const detailsAttribute = (id) => async (dispatch) => {
 }
 
 export const updateAttribute =
-  (newAttribute, price, attributeId) => async (dispatch, getState) => {
+  (newAttribute, price, product, attributeId) => async (dispatch, getState) => {
     try {
       dispatch({ type: ATTRIBUTE_UPDATE_REQUEST })
 
@@ -140,7 +140,7 @@ export const updateAttribute =
 
       await axios.put(
         `/api/attribute/${attributeId}`,
-        { name: newAttribute, price },
+        { name: newAttribute, price, product },
         config
       )
 

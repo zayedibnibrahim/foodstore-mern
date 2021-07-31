@@ -51,7 +51,6 @@ const RegisterCompleteScreen = ({ history, location }) => {
             history.push('/login')
           }
         } catch (error) {
-          console.log(error)
           setMessage(error.message)
         }
       } else {

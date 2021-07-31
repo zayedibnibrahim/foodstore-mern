@@ -91,7 +91,6 @@ export const listUsers = () => async (dispatch, getState) => {
       payload: data,
     })
   } catch (error) {
-    console.log(error)
     dispatch({
       type: USER_LIST_FAIL,
       payload:

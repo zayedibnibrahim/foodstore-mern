@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const { ObjectId } = mongoose.Schema
 const AttributeSchema = new mongoose.Schema(
   {
     name: {
@@ -15,8 +14,10 @@ const AttributeSchema = new mongoose.Schema(
       require: true,
     },
     product: {
-      type: ObjectId,
-      ref: 'Product',
+      type: String,
+      trim: true,
+      require: true,
+      default: 'UnNamed',
     },
   },
   {

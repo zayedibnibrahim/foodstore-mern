@@ -11,7 +11,7 @@ const ItemSearch = ({ setKeyword, keyword }) => {
       <input
         type='search'
         onChange={handleSearchChange}
-        placeholder='Filter Category'
+        placeholder='Filter Item'
         value={keyword}
       />
     </>

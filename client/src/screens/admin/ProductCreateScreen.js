@@ -29,7 +29,7 @@ const ProductCreateScreen = ({ history }) => {
   const [description, setDescription] = useState('')
   const [delivery, setDelivery] = useState('')
   const [availability, setAvailability] = useState('')
-  console.log(variable)
+
   const dispatch = useDispatch()
   //check logged in user
   const userLogIn = useSelector((state) => state.userLogIn)
@@ -47,11 +47,7 @@ const ProductCreateScreen = ({ history }) => {
   const { addons, error: errorAddon } = addonList
 
   const variableList = useSelector((state) => state.variableList)
-  const {
-    loading: loadingVariables,
-    variables,
-    error: errorVariables,
-  } = variableList
+  const { variables } = variableList
 
   useEffect(() => {
     if (userInfo && userInfo.role !== 'admin') {
@@ -148,10 +144,12 @@ const ProductCreateScreen = ({ history }) => {
             <Form.Group controlId='variable'>
               <Form.Label>Variable</Form.Label>
               <Form.Control
-                onChange={(e) => setVariable(e.target.value)}
                 as='select'
+                required
                 value={variable}
+                onChange={(e) => setVariable(e.target.value)}
               >
+                <option>Select Variable</option>
                 {variables &&
                   variables.map((v) => (
                     <option key={v._id} value={v._id}>
