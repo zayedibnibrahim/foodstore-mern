@@ -4,9 +4,10 @@ import { deleteProduct, listProduct } from '../../actions/productActions'
 import { Image, Button, Row, Col, Table } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit } from '@fortawesome/free-regular-svg-icons'
+import { faCheckCircle, faEdit } from '@fortawesome/free-regular-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useAlert } from 'react-alert'
+import { Pagination } from 'antd'
 import Loader from '../../components/Loader'
 import Message from '../../components/Message'
 import { DELETE_PRODUCT_RESET } from '../../constants/productConstants'
@@ -70,6 +71,7 @@ const ProductListScreen = ({ history }) => {
               <th>SL No</th>
               <th>IMAGE</th>
               <th>NAME</th>
+              <th>DELIVERY</th>
               <th>PRICE</th>
               <th>CATEGORY</th>
               <th>ADDONS</th>
@@ -87,7 +89,24 @@ const ProductListScreen = ({ history }) => {
                     style={{ width: '40px' }}
                   />
                 </td>
-                <td>{product.title}</td>
+                <td>
+                  {product.availability === 'No' ? (
+                    <span style={{ color: 'red', fontWeight: '800' }}>
+                      {product.title}
+                    </span>
+                  ) : (
+                    <span style={{ color: '#000', fontWeight: '600' }}>
+                      {product.title}
+                    </span>
+                  )}
+                </td>
+                <td>
+                  {product.delivery === 'Yes' ? (
+                    <FontAwesomeIcon icon={faCheckCircle} color='green' />
+                  ) : (
+                    <FontAwesomeIcon icon={faCheckCircle} color='red' />
+                  )}
+                </td>
                 <td>
                   {product.price ? (
                     <span>${product.price}</span>
@@ -111,7 +130,7 @@ const ProductListScreen = ({ history }) => {
                     </span>
                   ))}
                 </td>
-                <td>
+                <td className='d-flex justify-content-around'>
                   <LinkContainer to={`/admin/product/${product.slug}/edit`}>
                     <Button variant='dark' className='btn-sm'>
                       <FontAwesomeIcon icon={faEdit} />
@@ -129,6 +148,7 @@ const ProductListScreen = ({ history }) => {
             ))}
           </tbody>
         </Table>
+        <Pagination showQuickJumper defaultCurrent={2} total={500} />
       </Row>
     </>
   )

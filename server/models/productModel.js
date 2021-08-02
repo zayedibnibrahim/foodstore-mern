@@ -58,6 +58,7 @@ const productSchema = new mongoose.Schema(
     variable: {
       type: ObjectId,
       ref: 'Variable',
+      default: null,
     },
     availability: {
       type: String,

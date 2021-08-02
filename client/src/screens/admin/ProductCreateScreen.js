@@ -21,7 +21,7 @@ const ProductCreateScreen = ({ history }) => {
   const [title, setTitle] = useState('')
   const [productType, setProductType] = useState('simple')
   const [price, setPrice] = useState('')
-  const [variable, setVariable] = useState('')
+  const [variable, setVariable] = useState()
   const [image, setImage] = useState({})
   const [category, setCategory] = useState('')
   const [addon, setAddon] = useState([])
@@ -63,7 +63,7 @@ const ProductCreateScreen = ({ history }) => {
       alert.success('Product Created')
       setTitle('')
       setPrice('')
-      setVariable('')
+      setVariable()
       setProductType('simple')
       setImage({})
       setCategory('')
@@ -145,7 +145,6 @@ const ProductCreateScreen = ({ history }) => {
               <Form.Label>Variable</Form.Label>
               <Form.Control
                 as='select'
-                required
                 value={variable}
                 onChange={(e) => setVariable(e.target.value)}
               >

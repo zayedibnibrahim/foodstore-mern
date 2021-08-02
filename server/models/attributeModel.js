@@ -3,7 +3,7 @@ const AttributeSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      minlength: [3, 'Too Short'],
+      minlength: [1, 'Too Short'],
       maxlength: [32, 'Too Long'],
       trim: true,
       require: true,
