@@ -13,6 +13,7 @@ const ItemSearch = ({ setKeyword, keyword }) => {
         onChange={handleSearchChange}
         placeholder='Filter Item'
         value={keyword}
+        className='my-3'
       />
     </>
   )

@@ -167,3 +167,33 @@ exports.updateProduct = asyncHandler(async (req, res) => {
     throw new Error('Product Not Found')
   }
 })
+
+// @desc    Count Products
+// @route   GET /api/productCount
+// @access  Public
+exports.countProducts = asyncHandler(async (req, res) => {
+  const count = await Product.find({}).estimatedDocumentCount().exec()
+  res.json(count)
+})
+
+// @desc    get Products Admin
+// @route   GET /api/productListAdmin
+// @access  Public
+exports.getProductsAdmin = asyncHandler(async (req, res) => {
+  const { page, sort, order } = req.body
+  const currentPage = page || 1
+  const perPage = 10
+
+  const products = await Product.find({})
+    .populate('category', 'name slug')
+    .populate('addon', 'name price slug')
+    .populate({
+      path: 'variable',
+      populate: { path: 'attribute' },
+    })
+    .skip((currentPage - 1) * perPage)
+    .sort([[sort, order]])
+    .limit(perPage)
+    .exec()
+  res.json(products)
+})

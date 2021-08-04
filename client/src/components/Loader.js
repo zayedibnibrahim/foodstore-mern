@@ -5,7 +5,7 @@ const Loader = ({ size }) => {
     <>
       <Spinner
         animation='grow'
-        variant='light'
+        variant='dark'
         // style={{ height: '100px', width: '100px' }}
         className={size}
       />

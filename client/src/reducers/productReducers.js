@@ -1,4 +1,7 @@
 import {
+  COUNT_PRODUCTS_FAIL,
+  COUNT_PRODUCTS_REQUEST,
+  COUNT_PRODUCTS_SUCCESS,
   CREATE_PRODUCT_FAIL,
   CREATE_PRODUCT_REQUEST,
   CREATE_PRODUCT_RESET,
@@ -11,6 +14,9 @@ import {
   DETAILS_PRODUCT_REQUEST,
   DETAILS_PRODUCT_RESET,
   DETAILS_PRODUCT_SUCCESS,
+  LIST_PRODUCT_ADMIN_FAIL,
+  LIST_PRODUCT_ADMIN_REQUEST,
+  LIST_PRODUCT_ADMIN_SUCCESS,
   LIST_PRODUCT_FAIL,
   LIST_PRODUCT_REQUEST,
   LIST_PRODUCT_SUCCESS,
@@ -126,6 +132,38 @@ export const productDetailsReducer = (state = { product: {} }, action) => {
       return { loading: false, error: action.payload }
     case DETAILS_PRODUCT_RESET:
       return { loading: false, product: {} }
+    default:
+      return state
+  }
+}
+
+export const productCountReducer = (
+  state = { productsCount: null },
+  action
+) => {
+  switch (action.type) {
+    case COUNT_PRODUCTS_REQUEST:
+      return { ...state, loading: true }
+    case COUNT_PRODUCTS_SUCCESS:
+      return { loading: false, productsCount: action.payload }
+    case COUNT_PRODUCTS_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+export const productListAdminReducer = (
+  state = { productsListAdmin: [] },
+  action
+) => {
+  switch (action.type) {
+    case LIST_PRODUCT_ADMIN_REQUEST:
+      return { ...state, loading: true }
+    case LIST_PRODUCT_ADMIN_SUCCESS:
+      return { loading: false, productsListAdmin: action.payload }
+    case LIST_PRODUCT_ADMIN_FAIL:
+      return { loading: false, error: action.payload }
     default:
       return state
   }

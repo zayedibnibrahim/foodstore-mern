@@ -7,6 +7,8 @@ const {
   deleteProducts,
   getProductDetails,
   updateProduct,
+  countProducts,
+  getProductsAdmin,
 } = require('../controllers/productControllers')
 
 const { protect, adminCheck } = require('../middleware/authMiddleware')
@@ -25,5 +27,9 @@ router
   .route('/product/:slug')
   .get(getProductDetails)
   .put(protect, adminCheck, updateProduct)
+
+//Admin Product List with pagination
+router.route('/productCount').get(countProducts)
+router.route('/productListAdmin').post(getProductsAdmin)
 
 module.exports = router
