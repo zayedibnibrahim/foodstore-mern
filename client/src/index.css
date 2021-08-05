@@ -11,6 +11,11 @@ main {
   width: 30px;
 }
 
+.slick-prev:before,
+.slick-next:before {
+  color: #f3969a !important;
+}
+
 /*!
  * 
  * antd v4.16.6

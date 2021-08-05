@@ -16,7 +16,6 @@ import Loader from '../../components/Loader'
 import Message from '../../components/Message'
 import { DELETE_PRODUCT_RESET } from '../../constants/productConstants'
 import ItemSearch from '../../components/ItemSearch'
-import FormContainer from '../../components/FormContainer'
 import { Link } from 'react-router-dom'
 
 const ProductListScreen = ({ history }) => {
