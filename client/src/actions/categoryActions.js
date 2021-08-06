@@ -15,6 +15,9 @@ import {
   CATEGORY_UPDATE_FAIL,
   CATEGORY_UPDATE_REQUEST,
   CATEGORY_UPDATE_SUCCESS,
+  PRODUCT_BY_CATEGORY_FAIL,
+  PRODUCT_BY_CATEGORY_REQUEST,
+  PRODUCT_BY_CATEGORY_SUCCESS,
 } from '../constants/categoryConstants'
 
 export const createCategory = (category) => async (dispatch, getState) => {
@@ -146,3 +149,26 @@ export const updateCategory =
       })
     }
   }
+
+export const listProductsByCategory = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: PRODUCT_BY_CATEGORY_REQUEST })
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+    const { data } = await axios.post('/api/categoryByCategory', { id }, config)
+
+    dispatch({ type: PRODUCT_BY_CATEGORY_SUCCESS, payload: data })
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_BY_CATEGORY_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}

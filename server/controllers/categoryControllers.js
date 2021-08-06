@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler')
 const Category = require('../models/categoryModel')
+const Product = require('../models/productModel')
 const slugify = require('slugify')
 
 // @desc    POST create
@@ -92,4 +93,19 @@ exports.categoryDelete = asyncHandler(async (req, res) => {
     res.status(500)
     throw new Error('Category Not Found')
   }
+})
+
+// @desc    get products category
+// @route   POST /api/categoryByCategory
+// @access  Public
+exports.productsByCategory = asyncHandler(async (req, res) => {
+  const category = await Category.findOne({ _id: req.body.id })
+  const products = await Product.find({ category })
+    .populate('category')
+    .populate('addon')
+    .populate({
+      path: 'variable',
+      populate: { path: 'attribute' },
+    })
+  res.json(products)
 })

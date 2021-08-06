@@ -6,8 +6,7 @@ import pizza from '../image/pizza.png'
 import { useDispatch, useSelector } from 'react-redux'
 import { listCategory } from '../actions/categoryActions'
 
-const AllProductHome = () => {
-  const [catId, setCatId] = useState('')
+const CategoryCarousalHome = ({ setCatId }) => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(listCategory())
@@ -55,7 +54,7 @@ const AllProductHome = () => {
     ],
   }
   return (
-    <>
+    <div>
       <Slider {...settings}>
         {categories.map((c) => (
           <div key={c._id}>
@@ -76,8 +75,8 @@ const AllProductHome = () => {
           </div>
         ))}
       </Slider>
-    </>
+    </div>
   )
 }
 
-export default AllProductHome
+export default CategoryCarousalHome

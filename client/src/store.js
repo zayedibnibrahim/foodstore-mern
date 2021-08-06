@@ -21,6 +21,7 @@ import {
   categoryDetailsReducer,
   categoryListReducer,
   categoryUpdateReducer,
+  productGetByCategoryReducer,
 } from './reducers/categoryReducers'
 import {
   fileRemoveReducer,
@@ -74,6 +75,7 @@ const reducer = combineReducers({
   variableUpdate: variableUpdateReducer,
   productCount: productCountReducer,
   productListAdmin: productListAdminReducer,
+  productGetByCategory: productGetByCategoryReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

@@ -5,6 +5,7 @@ const {
   categoryBySlug,
   categoryUpdate,
   categoryDelete,
+  productsByCategory,
 } = require('../controllers/categoryControllers')
 const { protect, adminCheck } = require('../middleware/authMiddleware')
 
@@ -19,5 +20,6 @@ router
   .get(categoryBySlug)
   .put(protect, adminCheck, categoryUpdate)
   .delete(protect, adminCheck, categoryDelete)
+router.route('/categoryByCategory').post(productsByCategory)
 
 module.exports = router
