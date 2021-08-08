@@ -99,7 +99,7 @@ exports.categoryDelete = asyncHandler(async (req, res) => {
 // @route   POST /api/categoryByCategory
 // @access  Public
 exports.productsByCategory = asyncHandler(async (req, res) => {
-  const category = await Category.findOne({ _id: req.body.id })
+  const category = await Category.findOne({ slug: req.body.slug })
   const products = await Product.find({ category })
     .populate('category')
     .populate('addon')
@@ -107,5 +107,5 @@ exports.productsByCategory = asyncHandler(async (req, res) => {
       path: 'variable',
       populate: { path: 'attribute' },
     })
-  res.json(products)
+  res.json({ products, category })
 })

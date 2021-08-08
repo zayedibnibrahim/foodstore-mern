@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import CategoryCarousalHome from '../components/CategoryCarousalHome'
 import ProductByCategory from '../components/ProductByCategory'
 const HomeScreen = () => {
-  const [catId, setCatId] = useState('60eec354a9c59a2bace98fab')
+  const [catSlug, setCatSlug] = useState('appetizer')
   return (
     <div>
-      <CategoryCarousalHome setCatId={setCatId} />
-      <ProductByCategory catId={catId} />
+      <CategoryCarousalHome setCatSlug={setCatSlug} />
+      <ProductByCategory catSlug={catSlug} />
     </div>
   )
 }

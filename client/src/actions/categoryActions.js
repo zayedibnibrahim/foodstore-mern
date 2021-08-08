@@ -150,7 +150,7 @@ export const updateCategory =
     }
   }
 
-export const listProductsByCategory = (id) => async (dispatch) => {
+export const listProductsByCategory = (slug) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_BY_CATEGORY_REQUEST })
 
@@ -159,8 +159,11 @@ export const listProductsByCategory = (id) => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     }
-    const { data } = await axios.post('/api/categoryByCategory', { id }, config)
-
+    const { data } = await axios.post(
+      '/api/categoryByCategory',
+      { slug },
+      config
+    )
     dispatch({ type: PRODUCT_BY_CATEGORY_SUCCESS, payload: data })
   } catch (error) {
     dispatch({

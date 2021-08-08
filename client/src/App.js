@@ -31,6 +31,7 @@ import VariableCreateScreen from './screens/admin/VariableCreateScreen'
 import AttributeScreen from './screens/admin/AttributeScreen'
 import AttributeEditScreen from './screens/admin/AttributeEditScreen'
 import VariableEditScreen from './screens/admin/VariableEditScreen'
+import CategoryArchiveScreen from './screens/CategoryArchiveScreen'
 
 function App() {
   const dispatch = useDispatch()
@@ -85,6 +86,11 @@ function App() {
             <Route
               path='/admin/category/:slug/edit'
               component={CategoryEditScreen}
+              exact
+            />
+            <Route
+              path='/admin/category/:slug'
+              component={CategoryArchiveScreen}
               exact
             />
             <Route path='/admin/addon' component={AddonScreen} exact />

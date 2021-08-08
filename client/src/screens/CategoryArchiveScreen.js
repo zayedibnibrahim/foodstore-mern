@@ -1,16 +1,19 @@
 import React, { useEffect } from 'react'
+import { Col, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { listProductsByCategory } from '../actions/categoryActions'
-import { Row, Col } from 'react-bootstrap'
-import Loader from './Loader'
-import Message from './Message'
-import ProductCard from './ProductCard'
+import Loader from '../components/Loader'
+import Message from '../components/Message'
+import ProductCard from '../components/ProductCard'
 
-const ProductByCategory = ({ catSlug }) => {
+const CategoryArchiveScreen = ({ match }) => {
+  const categorySlug = match.params.slug
+  console.log(categorySlug)
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(listProductsByCategory(catSlug))
-  }, [dispatch, catSlug])
+    dispatch(listProductsByCategory(categorySlug))
+  }, [dispatch, categorySlug, match])
 
   const productGetByCategory = useSelector(
     (state) => state.productGetByCategory
@@ -18,6 +21,10 @@ const ProductByCategory = ({ catSlug }) => {
   const { loading, error, products, categoryName } = productGetByCategory
   return (
     <div className='py-5'>
+      <Link to='/' className='btn btn-dark my-3'>
+        Go Back
+      </Link>
+
       {loading ? (
         <Loader></Loader>
       ) : error ? (
@@ -43,4 +50,4 @@ const ProductByCategory = ({ catSlug }) => {
   )
 }
 
-export default ProductByCategory
+export default CategoryArchiveScreen

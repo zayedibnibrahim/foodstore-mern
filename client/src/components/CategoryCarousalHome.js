@@ -6,7 +6,7 @@ import pizza from '../image/pizza.png'
 import { useDispatch, useSelector } from 'react-redux'
 import { listCategory } from '../actions/categoryActions'
 
-const CategoryCarousalHome = ({ setCatId }) => {
+const CategoryCarousalHome = ({ setCatSlug }) => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(listCategory())
@@ -66,7 +66,7 @@ const CategoryCarousalHome = ({ setCatId }) => {
               }}
               className='d-flex flex-column justify-content-center align-items-center'
               onClick={() => {
-                setCatId(c._id)
+                setCatSlug(c.slug)
               }}
             >
               <img src={pizza} alt='' className='img-fluid w-50' />

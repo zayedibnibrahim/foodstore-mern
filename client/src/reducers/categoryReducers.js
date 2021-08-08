@@ -92,18 +92,20 @@ export const categoryUpdateReducer = (state = {}, action) => {
 }
 
 export const productGetByCategoryReducer = (
-  state = { products: [] },
+  state = { products: [], categoryName: {} },
   action
 ) => {
   switch (action.type) {
     case PRODUCT_BY_CATEGORY_REQUEST:
       return { ...state, loading: true }
     case PRODUCT_BY_CATEGORY_SUCCESS:
-      return { loading: false, products: action.payload }
+      return {
+        loading: false,
+        products: action.payload.products,
+        categoryName: action.payload.category,
+      }
     case PRODUCT_BY_CATEGORY_FAIL:
       return { loading: false, error: action.payload }
-    case PRODUCT_BY_CATEGORY_RESET:
-      return { loading: false, products: [] }
     default:
       return state
   }

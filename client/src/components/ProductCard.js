@@ -2,41 +2,51 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
-import { Row, Col } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
+import {} from 'react-bootstrap'
 const ProductCard = ({ product }) => {
   return (
     <>
-      <div className='food-card'>
+      <div className='food-card' style={{ outline: '1px solid #feca57' }}>
         <div className='food-card_img'>
           <img src={product.image.url} alt='' />
-          <a href='#!'>
+          <a href='/'>
             <FontAwesomeIcon icon={faHeart} />
           </a>
         </div>
         <div className='food-card_content'>
           <div className='food-card_title-section'>
-            <a href='#!' className='food-card_title'>
+            <Link to='/' className='food-card_title'>
               {product.title}
-            </a>
-            <a href='#!' className='food-card_author'>
-              Burger
-            </a>
+            </Link>
+            <Link
+              to={`/admin/category/${product.category.slug}`}
+              className='food-card_author'
+            >
+              {product.category.name}
+            </Link>
           </div>
           <div className='food-card_bottom-section'>
             <div className='space-between'>
-              <div>
-                <span className='fa fa-fire'></span> 220 - 280 Kcal
-              </div>
-              <div className='pull-right'>
-                <span className='badge badge-success'>Veg</span>
-              </div>
-            </div>
-            <hr />
-            <div className='space-between'>
               <div className='food-card_price'>
-                <span>5.99$</span>
+                <span>
+                  {product.price ? (
+                    <span className='fs-6'>${product.price}</span>
+                  ) : product.variable ? (
+                    <span className='fs-6'>
+                      ${product.variable.attribute[0].price}- $
+                      {
+                        product.variable.attribute[
+                          product.variable.attribute.length - 1
+                        ].price
+                      }
+                    </span>
+                  ) : (
+                    'No price'
+                  )}
+                </span>
               </div>
-              <div className='food-card_order-count'>
+              {/* <div className='food-card_order-count'>
                 <div className='input-group mb-3'>
                   <div className='input-group-prepend'>
                     <button
@@ -65,7 +75,7 @@ const ProductCard = ({ product }) => {
                     </button>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
