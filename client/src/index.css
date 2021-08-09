@@ -100,7 +100,7 @@ a {
   text-overflow: ellipsis;
 }
 
-.food-card .food-card_content .food-card_title-section .food-card_author {
+.food-card .food-card_content .food-card_title-section .food-card_category {
   font-size: 15px;
   display: block;
 }

@@ -1,9 +1,7 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
-import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
-import {} from 'react-bootstrap'
 const ProductCard = ({ product }) => {
   return (
     <>
@@ -16,12 +14,12 @@ const ProductCard = ({ product }) => {
         </div>
         <div className='food-card_content'>
           <div className='food-card_title-section'>
-            <Link to='/' className='food-card_title'>
+            <Link to={`/product/${product.slug}`} className='food-card_title'>
               {product.title}
             </Link>
             <Link
-              to={`/admin/category/${product.category.slug}`}
-              className='food-card_author'
+              to={`/category/${product.category.slug}`}
+              className='food-card_category'
             >
               {product.category.name}
             </Link>
@@ -69,7 +67,7 @@ const ProductCard = ({ product }) => {
                     <button
                       className='btn btn-outline-secondary add-btn'
                       type='button'
-                      id='button-addon1'
+                      id='button-addon1'8
                     >
                       <FontAwesomeIcon icon={faPlus} />
                     </button>

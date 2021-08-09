@@ -20,7 +20,14 @@ const CategoryArchiveScreen = ({ match }) => {
   )
   const { loading, error, products, categoryName } = productGetByCategory
   return (
-    <div className='py-5'>
+    <div
+      className='py-5'
+      style={{
+        backgroundColor: '#ecf0f1',
+        padding: '50px',
+        borderRadius: '35px',
+      }}
+    >
       <Link to='/' className='btn btn-dark my-3'>
         Go Back
       </Link>

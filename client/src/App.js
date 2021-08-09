@@ -32,6 +32,7 @@ import AttributeScreen from './screens/admin/AttributeScreen'
 import AttributeEditScreen from './screens/admin/AttributeEditScreen'
 import VariableEditScreen from './screens/admin/VariableEditScreen'
 import CategoryArchiveScreen from './screens/CategoryArchiveScreen'
+import SingleProductScreen from './screens/SingleProductScreen'
 
 function App() {
   const dispatch = useDispatch()
@@ -89,7 +90,7 @@ function App() {
               exact
             />
             <Route
-              path='/admin/category/:slug'
+              path='/category/:slug'
               component={CategoryArchiveScreen}
               exact
             />
@@ -124,6 +125,11 @@ function App() {
             <Route
               path='/admin/variable/:id/edit'
               component={VariableEditScreen}
+              exact
+            />
+            <Route
+              path='/product/:slug'
+              component={SingleProductScreen}
               exact
             />
           </Switch>
