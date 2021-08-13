@@ -7,7 +7,6 @@ import Loader from '../../components/Loader'
 import FormContainer from '../../components/FormContainer'
 import { listCategory } from '../../actions/categoryActions'
 import { listAddon } from '../../actions/addonActions'
-import MultiSelectOnEditAddon from '../../components/form/MultiSelectOnEditAddon'
 import ImageUploader from '../../components/form/ImageUploader'
 import { useAlert } from 'react-alert'
 import { detailsProduct, updateProduct } from '../../actions/productActions'
@@ -17,6 +16,8 @@ import {
   UPLOAD_IMAGE_RESET,
 } from '../../constants/productConstants'
 import { listVariable } from '../../actions/variableActions'
+import MultiSelect from 'react-multi-select-component'
+
 const ProductEditScreen = ({ history, match }) => {
   const productSlug = match.params.slug
   const alert = useAlert()
@@ -26,6 +27,7 @@ const ProductEditScreen = ({ history, match }) => {
   const [image, setImage] = useState({})
   const [category, setCategory] = useState('')
   const [addonPrev, setAddonPrev] = useState([])
+  const [selectedAddon, setSelectedAddon] = useState([])
   const [sold, setSold] = useState(0)
   const [description, setDescription] = useState('')
   const [delivery, setDelivery] = useState('')
@@ -83,9 +85,12 @@ const ProductEditScreen = ({ history, match }) => {
         setImage(product.image)
         setCategory(product.category._id)
         if (product.addon.length > 0) {
-          let addonArray = []
-          product.addon.map((adn) => addonArray.push(adn._id))
-          setAddonPrev(addonArray)
+          setSelectedAddon(
+            product.addon.map((a) => ({
+              label: a.name,
+              value: a._id,
+            }))
+          )
         }
         setSold(product.sold)
         setDescription(product.description)
@@ -113,7 +118,7 @@ const ProductEditScreen = ({ history, match }) => {
         variable,
         image,
         category,
-        addonPrev,
+        addonPrev: selectedAddon.map((a) => a.value),
         sold,
         description,
         delivery,
@@ -197,10 +202,15 @@ const ProductEditScreen = ({ history, match }) => {
           </Form.Group>
           <Form.Group controlId='addon'>
             <Form.Label>Addon</Form.Label>
-            <MultiSelectOnEditAddon
-              addons={addons}
-              addonPrev={addonPrev}
-              setAddonPrev={setAddonPrev}
+            <MultiSelect
+              options={addons.map((a) => ({
+                label: a.name,
+                value: a._id,
+              }))}
+              value={selectedAddon}
+              onChange={setSelectedAddon}
+              labelledBy='Select Addon'
+              className='product-addons'
             />
           </Form.Group>
           <Form.Group controlId='sold'>

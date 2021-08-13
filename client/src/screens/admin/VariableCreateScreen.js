@@ -7,7 +7,6 @@ import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../../components/Loader'
 import Message from '../../components/Message'
-import MultiSelectOnCreateAttribute from '../../components/form/MultiSelectOnCreateAttribute'
 import { listAttribute } from '../../actions/attributeActions'
 import {
   createVariable,
@@ -15,10 +14,11 @@ import {
   listVariable,
 } from '../../actions/variableActions'
 import ItemSearch from '../../components/ItemSearch'
+import MultiSelect from 'react-multi-select-component'
 
 const VariableCreateScreen = ({ history }) => {
   const [label, setLabel] = useState('')
-  const [attribute, setAttribute] = useState([])
+  const [selectedAttribute, setSelectedAttribute] = useState([])
   const [keyword, setKeyword] = useState('')
   const dispatch = useDispatch()
   //check logged in user
@@ -56,13 +56,18 @@ const VariableCreateScreen = ({ history }) => {
     dispatch(listVariable())
     if (successCreate) {
       setLabel('')
-      setAttribute([])
+      setSelectedAttribute([])
     }
   }, [dispatch, successDelete, successCreate])
 
   const submitHandler = (e) => {
     e.preventDefault()
-    dispatch(createVariable({ name: label, attribute }))
+    dispatch(
+      createVariable({
+        name: label,
+        attribute: selectedAttribute.map((a) => a.value),
+      })
+    )
   }
   const deleteHandler = (id) => {
     if (window.confirm('Are You Sure?')) {
@@ -97,10 +102,15 @@ const VariableCreateScreen = ({ history }) => {
             </Form.Group>
             <Form.Group controlId='attribute'>
               <Form.Label>Attribute</Form.Label>
-              <MultiSelectOnCreateAttribute
-                attributes={attributes}
-                setAttribute={setAttribute}
-                attribute={attribute}
+              <MultiSelect
+                options={attributes.map((a) => ({
+                  label: `${a.name} - ${a.product}`,
+                  value: a._id,
+                }))}
+                value={selectedAttribute}
+                onChange={setSelectedAttribute}
+                labelledBy='Select Attributes'
+                className='product-attributes'
               />
             </Form.Group>
             <Button type='submit' variant='primary' className='my-3'>

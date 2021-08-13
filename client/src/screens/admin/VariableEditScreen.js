@@ -11,14 +11,14 @@ import {
   VARIABLE_DETAILS_RESET,
   VARIABLE_UPDATE_RESET,
 } from '../../constants/variableConstants'
-import MultiSelectOnEditAttribute from '../../components/form/MultiSelectOnEditAttribute'
 import { listAttribute } from '../../actions/attributeActions'
+import MultiSelect from 'react-multi-select-component'
 
 const VariableEditScreen = ({ history, match }) => {
   const alert = useAlert()
   const variableId = match.params.id
   const [label, setLabel] = useState('')
-  const [attributePrev, setAttributePrev] = useState([])
+  const [selectedAttribute, setSelectedAttribute] = useState([])
   const dispatch = useDispatch()
 
   //check logged in user
@@ -58,9 +58,12 @@ const VariableEditScreen = ({ history, match }) => {
       } else {
         setLabel(variableData.name)
         if (variableData.attribute.length > 0) {
-          let attributeArray = []
-          variableData.attribute.map((attr) => attributeArray.push(attr._id))
-          setAttributePrev(attributeArray)
+          setSelectedAttribute(
+            variableData.attribute.map((a) => ({
+              label: `${a.name} - ${a.product}`,
+              value: a._id,
+            }))
+          )
         }
       }
     }
@@ -69,7 +72,13 @@ const VariableEditScreen = ({ history, match }) => {
   const submitHandler = (e) => {
     e.preventDefault()
 
-    dispatch(updateVariable({ label, attributePrev, variableId }))
+    dispatch(
+      updateVariable({
+        label,
+        attribute: selectedAttribute.map((a) => a.value),
+        variableId,
+      })
+    )
   }
 
   return (
@@ -104,10 +113,15 @@ const VariableEditScreen = ({ history, match }) => {
           </Form.Group>
           <Form.Group controlId='attribute'>
             <Form.Label>Attribute</Form.Label>
-            <MultiSelectOnEditAttribute
-              attributes={attributes}
-              setAttributePrev={setAttributePrev}
-              attributePrev={attributePrev}
+            <MultiSelect
+              options={attributes.map((a) => ({
+                label: `${a.name} - ${a.product}`,
+                value: a._id,
+              }))}
+              value={selectedAttribute}
+              onChange={setSelectedAttribute}
+              labelledBy='Select Attributes'
+              className='product-attributes'
             />
           </Form.Group>
           <Button type='submit' variant='primary' className='my-3'>

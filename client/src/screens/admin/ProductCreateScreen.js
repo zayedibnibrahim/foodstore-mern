@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { Form, Button, Row, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import MultiSelect from 'react-multi-select-component'
 import Message from '../../components/Message'
 import Loader from '../../components/Loader'
 import FormContainer from '../../components/FormContainer'
 import { listCategory } from '../../actions/categoryActions'
 import { listAddon } from '../../actions/addonActions'
-import MultiSelectOnCreateAddon from '../../components/form/MultiSelectOnCreateAddon'
 import ImageUploader from '../../components/form/ImageUploader'
 import { useAlert } from 'react-alert'
 import { createProduct } from '../../actions/productActions'
@@ -24,7 +24,8 @@ const ProductCreateScreen = ({ history }) => {
   const [variable, setVariable] = useState()
   const [image, setImage] = useState({})
   const [category, setCategory] = useState('')
-  const [addon, setAddon] = useState([])
+  const [selectedAddon, setSelectedAddon] = useState([])
+  // const [addon, setAddon] = useState([])
   const [sold, setSold] = useState(0)
   const [description, setDescription] = useState('')
   const [delivery, setDelivery] = useState('')
@@ -67,7 +68,7 @@ const ProductCreateScreen = ({ history }) => {
       setProductType('simple')
       setImage({})
       setCategory('')
-      setAddon([])
+      setSelectedAddon([])
       setSold(0)
       setDescription('')
       setDelivery('')
@@ -86,7 +87,7 @@ const ProductCreateScreen = ({ history }) => {
         price,
         variable,
         category,
-        addon,
+        addon: selectedAddon.map((a) => a.value),
         sold,
         description,
         delivery,
@@ -178,10 +179,15 @@ const ProductCreateScreen = ({ history }) => {
           </Form.Group>
           <Form.Group controlId='addon'>
             <Form.Label>Addon</Form.Label>
-            <MultiSelectOnCreateAddon
-              addons={addons}
-              setAddon={setAddon}
-              addon={addon}
+            <MultiSelect
+              options={addons.map((a) => ({
+                label: a.name,
+                value: a._id,
+              }))}
+              value={selectedAddon}
+              onChange={setSelectedAddon}
+              labelledBy='Select Addon'
+              className='product-addons'
             />
           </Form.Group>
           <Form.Group controlId='sold'>

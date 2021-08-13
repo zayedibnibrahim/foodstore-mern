@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import pizza from '../image/pizza.png'
+import Message from './Message'
 import { useDispatch, useSelector } from 'react-redux'
 import { listCategory } from '../actions/categoryActions'
 
@@ -13,11 +14,7 @@ const CategoryCarousalHome = ({ setCatSlug }) => {
   }, [dispatch])
   //showCategory list
   const categoryList = useSelector((state) => state.categoryList)
-  const {
-    categories,
-    error: errorCategory,
-    loading: loadingCategory,
-  } = categoryList
+  const { categories, error: errorCategory } = categoryList
 
   const settings = {
     dots: false,
@@ -55,25 +52,27 @@ const CategoryCarousalHome = ({ setCatSlug }) => {
   }
   return (
     <div>
+      {errorCategory && <Message variant='alert'>{errorCategory}</Message>}
       <Slider {...settings}>
-        {categories.map((c) => (
-          <div key={c._id}>
-            <div
-              style={{
-                backgroundColor: '#f6e58d',
-                padding: '10px',
-                margin: '0px 10px',
-              }}
-              className='d-flex flex-column justify-content-center align-items-center'
-              onClick={() => {
-                setCatSlug(c.slug)
-              }}
-            >
-              <img src={pizza} alt='' className='img-fluid w-50' />
-              <small style={{ color: '#000' }}>{c.name}</small>
+        {categories &&
+          categories.map((c) => (
+            <div key={c._id}>
+              <div
+                style={{
+                  backgroundColor: '#f6e58d',
+                  padding: '10px',
+                  margin: '0px 10px',
+                }}
+                className='d-flex flex-column justify-content-center align-items-center'
+                onClick={() => {
+                  setCatSlug(c.slug)
+                }}
+              >
+                <img src={pizza} alt='' className='img-fluid w-50' />
+                <small style={{ color: '#000' }}>{c.name}</small>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </Slider>
     </div>
   )

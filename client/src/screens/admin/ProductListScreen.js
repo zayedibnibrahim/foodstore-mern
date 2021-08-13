@@ -11,19 +11,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckCircle, faEdit } from '@fortawesome/free-regular-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useAlert } from 'react-alert'
-import { Pagination } from 'antd'
 import Loader from '../../components/Loader'
 import Message from '../../components/Message'
 import { DELETE_PRODUCT_RESET } from '../../constants/productConstants'
 import ItemSearch from '../../components/ItemSearch'
 import { Link } from 'react-router-dom'
+import ReactPaginate from 'react-paginate'
 
 const ProductListScreen = ({ history }) => {
   const [keyword, setKeyword] = useState('')
-  const [sort, setSort] = useState('title')
+  const [sort, setSort] = useState('category')
   const [order, setOrder] = useState('asc')
 
   const [page, setPage] = useState(1)
+  console.log(page)
   const alert = useAlert()
   const dispatch = useDispatch()
   //check logged in user
@@ -63,6 +64,10 @@ const ProductListScreen = ({ history }) => {
   }
   const searched = (keyword) => (category) =>
     category.title.toLowerCase().includes(keyword)
+
+  const handlePageChange = (data) => {
+    setPage(data.selected + 1)
+  }
   return (
     <>
       <Row className='align-items-center'>
@@ -195,11 +200,17 @@ const ProductListScreen = ({ history }) => {
               ))}
           </tbody>
         </Table>
-        <Pagination
-          showQuickJumper
-          Current={page}
-          total={(productsCount / 10) * 10}
-          onChange={(value) => setPage(value)}
+        <ReactPaginate
+          previousLabel={'<'}
+          nextLabel={'>'}
+          breakClassName={'break-me'}
+          breakLabel={'....'}
+          pageCount={Math.ceil(productsCount / 10)}
+          onPageChange={handlePageChange}
+          marginPagesDisplayed={5}
+          pageRangeDisplayed={10}
+          containerClassName={'pagination'}
+          activeClassName={'active'}
         />
       </Row>
     </>
