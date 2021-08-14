@@ -26,7 +26,6 @@ const ProductEditScreen = ({ history, match }) => {
   const [variable, setVariable] = useState()
   const [image, setImage] = useState({})
   const [category, setCategory] = useState('')
-  const [addonPrev, setAddonPrev] = useState([])
   const [selectedAddon, setSelectedAddon] = useState([])
   const [sold, setSold] = useState(0)
   const [description, setDescription] = useState('')

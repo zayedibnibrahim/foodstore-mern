@@ -6,6 +6,7 @@ import { faCartPlus, faSignInAlt } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { logOut } from '../actions/userActions'
 import { useHistory } from 'react-router-dom'
+import GlobalSearch from './GlobalSearch'
 const Header = () => {
   const history = useHistory()
   const dispatch = useDispatch()
@@ -29,9 +30,10 @@ const Header = () => {
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ms-auto'>
+              <GlobalSearch />
               <LinkContainer to='/cart'>
                 <Nav.Link>
-                  <FontAwesomeIcon icon={faCartPlus} /> Cart
+                  <FontAwesomeIcon icon={faCartPlus} color='#fff' /> Cart
                 </Nav.Link>
               </LinkContainer>
 
