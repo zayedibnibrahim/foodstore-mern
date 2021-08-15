@@ -44,36 +44,6 @@ const ProductCard = ({ product }) => {
                   )}
                 </span>
               </div>
-              {/* <div className='food-card_order-count'>
-                <div className='input-group mb-3'>
-                  <div className='input-group-prepend'>
-                    <button
-                      className='btn btn-outline-secondary minus-btn'
-                      type='button'
-                      id='button-addon1'
-                    >
-                      <FontAwesomeIcon icon={faMinus} />
-                    </button>
-                  </div>
-                  <input
-                    type='text'
-                    className='form-control input-manulator'
-                    placeholder=''
-                    aria-label='Example text with button addon'
-                    aria-describedby='button-addon1'
-                    value='0'
-                  />
-                  <div className='input-group-append'>
-                    <button
-                      className='btn btn-outline-secondary add-btn'
-                      type='button'
-                      id='button-addon1'8
-                    >
-                      <FontAwesomeIcon icon={faPlus} />
-                    </button>
-                  </div>
-                </div>
-              </div> */}
             </div>
           </div>
         </div>

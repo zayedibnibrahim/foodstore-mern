@@ -8,9 +8,12 @@ import Skeleton from 'react-loading-skeleton'
 import Message from '../components/Message'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
-const SingleProductScreen = ({ match }) => {
+import { addToCart } from '../actions/cartActions'
+const SingleProductScreen = ({ match, history }) => {
   const productSlug = match.params.slug
-  const [selected, setSelected] = useState([])
+  const [counter, setCounter] = useState(1)
+  const [variable, setVariable] = useState('')
+  const [addon, setAddon] = useState([])
 
   const dispatch = useDispatch()
 
@@ -24,6 +27,11 @@ const SingleProductScreen = ({ match }) => {
     product,
     error: errorDetails,
   } = productDetails
+
+  const handleAddToCart = () => {
+    dispatch(addToCart(productSlug, counter, variable, addon))
+    history.push('/cart')
+  }
   return (
     <div
       style={{
@@ -78,6 +86,14 @@ const SingleProductScreen = ({ match }) => {
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item style={{ backgroundColor: 'transparent' }}>
+                  <Row>
+                    <Col>Description:</Col>
+                    <Col>
+                      <p>{product.description && product.description}</p>
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+                <ListGroup.Item style={{ backgroundColor: 'transparent' }}>
                   {product.variable && <h4>Choose from bellow: </h4>}
                   {product.price ? (
                     <h5>Price: {product.price}</h5>
@@ -100,6 +116,7 @@ const SingleProductScreen = ({ match }) => {
                                 name='variable'
                                 value={attr._id}
                                 id={attr._id}
+                                onClick={() => setVariable(attr._id)}
                               />
                               <p style={{ margin: '0px' }}>
                                 {attr.name} - ${attr.price}
@@ -121,8 +138,8 @@ const SingleProductScreen = ({ match }) => {
                         label: a.name,
                         value: a._id,
                       }))}
-                      value={selected}
-                      onChange={setSelected}
+                      value={addon}
+                      onChange={setAddon}
                       labelledBy='Select Addon'
                       className='product-addons'
                     />
@@ -132,42 +149,35 @@ const SingleProductScreen = ({ match }) => {
                 </ListGroup.Item>
                 <ListGroup.Item style={{ backgroundColor: 'transparent' }}>
                   <Row>
-                    <Col>
-                      <div className='food-card_order-count'>
-                        <div className='input-group mb-3'>
-                          <div className='input-group-prepend'>
-                            <Button
-                              className='btn btn-outline-secondary minus-btn'
-                              type='button'
-                              id='button-addon1'
-                            >
-                              <FontAwesomeIcon icon={faMinus} />
-                            </Button>
-                          </div>
-                          <input
-                            type='text'
-                            className='form-control input-manulator'
-                            placeholder=''
-                            aria-label='Example text with button addon'
-                            aria-describedby='button-addon1'
-                            value='0'
-                          />
-                          <div className='input-group-append'>
-                            <Button
-                              className='btn btn-outline-secondary add-btn'
-                              type='button'
-                              id='button-addon1'
-                            >
-                              <FontAwesomeIcon icon={faPlus} />
-                            </Button>
-                          </div>
-                        </div>
-                      </div>
+                    <Col className='d-flex'>
+                      <Button
+                        onClick={() => setCounter(counter - 1)}
+                        disabled={counter < 2}
+                      >
+                        <FontAwesomeIcon icon={faMinus} />
+                      </Button>
+                      <span
+                        style={{
+                          padding: '10px 15px',
+                          backgroundColor: '#fdcb6e',
+                          fontWeight: '600',
+                          fontSize: '18px',
+                        }}
+                      >
+                        {counter}
+                      </span>
+                      <Button
+                        onClick={() => setCounter(counter + 1)}
+                        disabled={counter > 49}
+                      >
+                        <FontAwesomeIcon icon={faPlus} />
+                      </Button>
                     </Col>
                     <Col>
                       <Button
                         style={{ width: '-webkit-fill-available' }}
                         variant='dark'
+                        onClick={handleAddToCart}
                       >
                         Add To Cart
                       </Button>

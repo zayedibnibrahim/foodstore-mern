@@ -15,6 +15,7 @@ import {
   attributeListReducer,
   attributeUpdateReducer,
 } from './reducers/attributeReducers'
+import { cartReducer } from './reducers/cartReducers'
 import {
   categoryCreateReducer,
   categoryDeleteReducer,
@@ -76,14 +77,21 @@ const reducer = combineReducers({
   productCount: productCountReducer,
   productListAdmin: productListAdminReducer,
   productGetByCategory: productGetByCategoryReducer,
+  cart: cartReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
   ? JSON.parse(localStorage.getItem('userInfo'))
   : null
 
+const cartItemFromStorage = localStorage.getItem('cartItems')
+  ? JSON.parse(localStorage.getItem('cartItems'))
+  : []
 //initialStates
 const initialState = {
+  cart: {
+    cartItems: cartItemFromStorage,
+  },
   userLogIn: { userInfo: userInfoFromStorage },
 }
 

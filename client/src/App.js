@@ -33,6 +33,7 @@ import AttributeEditScreen from './screens/admin/AttributeEditScreen'
 import VariableEditScreen from './screens/admin/VariableEditScreen'
 import CategoryArchiveScreen from './screens/CategoryArchiveScreen'
 import SingleProductScreen from './screens/SingleProductScreen'
+import CartScreen from './screens/CartScreen'
 
 function App() {
   const dispatch = useDispatch()
@@ -132,6 +133,7 @@ function App() {
               component={SingleProductScreen}
               exact
             />
+            <Route path='/cart' component={CartScreen} />
           </Switch>
         </Container>
       </main>
