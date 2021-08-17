@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Button, FormControl, Col } from 'react-bootstrap'
+import { Form, Button, FormControl } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 const GlobalSearch = () => {

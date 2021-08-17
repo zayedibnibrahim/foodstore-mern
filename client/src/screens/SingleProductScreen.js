@@ -29,7 +29,14 @@ const SingleProductScreen = ({ match, history }) => {
   } = productDetails
 
   const handleAddToCart = () => {
-    dispatch(addToCart(productSlug, counter, variable, addon))
+    dispatch(
+      addToCart(
+        productSlug,
+        counter,
+        variable,
+        addon.length === 0 ? null : addon.map((adn) => adn.value)
+      )
+    )
     history.push('/cart')
   }
   return (
@@ -178,6 +185,7 @@ const SingleProductScreen = ({ match, history }) => {
                         style={{ width: '-webkit-fill-available' }}
                         variant='dark'
                         onClick={handleAddToCart}
+                        disabled={product.variable && !variable}
                       >
                         Add To Cart
                       </Button>
