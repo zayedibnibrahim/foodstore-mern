@@ -10,7 +10,8 @@ const CartScreen = () => {
   const dispatch = useDispatch()
   const cart = useSelector((state) => state.cart)
   const { cartItems } = cart
-
+  const userLogIn = useSelector((state) => state.userLogIn)
+  const { loading, userInfo, error } = userLogIn
   useEffect(() => {
     dispatch(addToCart())
   }, [dispatch])
@@ -65,31 +66,46 @@ const CartScreen = () => {
                           {item.variableData.name}
                         </p>
                       )}
+
                       {item.addonData && (
-                        <p
+                        <div
                           style={{
                             backgroundColor: '#b2bec3',
-                            padding: '5px 5px 7px',
+                            padding: '5px 5px',
                             margin: '0px',
                             borderRadius: '10px',
-                            color: '#000',
-                            fontSize: '14px',
                           }}
                         >
-                          <span style={{ fontWeight: '500' }}>Addon:</span>
-                          {item.addonData.map((adn) => (
-                            <>
-                              <br />
-                              <span>
+                          <div>
+                            <span style={{ fontWeight: '500' }}>Addon:</span>
+                          </div>
+                          <div>
+                            {item.addonData.map((adn) => (
+                              <p
+                                style={{
+                                  color: '#000',
+                                  fontSize: '13px',
+                                  margin: '0px',
+                                }}
+                                key={adn._id}
+                              >
                                 {adn.name} x {item.qty && item.qty}
-                              </span>
-                            </>
-                          ))}
-                          <hr />
-                          <span>
-                            Total Addon Price: ${item.addonPrice * item.qty}
-                          </span>
-                        </p>
+                              </p>
+                            ))}
+                          </div>
+                          <hr style={{ margin: '0' }} />
+                          <div>
+                            <p
+                              style={{
+                                color: '#000',
+                                fontSize: '13px',
+                                margin: '0px',
+                              }}
+                            >
+                              Total Addon Price: ${item.addonPrice * item.qty}
+                            </p>
+                          </div>
+                        </div>
                       )}
                     </Col>
                     <Col md={2}>
@@ -184,13 +200,32 @@ const CartScreen = () => {
                 )
               </ListGroup.Item>
               <ListGroup.Item>
-                <Button
-                  variant='dark'
-                  style={{ width: '-webkit-fill-available' }}
-                  onClick={checkOutHandler}
-                >
-                  Proceed To CheckOut
-                </Button>
+                {userInfo ? (
+                  <Button
+                    variant='success'
+                    style={{ width: '-webkit-fill-available' }}
+                    onClick={checkOutHandler}
+                    disabled={!cartItems.length}
+                  >
+                    Proceed To CheckOut
+                  </Button>
+                ) : (
+                  <Button
+                    style={{ width: '-webkit-fill-available' }}
+                    disabled={!cartItems.length}
+                    variant='info'
+                  >
+                    <Link
+                      to={{
+                        pathname: '/login',
+                        state: { from: 'cart' },
+                      }}
+                      style={{ color: '#fff', textDecoration: 'none' }}
+                    >
+                      Log In To CheckOut
+                    </Link>
+                  </Button>
+                )}
               </ListGroup.Item>
             </ListGroup>
           </Card>

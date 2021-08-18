@@ -32,8 +32,19 @@ const ProductByCategory = ({ catSlug }) => {
           <Row>
             {products &&
               products.map((product) => (
-                <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-                  <ProductCard product={product}></ProductCard>
+                <Col
+                  key={product._id}
+                  sm={12}
+                  md={6}
+                  lg={6}
+                  xl={6}
+                  className='my-2'
+                >
+                  <ProductCard
+                    product={product}
+                    loading={loading}
+                    error={error}
+                  ></ProductCard>
                 </Col>
               ))}
           </Row>

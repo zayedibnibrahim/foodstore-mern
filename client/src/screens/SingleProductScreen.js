@@ -14,7 +14,6 @@ const SingleProductScreen = ({ match, history }) => {
   const [counter, setCounter] = useState(1)
   const [variable, setVariable] = useState('')
   const [addon, setAddon] = useState([])
-
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -34,7 +33,7 @@ const SingleProductScreen = ({ match, history }) => {
         productSlug,
         counter,
         variable,
-        addon.length === 0 ? null : addon.map((adn) => adn.value)
+        addon.length < 1 ? null : addon.map((adn) => adn.value)
       )
     )
     history.push('/cart')

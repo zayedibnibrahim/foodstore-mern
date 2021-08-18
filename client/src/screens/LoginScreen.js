@@ -18,12 +18,18 @@ const LoginScreen = ({ history, location }) => {
   const dispatch = useDispatch()
   const userLogIn = useSelector((state) => state.userLogIn)
   const { loading, userInfo, error } = userLogIn
-  const redirect = location.search ? location.search.split('=')[1] : '/'
+
+  // const redirect = location.search ? location.search.split('=')[1] : '/'
   useEffect(() => {
-    if (userInfo) {
-      history.push(redirect)
+    const intended = history.location.state
+    if (intended) {
+      return
+    } else {
+      if (userInfo) {
+        history.push('/')
+      }
     }
-  }, [history, userInfo, redirect])
+  }, [history, userInfo])
 
   const submitHandler = async (e) => {
     e.preventDefault()
@@ -35,7 +41,12 @@ const LoginScreen = ({ history, location }) => {
         )
         dispatch(logInUser(user))
         setMessage('')
-        history.push('/')
+        const intended = history.location.state
+        if (intended) {
+          history.push(intended.from)
+        } else {
+          history.push('/')
+        }
       } catch (error) {
         setMessage(error.message)
       }
@@ -49,7 +60,12 @@ const LoginScreen = ({ history, location }) => {
       const { user } = await auth.signInWithPopup(googleAuthProvider)
       dispatch(logInUser(user))
       setMessage('')
-      history.push('/')
+      const intended = history.location.state
+      if (intended) {
+        history.push(intended.from)
+      } else {
+        history.push('/')
+      }
     } catch (error) {
       setMessage(error.message)
     }

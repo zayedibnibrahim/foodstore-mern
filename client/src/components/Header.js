@@ -1,5 +1,5 @@
-import React from 'react'
-import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap'
+import React, { useEffect } from 'react'
+import { Container, Navbar, Nav, NavDropdown, Badge } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCartPlus, faSignInAlt } from '@fortawesome/free-solid-svg-icons'
@@ -7,13 +7,19 @@ import { useDispatch, useSelector } from 'react-redux'
 import { logOut } from '../actions/userActions'
 import { useHistory } from 'react-router-dom'
 import GlobalSearch from './GlobalSearch'
+import { addToCart } from '../actions/cartActions'
 const Header = () => {
   const history = useHistory()
   const dispatch = useDispatch()
 
   const userLogIn = useSelector((state) => state.userLogIn)
   const { userInfo } = userLogIn
+  const cart = useSelector((state) => state.cart)
+  const { cartItems } = cart
 
+  useEffect(() => {
+    dispatch(addToCart())
+  }, [dispatch])
   const logoutHandler = () => {
     dispatch(logOut())
     history.push('/login')
@@ -32,8 +38,23 @@ const Header = () => {
             <Nav className='ms-auto'>
               <GlobalSearch />
               <LinkContainer to='/cart'>
-                <Nav.Link>
+                <Nav.Link className='cart'>
                   <FontAwesomeIcon icon={faCartPlus} color='#fff' /> Cart
+                  {cartItems.length > 0 && (
+                    <span
+                      style={{
+                        backgroundColor: '#ef5777',
+                        fontSize: '9px',
+                        padding: '2px 5px',
+                        borderRadius: '54%',
+                        position: 'absolute',
+                        top: '2px',
+                        left: '59px',
+                      }}
+                    >
+                      {cartItems.reduce((acc, item) => acc + item.qty, 0)}
+                    </span>
+                  )}
                 </Nav.Link>
               </LinkContainer>
 
