@@ -15,7 +15,11 @@ import {
   attributeListReducer,
   attributeUpdateReducer,
 } from './reducers/attributeReducers'
-import { cartReducer } from './reducers/cartReducers'
+import {
+  cartDbReducer,
+  cartListReducer,
+  cartReducer,
+} from './reducers/cartReducers'
 import {
   categoryCreateReducer,
   categoryDeleteReducer,
@@ -78,6 +82,8 @@ const reducer = combineReducers({
   productListAdmin: productListAdminReducer,
   productGetByCategory: productGetByCategoryReducer,
   cart: cartReducer,
+  cartDb: cartDbReducer,
+  cartList: cartListReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

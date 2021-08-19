@@ -24,7 +24,6 @@ const ProductListScreen = ({ history }) => {
   const [order, setOrder] = useState('asc')
 
   const [page, setPage] = useState(1)
-  console.log(page)
   const alert = useAlert()
   const dispatch = useDispatch()
   //check logged in user

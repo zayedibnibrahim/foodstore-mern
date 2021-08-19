@@ -6,6 +6,7 @@ import pizza from '../image/pizza.png'
 import Message from './Message'
 import { useDispatch, useSelector } from 'react-redux'
 import { listCategory } from '../actions/categoryActions'
+import { Button } from 'react-bootstrap'
 
 const CategoryCarousalHome = ({ setCatSlug }) => {
   const dispatch = useDispatch()
@@ -57,9 +58,10 @@ const CategoryCarousalHome = ({ setCatSlug }) => {
         {categories &&
           categories.map((c) => (
             <div key={c._id}>
-              <div
+              <Button
+                variant='dark'
                 style={{
-                  backgroundColor: '#f6e58d',
+                  // backgroundColor: '#f6e58d',
                   padding: '10px',
                   margin: '0px 10px',
                 }}
@@ -69,8 +71,8 @@ const CategoryCarousalHome = ({ setCatSlug }) => {
                 }}
               >
                 <img src={pizza} alt='' className='img-fluid w-50' />
-                <small style={{ color: '#000' }}>{c.name}</small>
-              </div>
+                <small style={{ color: '#ffffff' }}>{c.name}</small>
+              </Button>
             </div>
           ))}
       </Slider>

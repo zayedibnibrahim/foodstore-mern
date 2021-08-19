@@ -1,25 +1,34 @@
+import React, { useEffect } from 'react'
 import { faMinus, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useEffect } from 'react'
 import { Image, Row, Col, ListGroup, Button, Card } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { addToCart, removeFromCart } from '../actions/cartActions'
+import { addToCart, dbCart, removeFromCart } from '../actions/cartActions'
 import Message from '../components/Message'
-const CartScreen = () => {
+const CartScreen = ({ history }) => {
   const dispatch = useDispatch()
+
   const cart = useSelector((state) => state.cart)
   const { cartItems } = cart
+
   const userLogIn = useSelector((state) => state.userLogIn)
-  const { loading, userInfo, error } = userLogIn
+  const { userInfo } = userLogIn
+  const cartDb = useSelector((state) => state.cartDb)
+  const { success } = cartDb
   useEffect(() => {
     dispatch(addToCart())
-  }, [dispatch])
+    if (success) {
+      history.push('/checkout')
+    }
+  }, [dispatch, history, success])
 
   const removeItemHandler = (slug) => {
     dispatch(removeFromCart(slug))
   }
-  const checkOutHandler = () => {}
+  const checkOutHandler = () => {
+    dispatch(dbCart(cartItems))
+  }
   return (
     <>
       <Row>

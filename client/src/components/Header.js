@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Container, Navbar, Nav, NavDropdown, Badge } from 'react-bootstrap'
+import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCartPlus, faSignInAlt } from '@fortawesome/free-solid-svg-icons'

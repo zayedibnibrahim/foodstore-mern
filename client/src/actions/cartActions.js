@@ -1,5 +1,14 @@
 import axios from 'axios'
-import { CART_ADD_ITEM, CART_REMOVE_ITEM } from '../constants/cartConstants'
+import {
+  CART_ADD_ITEM,
+  CART_DB_FAIL,
+  CART_DB_REQUEST,
+  CART_DB_SUCCESS,
+  CART_LIST_FAIL,
+  CART_LIST_REQUEST,
+  CART_LIST_SUCCESS,
+  CART_REMOVE_ITEM,
+} from '../constants/cartConstants'
 
 export const addToCart =
   (slug, qty, variable = null, addonPd = null) =>
@@ -76,10 +85,65 @@ export const addToCart =
     localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
   }
 
-export const removeFromCart = (slug) => async (dispatch, getState) => {
+export const removeFromCart = (slug) => (dispatch, getState) => {
   dispatch({
     type: CART_REMOVE_ITEM,
     payload: slug,
   })
   localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
+}
+
+export const dbCart = (cart) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: CART_DB_REQUEST })
+
+    const {
+      userLogIn: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+
+    await axios.post('/api/cart', { cart }, config)
+    dispatch({ type: CART_DB_SUCCESS })
+  } catch (error) {
+    dispatch({
+      type: CART_DB_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const listCart = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: CART_LIST_REQUEST })
+
+    const {
+      userLogIn: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+
+    const { data } = await axios.get('/api/cart', config)
+    dispatch({ type: CART_LIST_SUCCESS, payload: data })
+  } catch (error) {
+    dispatch({
+      type: CART_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
 }
