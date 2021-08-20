@@ -4,8 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Image, Row, Col, ListGroup, Button, Card } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { addToCart, dbCart, removeFromCart } from '../actions/cartActions'
+import { addToCart, removeFromCart, dbSaveCart } from '../actions/cartActions'
 import Message from '../components/Message'
+import { CART_CLEAR_ITEM, CART_DB_RESET } from '../constants/cartConstants'
 const CartScreen = ({ history }) => {
   const dispatch = useDispatch()
 
@@ -14,12 +15,17 @@ const CartScreen = ({ history }) => {
 
   const userLogIn = useSelector((state) => state.userLogIn)
   const { userInfo } = userLogIn
-  const cartDb = useSelector((state) => state.cartDb)
-  const { success } = cartDb
+
+  const cartSaveDb = useSelector((state) => state.cartSaveDb)
+  const { success } = cartSaveDb
+
   useEffect(() => {
     dispatch(addToCart())
     if (success) {
       history.push('/checkout')
+      dispatch({ type: CART_DB_RESET })
+      localStorage.removeItem('cartItems')
+      dispatch({ type: CART_CLEAR_ITEM })
     }
   }, [dispatch, history, success])
 
@@ -27,7 +33,7 @@ const CartScreen = ({ history }) => {
     dispatch(removeFromCart(slug))
   }
   const checkOutHandler = () => {
-    dispatch(dbCart(cartItems))
+    dispatch(dbSaveCart(cartItems))
   }
   return (
     <>

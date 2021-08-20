@@ -56,6 +56,7 @@ function App() {
                 token: idTokenResult.token,
                 role: res.role,
                 _id: res._id,
+                shipping: res.shipping,
               },
             })
           })

@@ -7,3 +7,13 @@ exports.userList = asyncHandler(async (req, res) => {
     res.json(users)
   }
 })
+
+exports.saveShippingAddress = asyncHandler(async (req, res) => {
+  const userAddress = await User.findOneAndUpdate(
+    { email: req.user.email },
+    { shipping: req.body.shipping }
+  ).exec()
+  if (userAddress) {
+    res.json(userAddress)
+  }
+})

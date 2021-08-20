@@ -8,6 +8,9 @@ import {
   CART_LIST_REQUEST,
   CART_LIST_SUCCESS,
   CART_REMOVE_ITEM,
+  DB_CART_CLEAR_FAIL,
+  DB_CART_CLEAR_REQUEST,
+  DB_CART_CLEAR_SUCCESS,
 } from '../constants/cartConstants'
 
 export const addToCart =
@@ -93,7 +96,7 @@ export const removeFromCart = (slug) => (dispatch, getState) => {
   localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
 }
 
-export const dbCart = (cart) => async (dispatch, getState) => {
+export const dbSaveCart = (cart) => async (dispatch, getState) => {
   try {
     dispatch({ type: CART_DB_REQUEST })
 
@@ -140,6 +143,33 @@ export const listCart = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: CART_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const clearDbCart = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: DB_CART_CLEAR_REQUEST })
+
+    const {
+      userLogIn: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+
+    await axios.delete('/api/cart', config)
+    dispatch({ type: DB_CART_CLEAR_SUCCESS })
+  } catch (error) {
+    dispatch({
+      type: DB_CART_CLEAR_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

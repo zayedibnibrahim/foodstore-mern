@@ -2,24 +2,33 @@ import React, { useEffect } from 'react'
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCartPlus, faSignInAlt } from '@fortawesome/free-solid-svg-icons'
+import {
+  faCartPlus,
+  faCreditCard,
+  faSignInAlt,
+} from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { logOut } from '../actions/userActions'
 import { useHistory } from 'react-router-dom'
 import GlobalSearch from './GlobalSearch'
-import { addToCart } from '../actions/cartActions'
+import { addToCart, listCart } from '../actions/cartActions'
 const Header = () => {
   const history = useHistory()
   const dispatch = useDispatch()
 
   const userLogIn = useSelector((state) => state.userLogIn)
   const { userInfo } = userLogIn
+
   const cart = useSelector((state) => state.cart)
   const { cartItems } = cart
 
+  const cartList = useSelector((state) => state.cartList)
+  const { cartItems: cardItemDb } = cartList
   useEffect(() => {
     dispatch(addToCart())
+    dispatch(listCart())
   }, [dispatch])
+
   const logoutHandler = () => {
     dispatch(logOut())
     history.push('/login')
@@ -57,6 +66,15 @@ const Header = () => {
                   )}
                 </Nav.Link>
               </LinkContainer>
+
+              {cardItemDb && (
+                <LinkContainer to='/checkout'>
+                  <Nav.Link className='checkout'>
+                    <FontAwesomeIcon icon={faCreditCard} color='#fff' />{' '}
+                    CheckOut
+                  </Nav.Link>
+                </LinkContainer>
+              )}
 
               {userInfo ? (
                 <NavDropdown title={userInfo.name}>
