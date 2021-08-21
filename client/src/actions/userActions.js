@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { CART_LIST_RESET } from '../constants/cartConstants'
 import {
   CART_SAVE_SHIPPING_ADDRESS_FAIL,
   CART_SAVE_SHIPPING_ADDRESS_REQUEST,
@@ -70,6 +71,7 @@ export const logOut = () => (dispatch) => {
   auth.signOut()
   dispatch({ type: USER_LOGOUT })
   dispatch({ type: USER_LIST_RESET })
+  dispatch({ type: CART_LIST_RESET })
   localStorage.removeItem('userInfo')
 }
 

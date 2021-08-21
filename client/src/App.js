@@ -35,6 +35,7 @@ import CategoryArchiveScreen from './screens/CategoryArchiveScreen'
 import SingleProductScreen from './screens/SingleProductScreen'
 import CartScreen from './screens/CartScreen'
 import CheckoutScreen from './screens/CheckoutScreen'
+import CouponScreen from './screens/admin/CouponScreen'
 
 function App() {
   const dispatch = useDispatch()
@@ -130,6 +131,7 @@ function App() {
               component={VariableEditScreen}
               exact
             />
+            <Route path='/admin/coupon' component={CouponScreen} />
             <Route
               path='/product/:slug'
               component={SingleProductScreen}

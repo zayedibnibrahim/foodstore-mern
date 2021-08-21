@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
 import { currentUser, saveShippingAddress } from '../../actions/userActions'
 
 import {
@@ -15,19 +14,20 @@ const ShippingForm = () => {
   const userLogIn = useSelector((state) => state.userLogIn)
   const { userInfo } = userLogIn
 
+  const dispatch = useDispatch()
+
   const [address, setAddress] = useState(
-    userInfo && userInfo.shipping && userInfo.shipping.address
+    userInfo.shipping ? userInfo.shipping.address : ''
   )
   const [city, setCity] = useState(
-    userInfo && userInfo.shipping && userInfo.shipping.city
+    userInfo.shipping ? userInfo.shipping.city : ''
   )
   const [postcode, setPostCode] = useState(
-    userInfo && userInfo.shipping && userInfo.shipping.postcode
+    userInfo.shipping ? userInfo.shipping.postcode : ''
   )
   const [country, setCountry] = useState(
-    userInfo && userInfo.shipping && userInfo.shipping.country
+    userInfo.shipping ? userInfo.shipping.country : ''
   )
-  const dispatch = useDispatch()
 
   const submitHandler = (e) => {
     e.preventDefault()

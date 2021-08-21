@@ -10,6 +10,7 @@ import {
   DB_CART_CLEAR_RESET,
 } from '../constants/cartConstants'
 import { useAlert } from 'react-alert'
+import { CART_SAVE_SHIPPING_ADDRESS_RESET } from '../constants/userConstants'
 
 const CheckoutScreen = ({ history }) => {
   const alert = useAlert()
@@ -39,6 +40,7 @@ const CheckoutScreen = ({ history }) => {
     }
     if (successShippingAdded) {
       alert.success('Shipping Address Added')
+      dispatch({ type: CART_SAVE_SHIPPING_ADDRESS_RESET })
     }
   }, [
     userInfo,
@@ -114,7 +116,14 @@ const CheckoutScreen = ({ history }) => {
                   <ListGroup.Item>
                     <Row>
                       <Col>
-                        <Button variant='dark'>Place Order</Button>
+                        <Button
+                          disabled={userInfo && !userInfo.shipping}
+                          variant={
+                            userInfo && !userInfo.shipping ? 'dark' : 'success'
+                          }
+                        >
+                          Place Order
+                        </Button>
                       </Col>
                       <Col>
                         <Button onClick={handleClearCart} variant='warning'>

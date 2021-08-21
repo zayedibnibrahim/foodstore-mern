@@ -10,6 +10,7 @@ import {
   CART_SAVE_SHIPPING_ADDRESS_REQUEST,
   CART_SAVE_SHIPPING_ADDRESS_SUCCESS,
   CART_SAVE_SHIPPING_ADDRESS_FAIL,
+  CART_SAVE_SHIPPING_ADDRESS_RESET,
 } from '../constants/userConstants'
 
 export const userLogInReducer = (state = { userInfo: null }, action) => {
@@ -36,13 +37,21 @@ export const userListReducer = (state = { users: [] }, action) => {
     case USER_LIST_FAIL:
       return { loading: false, error: action.payload }
     case CART_SAVE_SHIPPING_ADDRESS_REQUEST:
-      return { loading: true }
+      return { loadingShippingAdded: true }
     case CART_SAVE_SHIPPING_ADDRESS_SUCCESS:
-      return { loading: false, successShippingAdded: true }
+      return {
+        loadingShippingAdded: false,
+        successShippingAdded: true,
+      }
     case CART_SAVE_SHIPPING_ADDRESS_FAIL:
-      return { loading: false, errorShippingAdded: action.payload }
+      return {
+        loadingShippingAdded: false,
+        errorShippingAdded: action.payload,
+      }
+    case CART_SAVE_SHIPPING_ADDRESS_RESET:
+      return { users: [] }
     case USER_LIST_RESET:
-      return {}
+      return { users: [] }
     default:
       return state
   }
