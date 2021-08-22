@@ -36,6 +36,7 @@ import SingleProductScreen from './screens/SingleProductScreen'
 import CartScreen from './screens/CartScreen'
 import CheckoutScreen from './screens/CheckoutScreen'
 import CouponScreen from './screens/admin/CouponScreen'
+import PlaceOrderScreen from './screens/PlaceOrderScreen'
 
 function App() {
   const dispatch = useDispatch()
@@ -139,6 +140,7 @@ function App() {
             />
             <Route path='/cart' component={CartScreen} />
             <Route path='/checkout' component={CheckoutScreen} />
+            <Route path='/place-order' component={PlaceOrderScreen} />
           </Switch>
         </Container>
       </main>
