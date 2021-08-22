@@ -26,8 +26,10 @@ const Header = () => {
   const { cartItems: cardItemDb } = cartList
   useEffect(() => {
     dispatch(addToCart())
-    dispatch(listCart())
-  }, [dispatch])
+    if (userInfo && userInfo.token) {
+      dispatch(listCart())
+    }
+  }, [dispatch, userInfo])
 
   const logoutHandler = () => {
     dispatch(logOut())

@@ -61,8 +61,8 @@ const ProductListScreen = ({ history }) => {
       dispatch(deleteProduct(id))
     }
   }
-  const searched = (keyword) => (category) =>
-    category.title.toLowerCase().includes(keyword)
+  const searched = (keyword) => (item) =>
+    item.title.toLowerCase().includes(keyword)
 
   const handlePageChange = (data) => {
     setPage(data.selected + 1)

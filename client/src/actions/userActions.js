@@ -122,7 +122,7 @@ export const saveShippingAddress = (shipping) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    await axios.put('/api/users', { shipping }, config)
+    await axios.post('/api/users', { shipping }, config)
     dispatch({
       type: CART_SAVE_SHIPPING_ADDRESS_SUCCESS,
     })

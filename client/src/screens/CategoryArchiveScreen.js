@@ -9,7 +9,6 @@ import ProductCard from '../components/ProductCard'
 
 const CategoryArchiveScreen = ({ match }) => {
   const categorySlug = match.params.slug
-  console.log(categorySlug)
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(listProductsByCategory(categorySlug))

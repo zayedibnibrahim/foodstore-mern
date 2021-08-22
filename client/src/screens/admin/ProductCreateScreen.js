@@ -51,32 +51,30 @@ const ProductCreateScreen = ({ history }) => {
   const { variables } = variableList
 
   useEffect(() => {
-    if (userInfo && userInfo.role !== 'admin') {
+    if (userInfo && userInfo.role === 'admin') {
+      dispatch(listCategory())
+      dispatch(listAddon())
+      dispatch(listVariable())
+      if (success) {
+        alert.success('Product Created')
+        setTitle('')
+        setPrice('')
+        setVariable()
+        setProductType('simple')
+        setImage({})
+        setCategory('')
+        setSelectedAddon([])
+        setSold(0)
+        setDescription('')
+        setDelivery('')
+        setAvailability('')
+        dispatch({ type: UPLOAD_IMAGE_RESET })
+        dispatch({ type: CREATE_PRODUCT_RESET })
+      }
+    } else {
       history.push('/')
     }
-  }, [userInfo, history])
-
-  useEffect(() => {
-    dispatch(listCategory())
-    dispatch(listAddon())
-    dispatch(listVariable())
-    if (success) {
-      alert.success('Product Created')
-      setTitle('')
-      setPrice('')
-      setVariable()
-      setProductType('simple')
-      setImage({})
-      setCategory('')
-      setSelectedAddon([])
-      setSold(0)
-      setDescription('')
-      setDelivery('')
-      setAvailability('')
-      dispatch({ type: UPLOAD_IMAGE_RESET })
-      dispatch({ type: CREATE_PRODUCT_RESET })
-    }
-  }, [dispatch, success, alert])
+  }, [dispatch, success, alert, userInfo, history])
 
   const submitHandler = (e) => {
     e.preventDefault()

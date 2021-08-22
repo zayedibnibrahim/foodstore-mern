@@ -1,4 +1,8 @@
 import {
+  APPLY_COUPON_FAIL,
+  APPLY_COUPON_REQUEST,
+  APPLY_COUPON_RESET,
+  APPLY_COUPON_SUCCESS,
   CART_ADD_ITEM,
   CART_CLEAR_ITEM,
   CART_DB_FAIL,
@@ -87,6 +91,21 @@ export const dbCartClearReducer = (state = {}, action) => {
     case DB_CART_CLEAR_FAIL:
       return { loading: false, error: action.payload }
     case DB_CART_CLEAR_RESET:
+      return {}
+    default:
+      return state
+  }
+}
+
+export const applyCouponReducer = (state = {}, action) => {
+  switch (action.type) {
+    case APPLY_COUPON_REQUEST:
+      return { loading: true }
+    case APPLY_COUPON_SUCCESS:
+      return { loading: false, success: true }
+    case APPLY_COUPON_FAIL:
+      return { loading: false, error: action.payload }
+    case APPLY_COUPON_RESET:
       return {}
     default:
       return state

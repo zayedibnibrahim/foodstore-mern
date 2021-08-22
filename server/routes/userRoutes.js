@@ -10,6 +10,6 @@ const router = express.Router()
 router
   .route('/users')
   .get(protect, adminCheck, userList)
-  .put(protect, saveShippingAddress)
+  .post(protect, saveShippingAddress)
 
 module.exports = router

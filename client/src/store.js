@@ -16,6 +16,7 @@ import {
   attributeUpdateReducer,
 } from './reducers/attributeReducers'
 import {
+  applyCouponReducer,
   cartListReducer,
   cartReducer,
   cartSaveDbReducer,
@@ -29,7 +30,11 @@ import {
   categoryUpdateReducer,
   productGetByCategoryReducer,
 } from './reducers/categoryReducers'
-import { couponCreateReducer } from './reducers/couponReducers'
+import {
+  couponCreateReducer,
+  couponDeleteReducer,
+  couponListReducer,
+} from './reducers/couponReducers'
 import {
   fileRemoveReducer,
   fileUploadReducer,
@@ -88,6 +93,9 @@ const reducer = combineReducers({
   cartList: cartListReducer,
   dbCartClear: dbCartClearReducer,
   couponCreate: couponCreateReducer,
+  couponList: couponListReducer,
+  couponDelete: couponDeleteReducer,
+  applyCoupon: applyCouponReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

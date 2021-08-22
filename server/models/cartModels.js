@@ -19,6 +19,10 @@ const CartSchema = new mongoose.Schema(
     ],
     cartTotal: Number,
     totalAfterDiscount: Number,
+    couponApplied: {
+      type: Boolean,
+      default: false,
+    },
     orderdBy: { type: ObjectId, ref: 'User' },
   },
   {

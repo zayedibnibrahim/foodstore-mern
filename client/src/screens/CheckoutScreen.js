@@ -6,14 +6,17 @@ import { clearDbCart, listCart } from '../actions/cartActions'
 import ShippingForm from '../components/form/ShippingForm'
 import Message from '../components/Message'
 import {
+  APPLY_COUPON_RESET,
   CART_LIST_RESET,
   DB_CART_CLEAR_RESET,
 } from '../constants/cartConstants'
 import { useAlert } from 'react-alert'
 import { CART_SAVE_SHIPPING_ADDRESS_RESET } from '../constants/userConstants'
+import ApplyCoupon from '../components/form/ApplyCoupon'
 
 const CheckoutScreen = ({ history }) => {
   const alert = useAlert()
+
   const dispatch = useDispatch()
 
   const userLogIn = useSelector((state) => state.userLogIn)
@@ -28,19 +31,32 @@ const CheckoutScreen = ({ history }) => {
   const userList = useSelector((state) => state.userList)
   const { successShippingAdded, errorShippingAdded } = userList
 
+  const applyCoupon = useSelector((state) => state.applyCoupon)
+  const {
+    loading: loadingApplyCoupon,
+    success: successApplyCoupon,
+    error: errorApplyCoupon,
+  } = applyCoupon
+
   useEffect(() => {
-    if (!userInfo) {
+    if (userInfo && !userInfo.token) {
       history.push('/')
     } else {
       dispatch(listCart())
-    }
-    if (cartClearSuccess) {
-      dispatch({ type: DB_CART_CLEAR_RESET })
-      history.push('/')
-    }
-    if (successShippingAdded) {
-      alert.success('Shipping Address Added')
-      dispatch({ type: CART_SAVE_SHIPPING_ADDRESS_RESET })
+      if (cartClearSuccess) {
+        dispatch({ type: DB_CART_CLEAR_RESET })
+        history.push('/')
+      }
+      if (successShippingAdded) {
+        alert.success('Shipping Address Added')
+        dispatch({ type: CART_SAVE_SHIPPING_ADDRESS_RESET })
+      }
+      if (successApplyCoupon) {
+        alert.success('Coupon Added')
+        dispatch({ type: APPLY_COUPON_RESET })
+      } else {
+        dispatch({ type: APPLY_COUPON_RESET })
+      }
     }
   }, [
     userInfo,
@@ -49,31 +65,38 @@ const CheckoutScreen = ({ history }) => {
     cartClearSuccess,
     successShippingAdded,
     alert,
+    successApplyCoupon,
   ])
 
   const handleClearCart = () => {
     dispatch(clearDbCart())
     dispatch({ type: CART_LIST_RESET })
   }
+
   return (
     <>
       <Row>
         {cartItems ? (
           <>
             <Col md={6} sm={12}>
-              {errorShippingAdded && (
-                <Message variant='danger'>{errorShippingAdded}</Message>
-              )}
-              <h3>Shipping Information</h3>
+              <Row className='d-flex flex-column'>
+                <Col>
+                  {errorShippingAdded && (
+                    <Message variant='danger'>{errorShippingAdded}</Message>
+                  )}
+                  <h3>Shipping Information</h3>
 
-              <ShippingForm />
+                  <ShippingForm />
+                </Col>
+                <Col>
+                  <ApplyCoupon errorApplyCoupon={errorApplyCoupon} />
+                </Col>
+              </Row>
             </Col>
             <Col md={6} sm={12}>
+              <h3>Order Summary</h3>
               <Card>
                 <ListGroup>
-                  <ListGroup.Item>
-                    <h2>Order Summary</h2>
-                  </ListGroup.Item>
                   {!cartItems ? (
                     <ListGroup.Item>
                       Go back to Home<Link to='/'></Link>
@@ -111,8 +134,29 @@ const CheckoutScreen = ({ history }) => {
                   )}
                   <ListGroup.Item>
                     <span style={{ fontWeight: '600' }}>Total: </span>$
-                    {cartItems ? cartItems.cartTotal : 0}
+                    {cartItems && cartItems.couponApplied === false ? (
+                      cartItems.cartTotal
+                    ) : (
+                      <del>{cartItems.cartTotal}</del>
+                    )}
                   </ListGroup.Item>
+                  {cartItems && cartItems.couponApplied && (
+                    <ListGroup.Item>
+                      <span
+                        style={{
+                          fontWeight: '600',
+                          backgroundColor: '#273c75',
+                          color: '#fff',
+                          padding: '5px 10px',
+                          borderRadius: '10px',
+                        }}
+                      >
+                        Discount Applied: Total Payable: $
+                        {cartItems ? cartItems.totalAfterDiscount : 0}
+                      </span>
+                    </ListGroup.Item>
+                  )}
+
                   <ListGroup.Item>
                     <Row>
                       <Col>

@@ -3,6 +3,7 @@ const {
   dbCart,
   cartList,
   clearDbCart,
+  applyCoupon,
 } = require('../controllers/cartControllers')
 
 const { protect } = require('../middleware/authMiddleware')
@@ -14,5 +15,5 @@ router
   .post(protect, dbCart)
   .get(protect, cartList)
   .delete(protect, clearDbCart)
-
+router.route('/cart/coupon').post(protect, applyCoupon)
 module.exports = router

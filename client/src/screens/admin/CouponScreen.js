@@ -9,10 +9,18 @@ import ItemSearch from '../../components/ItemSearch'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from 'react-redux'
-import { createCoupon } from '../../actions/couponActions'
+import {
+  createCoupon,
+  deleteCoupon,
+  listCoupon,
+} from '../../actions/couponActions'
 import { useAlert } from 'react-alert'
-import { COUPON_CREATE_RESET } from '../../constants/couponConstants'
-const CouponScreen = () => {
+import {
+  COUPON_CREATE_RESET,
+  COUPON_DELETE_RESET,
+} from '../../constants/couponConstants'
+
+const CouponScreen = ({ history }) => {
   const alert = useAlert()
   const [name, setName] = useState('')
   const [expiry, setExpiry] = useState(new Date())
@@ -20,23 +28,56 @@ const CouponScreen = () => {
   const [keyword, setKeyword] = useState('')
   const dispatch = useDispatch()
 
+  //check logged in user
+  const userLogIn = useSelector((state) => state.userLogIn)
+  const { userInfo } = userLogIn
+
   const couponCreate = useSelector((state) => state.couponCreate)
   const { loading, success, error } = couponCreate
+
+  const couponList = useSelector((state) => state.couponList)
+  const { loading: loadingList, coupons, error: errorList } = couponList
+
+  const couponDelete = useSelector((state) => state.couponDelete)
+  const {
+    loading: loadingDelete,
+    success: successDelete,
+    error: errorDelete,
+  } = couponDelete
+
+  useEffect(() => {
+    if (userInfo && userInfo.role === 'admin') {
+      dispatch(listCoupon())
+      if (success) {
+        alert.success('Coupon Created')
+        setName('')
+        setExpiry(new Date())
+        setDiscount('')
+        dispatch({ type: COUPON_CREATE_RESET })
+      }
+      if (successDelete) {
+        alert.success(successDelete)
+        dispatch({ type: COUPON_DELETE_RESET })
+      }
+    } else {
+      history.push('/')
+    }
+  }, [alert, success, dispatch, userInfo, history, successDelete])
 
   const handleSubmit = (e) => {
     e.preventDefault()
     dispatch(createCoupon({ name, expiry, discount }))
   }
 
-  useEffect(() => {
-    if (success) {
-      alert.success('Coupon Created')
-      setName('')
-      setExpiry(new Date())
-      setDiscount('')
-      dispatch({ type: COUPON_CREATE_RESET })
+  const deleteHandler = (id) => {
+    if (window.confirm('Are You Sure?')) {
+      dispatch(deleteCoupon(id))
     }
-  }, [alert, success, dispatch])
+  }
+
+  const searched = (keyword) => (item) =>
+    item.name.toLowerCase().includes(keyword)
+
   return (
     <>
       <FormContainer>
@@ -65,24 +106,26 @@ const CouponScreen = () => {
               placeholder='Enter discount (%)'
               value={discount}
               onChange={(e) => setDiscount(e.target.value)}
+              min='0'
+              max='100'
             ></Form.Control>
           </Form.Group>
           <Button
             type='submit'
             variant='primary'
             className='my-3'
-            // disabled={loading}
+            disabled={loading}
           >
-            Create Coupon
-            {/* {loading && <Loader size='size-sm' />} */}
+            Create Coupon {loading && <Loader size='size-sm' />}
           </Button>
         </Form>
       </FormContainer>
-      {/* <Row>
-        {loadingAddon ? (
+      <Row>
+        {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
+        {loadingList || loadingDelete ? (
           <Loader />
-        ) : errorAddon ? (
-          <Message variant='danger'>{errorAddon}</Message>
+        ) : errorList ? (
+          <Message variant='danger'>{errorList}</Message>
         ) : (
           <>
             <ItemSearch setKeyword={setKeyword} keyword={keyword} />
@@ -97,22 +140,22 @@ const CouponScreen = () => {
               <thead>
                 <tr>
                   <th>NAME</th>
-                  <th>SLUG</th>
-                  <th>PRICE</th>
+                  <th>Expiry</th>
+                  <th>Discount Rate (%)</th>
                   <th>ACTION</th>
                 </tr>
               </thead>
               <tbody>
-                {addons.filter(searched(keyword)).map((addon) => (
-                  <tr key={addon._id}>
-                    <td>{addon.name}</td>
-                    <td>{addon.slug}</td>
-                    <td>${addon.price}</td>
+                {coupons.filter(searched(keyword)).map((coupon) => (
+                  <tr key={coupon._id}>
+                    <td>{coupon.name}</td>
+                    <td>{new Date(coupon.expiry).toLocaleDateString()}</td>
+                    <td>{coupon.discount}%</td>
                     <td>
                       <Button
                         variant='danger'
                         className='btn-sm'
-                        onClick={() => deleteHandler(addon.slug)}
+                        onClick={() => deleteHandler(coupon._id)}
                       >
                         <FontAwesomeIcon icon={faTrash} />
                       </Button>
@@ -123,7 +166,7 @@ const CouponScreen = () => {
             </Table>
           </>
         )}
-      </Row> */}
+      </Row>
     </>
   )
 }
