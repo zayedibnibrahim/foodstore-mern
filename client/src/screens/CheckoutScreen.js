@@ -61,10 +61,12 @@ const CheckoutScreen = ({ history }) => {
       if (successCancelCoupon) {
         alert.success('Coupon Removed')
         dispatch({ type: CANCEL_COUPON_RESET })
+        dispatch(listCart())
       }
       if (successApplyCoupon) {
         alert.success('Coupon Added')
         dispatch({ type: APPLY_COUPON_RESET })
+        dispatch(listCart())
       } else {
         dispatch({ type: APPLY_COUPON_RESET })
       }
