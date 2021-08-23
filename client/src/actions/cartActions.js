@@ -3,6 +3,9 @@ import {
   APPLY_COUPON_FAIL,
   APPLY_COUPON_REQUEST,
   APPLY_COUPON_SUCCESS,
+  CANCEL_COUPON_FAIL,
+  CANCEL_COUPON_REQUEST,
+  CANCEL_COUPON_SUCCESS,
   CART_ADD_ITEM,
   CART_DB_FAIL,
   CART_DB_REQUEST,
@@ -201,6 +204,33 @@ export const couponApply = (coupon) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: APPLY_COUPON_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const couponCancel = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: CANCEL_COUPON_REQUEST })
+
+    const {
+      userLogIn: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+
+    await axios.post('/api/cart/coupon-cancel', {}, config)
+    dispatch({ type: CANCEL_COUPON_SUCCESS })
+  } catch (error) {
+    dispatch({
+      type: CANCEL_COUPON_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

@@ -3,8 +3,9 @@ import { Button, Form } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import { couponApply } from '../../actions/cartActions'
 import Message from '../Message'
+import Loader from '../Loader'
 
-const ApplyCoupon = ({ errorApplyCoupon }) => {
+const ApplyCoupon = ({ errorApplyCoupon, loadingApplyCoupon }) => {
   const [applyCoupon, setApplyCoupon] = useState('')
   const dispatch = useDispatch()
   const applyCouponHandler = (e) => {
@@ -30,10 +31,10 @@ const ApplyCoupon = ({ errorApplyCoupon }) => {
           type='submit'
           variant='primary'
           className='my-3'
-          // disabled={loading}
+          disabled={loadingApplyCoupon}
         >
           Apply Coupon
-          {/* {loading && <Loader size='size-sm' />} */}
+          {loadingApplyCoupon && <Loader size='size-sm' />}
         </Button>
       </Form>
     </>

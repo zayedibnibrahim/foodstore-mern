@@ -107,3 +107,26 @@ exports.applyCoupon = asyncHandler(async (req, res) => {
     }
   }
 })
+
+// @desc    cancel coupon
+// @route   POST /api/cart/coupon-cancel
+// @access  Private
+
+exports.cancelCoupon = asyncHandler(async (req, res) => {
+  const user = await User.findOne({ email: req.user.email }).exec()
+  if (user) {
+    const cartByUser = await Cart.findOne({ orderdBy: user._id })
+    if (cartByUser) {
+      cartByUser.totalAfterDiscount = 0
+      cartByUser.couponApplied = false
+      const updateDiscountPrice = await cartByUser.save()
+      res.json(updateDiscountPrice)
+    } else {
+      res.status(500)
+      throw new Error("User cart can't found")
+    }
+  } else {
+    res.status(500)
+    throw new Error("User can't found")
+  }
+})

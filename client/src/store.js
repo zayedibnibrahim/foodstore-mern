@@ -17,6 +17,7 @@ import {
 } from './reducers/attributeReducers'
 import {
   applyCouponReducer,
+  cancelCouponReducer,
   cartListReducer,
   cartReducer,
   cartSaveDbReducer,
@@ -46,6 +47,7 @@ import {
   productListReducer,
   productUpdateReducer,
 } from './reducers/productReducers'
+import { stripeClientSecretReducer } from './reducers/stripeReducers'
 import { userListReducer, userLogInReducer } from './reducers/userReducers'
 import {
   variableCreateReducer,
@@ -96,6 +98,8 @@ const reducer = combineReducers({
   couponList: couponListReducer,
   couponDelete: couponDeleteReducer,
   applyCoupon: applyCouponReducer,
+  cancelCoupon: cancelCouponReducer,
+  stripeClientSecret: stripeClientSecretReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

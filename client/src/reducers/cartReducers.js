@@ -3,6 +3,10 @@ import {
   APPLY_COUPON_REQUEST,
   APPLY_COUPON_RESET,
   APPLY_COUPON_SUCCESS,
+  CANCEL_COUPON_FAIL,
+  CANCEL_COUPON_REQUEST,
+  CANCEL_COUPON_RESET,
+  CANCEL_COUPON_SUCCESS,
   CART_ADD_ITEM,
   CART_CLEAR_ITEM,
   CART_DB_FAIL,
@@ -106,6 +110,21 @@ export const applyCouponReducer = (state = {}, action) => {
     case APPLY_COUPON_FAIL:
       return { loading: false, error: action.payload }
     case APPLY_COUPON_RESET:
+      return {}
+    default:
+      return state
+  }
+}
+
+export const cancelCouponReducer = (state = {}, action) => {
+  switch (action.type) {
+    case CANCEL_COUPON_REQUEST:
+      return { loading: true }
+    case CANCEL_COUPON_SUCCESS:
+      return { loading: false, success: true }
+    case CANCEL_COUPON_FAIL:
+      return { loading: false, error: action.payload }
+    case CANCEL_COUPON_RESET:
       return {}
     default:
       return state

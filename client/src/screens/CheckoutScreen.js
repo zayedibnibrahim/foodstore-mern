@@ -2,17 +2,19 @@ import React, { useEffect } from 'react'
 import { Badge, Button, Card, Col, ListGroup, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { clearDbCart, listCart } from '../actions/cartActions'
+import { clearDbCart, couponCancel, listCart } from '../actions/cartActions'
 import ShippingForm from '../components/form/ShippingForm'
 import Message from '../components/Message'
 import {
   APPLY_COUPON_RESET,
+  CANCEL_COUPON_RESET,
   CART_LIST_RESET,
   DB_CART_CLEAR_RESET,
 } from '../constants/cartConstants'
 import { useAlert } from 'react-alert'
 import { CART_SAVE_SHIPPING_ADDRESS_RESET } from '../constants/userConstants'
 import ApplyCoupon from '../components/form/ApplyCoupon'
+import Loader from '../components/Loader'
 
 const CheckoutScreen = ({ history }) => {
   const alert = useAlert()
@@ -38,6 +40,10 @@ const CheckoutScreen = ({ history }) => {
     error: errorApplyCoupon,
   } = applyCoupon
 
+  const cancelCoupon = useSelector((state) => state.cancelCoupon)
+  const { loading: loadingCancelCoupon, success: successCancelCoupon } =
+    cancelCoupon
+
   useEffect(() => {
     if (userInfo && !userInfo.token) {
       history.push('/')
@@ -45,11 +51,16 @@ const CheckoutScreen = ({ history }) => {
       dispatch(listCart())
       if (cartClearSuccess) {
         dispatch({ type: DB_CART_CLEAR_RESET })
+        dispatch({ type: CART_LIST_RESET })
         history.push('/')
       }
       if (successShippingAdded) {
         alert.success('Shipping Address Added')
         dispatch({ type: CART_SAVE_SHIPPING_ADDRESS_RESET })
+      }
+      if (successCancelCoupon) {
+        alert.success('Coupon Removed')
+        dispatch({ type: CANCEL_COUPON_RESET })
       }
       if (successApplyCoupon) {
         alert.success('Coupon Added')
@@ -66,11 +77,15 @@ const CheckoutScreen = ({ history }) => {
     successShippingAdded,
     alert,
     successApplyCoupon,
+    successCancelCoupon,
   ])
 
   const handleClearCart = () => {
     dispatch(clearDbCart())
-    dispatch({ type: CART_LIST_RESET })
+  }
+
+  const cancelCouponHandler = () => {
+    dispatch(couponCancel())
   }
 
   return (
@@ -89,7 +104,10 @@ const CheckoutScreen = ({ history }) => {
                   <ShippingForm />
                 </Col>
                 <Col>
-                  <ApplyCoupon errorApplyCoupon={errorApplyCoupon} />
+                  <ApplyCoupon
+                    errorApplyCoupon={errorApplyCoupon}
+                    loadingApplyCoupon={loadingApplyCoupon}
+                  />
                 </Col>
               </Row>
             </Col>
@@ -142,18 +160,33 @@ const CheckoutScreen = ({ history }) => {
                   </ListGroup.Item>
                   {cartItems && cartItems.couponApplied && (
                     <ListGroup.Item>
-                      <span
-                        style={{
-                          fontWeight: '600',
-                          backgroundColor: '#273c75',
-                          color: '#fff',
-                          padding: '5px 10px',
-                          borderRadius: '10px',
-                        }}
-                      >
-                        Discount Applied: Total Payable: $
-                        {cartItems ? cartItems.totalAfterDiscount : 0}
-                      </span>
+                      <Row className='d-flex flex-column'>
+                        <Col>
+                          <p
+                            style={{
+                              fontWeight: '600',
+                              backgroundColor: '#273c75',
+                              color: '#fff',
+                              padding: '5px 10px',
+                              borderRadius: '10px',
+                            }}
+                          >
+                            Discount Applied: Total Payable: $
+                            {cartItems ? cartItems.totalAfterDiscount : 0}
+                          </p>
+                        </Col>
+                        <Col>
+                          <Button
+                            variant='danger'
+                            size='sm'
+                            onClick={cancelCouponHandler}
+                            disabled={loadingCancelCoupon}
+                          >
+                            Cancel Coupon
+                            {loadingCancelCoupon && <Loader size='size-sm' />}
+                          </Button>
+                        </Col>
+                      </Row>
                     </ListGroup.Item>
                   )}
 
@@ -165,7 +198,7 @@ const CheckoutScreen = ({ history }) => {
                           variant={
                             userInfo && !userInfo.shipping ? 'dark' : 'success'
                           }
-                          onClick={() => history.push('/order')}
+                          onClick={() => history.push('/place-order')}
                         >
                           Place Order
                         </Button>

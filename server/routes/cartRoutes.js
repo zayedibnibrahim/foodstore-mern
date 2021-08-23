@@ -4,6 +4,7 @@ const {
   cartList,
   clearDbCart,
   applyCoupon,
+  cancelCoupon,
 } = require('../controllers/cartControllers')
 
 const { protect } = require('../middleware/authMiddleware')
@@ -16,4 +17,5 @@ router
   .get(protect, cartList)
   .delete(protect, clearDbCart)
 router.route('/cart/coupon').post(protect, applyCoupon)
+router.route('/cart/coupon-cancel').post(protect, cancelCoupon)
 module.exports = router
