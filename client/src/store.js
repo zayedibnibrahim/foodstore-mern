@@ -37,6 +37,10 @@ import {
   couponListReducer,
 } from './reducers/couponReducers'
 import {
+  orderCreateReducer,
+  orderDetailsReducer,
+} from './reducers/orderReducers'
+import {
   fileRemoveReducer,
   fileUploadReducer,
   productCountReducer,
@@ -100,6 +104,8 @@ const reducer = combineReducers({
   applyCoupon: applyCouponReducer,
   cancelCoupon: cancelCouponReducer,
   stripeClientSecret: stripeClientSecretReducer,
+  orderCreate: orderCreateReducer,
+  orderDetails: orderDetailsReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

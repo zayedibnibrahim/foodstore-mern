@@ -200,7 +200,7 @@ const CheckoutScreen = ({ history }) => {
                           variant={
                             userInfo && !userInfo.shipping ? 'dark' : 'success'
                           }
-                          onClick={() => history.push('/place-order')}
+                          onClick={() => history.push('/placeorder')}
                         >
                           Place Order
                         </Button>
