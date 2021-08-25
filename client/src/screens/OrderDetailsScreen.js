@@ -37,12 +37,23 @@ const OrderDetailsScreen = ({ history, match }) => {
       dispatch({ type: ORDER_CREATE_RESET })
     }
   }, [history, userInfo, orderId, order, dispatch])
+
   return loading ? (
     <Loader />
   ) : error ? (
     <Message variant='danger'>{error}</Message>
   ) : (
     <>
+      {userInfo && userInfo.role === 'admin' ? (
+        <Link to='/admin/manageorder' className='btn btn-dark my-3'>
+          Go Back
+        </Link>
+      ) : (
+        <Link to='/user/orderhistory' className='btn btn-dark my-3'>
+          Go Back
+        </Link>
+      )}
+
       <h1>Order: {order._id}</h1>
       <Row className='orderDetails'>
         <Col md={8}>

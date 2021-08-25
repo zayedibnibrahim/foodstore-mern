@@ -71,7 +71,9 @@ exports.getOrderById = asyncHandler(async (req, res) => {
 exports.userOrderList = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email: req.user.email }).exec()
   if (user) {
-    const order = await Order.find({ orderdBy: user._id }).exec()
+    const order = await Order.find({ orderdBy: user._id })
+      .sort('-createdAt')
+      .exec()
 
     if (order) {
       res.json(order)
@@ -89,7 +91,7 @@ exports.userOrderList = asyncHandler(async (req, res) => {
 // @route   GET /admin/orderlist
 // @access  Private Admin
 exports.adminOrderList = asyncHandler(async (req, res) => {
-  const order = await Order.find({}).exec()
+  const order = await Order.find({}).sort('-createdAt').exec()
   if (order) {
     res.json(order)
   } else {

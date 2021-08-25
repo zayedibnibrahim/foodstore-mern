@@ -4,11 +4,13 @@
   "private": true,
   "proxy": "http://127.0.0.1:4200",
   "dependencies": {
+    "@david.kucsai/react-pdf-table": "^0.3.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
     "@fortawesome/free-regular-svg-icons": "^5.15.3",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/react-fontawesome": "^0.1.14",
+    "@react-pdf/renderer": "^2.0.19",
     "@stripe/react-stripe-js": "^1.4.1",
     "@stripe/stripe-js": "^1.17.1",
     "@testing-library/jest-dom": "^5.14.1",
