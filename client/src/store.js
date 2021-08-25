@@ -37,6 +37,7 @@ import {
   couponListReducer,
 } from './reducers/couponReducers'
 import {
+  adminOrderListReducer,
   orderCreateReducer,
   orderDetailsReducer,
   userOrderListReducer,
@@ -108,6 +109,7 @@ const reducer = combineReducers({
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
   userOrderList: userOrderListReducer,
+  adminOrderList: adminOrderListReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

@@ -71,10 +71,8 @@ exports.getOrderById = asyncHandler(async (req, res) => {
 exports.userOrderList = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email: req.user.email }).exec()
   if (user) {
-    const order = await Order.find({ orderdBy: user._id })
-      .populate('orderdBy', 'name email shipping role')
-      .populate('products.product', '_id title price image slug addon')
-      .exec()
+    const order = await Order.find({ orderdBy: user._id }).exec()
+
     if (order) {
       res.json(order)
     } else {
@@ -84,5 +82,18 @@ exports.userOrderList = asyncHandler(async (req, res) => {
   } else {
     res.status(404)
     throw new Error('User Not Found')
+  }
+})
+
+// @desc    GET admin Order list
+// @route   GET /admin/orderlist
+// @access  Private Admin
+exports.adminOrderList = asyncHandler(async (req, res) => {
+  const order = await Order.find({}).exec()
+  if (order) {
+    res.json(order)
+  } else {
+    res.status(404)
+    throw new Error('Order Not Found')
   }
 })

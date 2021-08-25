@@ -1,4 +1,8 @@
 import {
+  ADMIN_ORDER_LIST_FAIL,
+  ADMIN_ORDER_LIST_REQUEST,
+  ADMIN_ORDER_LIST_RESET,
+  ADMIN_ORDER_LIST_SUCCESS,
   ORDER_CREATE_FAIL,
   ORDER_CREATE_REQUEST,
   ORDER_CREATE_RESET,
@@ -52,7 +56,22 @@ export const userOrderListReducer = (state = { orderList: [] }, action) => {
     case USER_ORDER_LIST_FAIL:
       return { loading: false, error: action.payload }
     case USER_ORDER_LIST_RESET:
-      return {}
+      return { orderList: [] }
+    default:
+      return state
+  }
+}
+
+export const adminOrderListReducer = (state = { orderList: [] }, action) => {
+  switch (action.type) {
+    case ADMIN_ORDER_LIST_REQUEST:
+      return { ...state, loading: true }
+    case ADMIN_ORDER_LIST_SUCCESS:
+      return { loading: false, orderList: action.payload }
+    case ADMIN_ORDER_LIST_FAIL:
+      return { loading: false, error: action.payload }
+    case ADMIN_ORDER_LIST_RESET:
+      return { orderList: [] }
     default:
       return state
   }

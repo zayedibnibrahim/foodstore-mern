@@ -1,5 +1,8 @@
 import axios from 'axios'
 import {
+  ADMIN_ORDER_LIST_FAIL,
+  ADMIN_ORDER_LIST_REQUEST,
+  ADMIN_ORDER_LIST_SUCCESS,
   ORDER_CREATE_FAIL,
   ORDER_CREATE_REQUEST,
   ORDER_CREATE_SUCCESS,
@@ -62,7 +65,7 @@ export const detailsOrder = (id) => async (dispatch, getState) => {
   }
 }
 
-export const listOrderList = () => async (dispatch, getState) => {
+export const listOrderUser = () => async (dispatch, getState) => {
   try {
     dispatch({ type: USER_ORDER_LIST_REQUEST })
     const {
@@ -79,6 +82,31 @@ export const listOrderList = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: USER_ORDER_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const listOrderAdmin = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: ADMIN_ORDER_LIST_REQUEST })
+    const {
+      userLogIn: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    const { data } = await axios.get(`/api/admin/orderlist`, config)
+    dispatch({ type: ADMIN_ORDER_LIST_SUCCESS, payload: data })
+  } catch (error) {
+    dispatch({
+      type: ADMIN_ORDER_LIST_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

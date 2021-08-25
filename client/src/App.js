@@ -38,6 +38,7 @@ import CouponScreen from './screens/admin/CouponScreen'
 import PlaceOrderScreen from './screens/PlaceOrderScreen'
 import OrderDetailsScreen from './screens/OrderDetailsScreen'
 import OrderHistoryScreen from './screens/user/OrderHistoryScreen'
+import ManageOrderScreen from './screens/admin/ManageOrderScreen'
 
 function App() {
   const dispatch = useDispatch()
@@ -138,6 +139,7 @@ function App() {
               exact
             />
             <Route path='/admin/coupon' component={CouponScreen} />
+            <Route path='/admin/manageorder' component={ManageOrderScreen} />
             <Route
               path='/product/:slug'
               component={SingleProductScreen}

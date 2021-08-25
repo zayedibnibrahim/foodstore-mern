@@ -1,6 +1,10 @@
 import axios from 'axios'
 import { CART_LIST_RESET } from '../constants/cartConstants'
 import {
+  ADMIN_ORDER_LIST_RESET,
+  USER_ORDER_LIST_RESET,
+} from '../constants/orderConstants'
+import {
   CART_SAVE_SHIPPING_ADDRESS_FAIL,
   CART_SAVE_SHIPPING_ADDRESS_REQUEST,
   CART_SAVE_SHIPPING_ADDRESS_SUCCESS,
@@ -72,6 +76,8 @@ export const logOut = () => (dispatch) => {
   dispatch({ type: USER_LOGOUT })
   dispatch({ type: USER_LIST_RESET })
   dispatch({ type: CART_LIST_RESET })
+  dispatch({ type: USER_ORDER_LIST_RESET })
+  dispatch({ type: ADMIN_ORDER_LIST_RESET })
   localStorage.removeItem('userInfo')
 }
 

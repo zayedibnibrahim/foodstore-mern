@@ -4,7 +4,7 @@ import React, { useEffect } from 'react'
 import { Button, Col, Row, Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { listOrderList } from '../../actions/orderActions'
+import { listOrderUser } from '../../actions/orderActions'
 import Loader from '../../components/Loader'
 import Message from '../../components/Message'
 
@@ -21,7 +21,7 @@ const OrderHistoryScreen = ({ history }) => {
     if (!userInfo) {
       history.push('/login')
     } else {
-      dispatch(listOrderList())
+      dispatch(listOrderUser())
     }
   }, [history, userInfo, dispatch])
 
