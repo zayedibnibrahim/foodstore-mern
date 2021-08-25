@@ -39,6 +39,7 @@ import {
 import {
   orderCreateReducer,
   orderDetailsReducer,
+  userOrderListReducer,
 } from './reducers/orderReducers'
 import {
   fileRemoveReducer,
@@ -106,6 +107,7 @@ const reducer = combineReducers({
   stripeClientSecret: stripeClientSecretReducer,
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
+  userOrderList: userOrderListReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

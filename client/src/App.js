@@ -21,7 +21,6 @@ import HomeScreen from './screens/HomeScreen'
 import LoginScreen from './screens/LoginScreen'
 import RegisterCompleteScreen from './screens/RegisterCompleteScreen'
 import RegisterScreen from './screens/RegisterScreen'
-import HistoryScreen from './screens/user/HistoryScreen'
 import PasswordScreen from './screens/user/PasswordScreen'
 import wishlistScreen from './screens/user/WishlistScreen'
 import ProductCreateScreen from './screens/admin/ProductCreateScreen'
@@ -38,6 +37,7 @@ import CheckoutScreen from './screens/CheckoutScreen'
 import CouponScreen from './screens/admin/CouponScreen'
 import PlaceOrderScreen from './screens/PlaceOrderScreen'
 import OrderDetailsScreen from './screens/OrderDetailsScreen'
+import OrderHistoryScreen from './screens/user/OrderHistoryScreen'
 
 function App() {
   const dispatch = useDispatch()
@@ -85,7 +85,11 @@ function App() {
               path='/register/complete'
               component={RegisterCompleteScreen}
             />
-            <Route path='/user/history' component={HistoryScreen} exact />
+            <Route
+              path='/user/orderhistory'
+              component={OrderHistoryScreen}
+              exact
+            />
             <Route path='/user/wishlist' component={wishlistScreen} exact />
             <Route path='/user/password' component={PasswordScreen} exact />
             <Route path='/admin/userlist' component={UserListScreen} exact />

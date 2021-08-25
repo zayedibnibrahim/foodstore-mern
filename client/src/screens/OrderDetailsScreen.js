@@ -70,7 +70,7 @@ const OrderDetailsScreen = ({ history, match }) => {
             <ListGroup.Item>
               <h2>Order Status</h2>
               {order.orderStatus && order.orderStatus === 'Not Processed' ? (
-                <Message variant='light'>Not Processed</Message>
+                <Message variant='dark'>Not Processed</Message>
               ) : order.orderStatus === 'processing' ? (
                 <Message variant='info'>Processing</Message>
               ) : order.orderStatus === 'Dispatched' ? (
@@ -107,15 +107,14 @@ const OrderDetailsScreen = ({ history, match }) => {
                   {order.products?.map((item, index) => (
                     <ListGroup.Item key={index}>
                       <Row>
-                        <Col md={1}>
+                        <Col md={2}>
                           <Image
                             src={item.product.image.url}
                             alt={item.product.title}
                             fluid
-                            rounded
                           />
                         </Col>
-                        <Col md={11}>
+                        <Col md={10}>
                           <Row className='d-flex flex-column'>
                             <Col>
                               <Row className='d-flex flex-row'>
@@ -137,6 +136,19 @@ const OrderDetailsScreen = ({ history, match }) => {
                                 </Col>
                               </Row>
                             </Col>
+                            {item.variableData && (
+                              <Col>
+                                <span style={{ fontSize: '14px' }}>Type:</span>{' '}
+                                <Badge
+                                  style={{
+                                    backgroundColor: '#b33939',
+                                    marginLeft: '2px',
+                                  }}
+                                >
+                                  {item.variableData.name}
+                                </Badge>
+                              </Col>
+                            )}
                             {item.addon && (
                               <Col>
                                 <span style={{ fontSize: '14px' }}>

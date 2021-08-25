@@ -10,6 +10,7 @@ const CartSchema = new mongoose.Schema(
         },
         price: Number,
         quantity: Number,
+        variableData: Object,
         addon: [
           {
             type: Object,

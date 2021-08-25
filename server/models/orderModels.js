@@ -10,6 +10,7 @@ const OrderSchema = new mongoose.Schema(
         },
         price: Number,
         quantity: Number,
+        variableData: Object,
         addon: [
           {
             type: Object,
@@ -23,7 +24,7 @@ const OrderSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    paymentIntent: {},
+    paymentIntent: Object,
     orderStatus: {
       type: String,
       default: 'Not Processed',

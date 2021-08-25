@@ -123,6 +123,19 @@ const StripeCheckoutForm = ({ cartItems, userInfo }) => {
                         </Col>
                       </Row>
                     </Col>
+                    {pd.variableData && (
+                      <Col>
+                        <span style={{ fontSize: '14px' }}>Type:</span>{' '}
+                        <Badge
+                          style={{
+                            backgroundColor: '#b33939',
+                            marginLeft: '2px',
+                          }}
+                        >
+                          {pd.variableData.name}
+                        </Badge>
+                      </Col>
+                    )}
                     {pd.addon && (
                       <Col>
                         <span style={{ fontSize: '14px' }}>Addons:</span>{' '}
@@ -152,7 +165,9 @@ const StripeCheckoutForm = ({ cartItems, userInfo }) => {
                       Total: ${cartItems && cartItems.cartTotal}
                     </h6>
                   </Col>
-                  <Col>
+                  <Col
+                    style={{ padding: '8px 5px', backgroundColor: '#dff9fb' }}
+                  >
                     <h6 className='fw-bold'>
                       Total Payable: ${cartItems && cartItems.cartTotal}
                     </h6>
@@ -161,14 +176,16 @@ const StripeCheckoutForm = ({ cartItems, userInfo }) => {
               ) : (
                 <Row className='d-flex flex-column'>
                   <Col
-                    style={{ backgroundColor: '#55efc4', padding: '8px 5px' }}
+                    style={{ backgroundColor: '#273c75', padding: '8px 5px' }}
                   >
-                    <h6 className='fw-bold m-0'>
+                    <h6 className='fw-800 m-0 text-white'>
                       Price After Discount: $
                       {cartItems && cartItems.totalAfterDiscount}
                     </h6>
                   </Col>
-                  <Col style={{ padding: '8px 5px' }}>
+                  <Col
+                    style={{ padding: '8px 5px', backgroundColor: '#dff9fb' }}
+                  >
                     <h6 className='fw-bold m-0'>
                       Total Payable: $
                       {cartItems && cartItems.totalAfterDiscount}

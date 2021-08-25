@@ -132,6 +132,19 @@ const CheckoutScreen = ({ history }) => {
                               {pd.quantity * pd.price}
                             </span>
                           </Col>
+                          {pd.variableData && (
+                            <Col>
+                              <span style={{ fontSize: '14px' }}>Type:</span>{' '}
+                              <Badge
+                                style={{
+                                  backgroundColor: '#b33939',
+                                  marginLeft: '2px',
+                                }}
+                              >
+                                {pd.variableData.name}
+                              </Badge>
+                            </Col>
+                          )}
                           {pd.addon && (
                             <Col>
                               <span style={{ fontSize: '14px' }}>Addons:</span>{' '}
@@ -152,7 +165,7 @@ const CheckoutScreen = ({ history }) => {
                       </ListGroup.Item>
                     ))
                   )}
-                  <ListGroup.Item>
+                  <ListGroup.Item style={{ backgroundColor: '#dff9fb' }}>
                     <span style={{ fontWeight: '600' }}>Total: </span>$
                     {cartItems && cartItems.couponApplied === false ? (
                       cartItems.cartTotal
@@ -161,23 +174,15 @@ const CheckoutScreen = ({ history }) => {
                     )}
                   </ListGroup.Item>
                   {cartItems && cartItems.couponApplied && (
-                    <ListGroup.Item>
-                      <Row className='d-flex flex-column'>
-                        <Col>
-                          <p
-                            style={{
-                              fontWeight: '600',
-                              backgroundColor: '#273c75',
-                              color: '#fff',
-                              padding: '5px 10px',
-                              borderRadius: '10px',
-                            }}
-                          >
+                    <ListGroup.Item style={{ backgroundColor: '#273c75' }}>
+                      <Row className='d-flex align-items-center'>
+                        <Col md={8}>
+                          <span style={{ color: '#fff' }}>
                             Discount Applied: Total Payable: $
-                            {cartItems ? cartItems.totalAfterDiscount : 0}
-                          </p>
+                            {cartItems && cartItems.totalAfterDiscount}
+                          </span>
                         </Col>
-                        <Col>
+                        <Col md={4}>
                           <Button
                             variant='danger'
                             size='sm'

@@ -80,8 +80,8 @@ const Header = () => {
 
               {userInfo ? (
                 <NavDropdown title={userInfo.name}>
-                  <LinkContainer to='/user/history'>
-                    <NavDropdown.Item>History</NavDropdown.Item>
+                  <LinkContainer to='/user/orderhistory'>
+                    <NavDropdown.Item>Order History</NavDropdown.Item>
                   </LinkContainer>
                   <LinkContainer to='/user/wishlist'>
                     <NavDropdown.Item>Wishlist</NavDropdown.Item>

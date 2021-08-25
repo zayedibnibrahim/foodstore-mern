@@ -25,6 +25,8 @@ exports.dbCart = asyncHandler(async (req, res) => {
     object.product = cart[i].product
     object.quantity = cart[i].qty
 
+    object.variableData = cart[i].variableData
+
     object.addon = cart[i].addonData
     // get price for creating total
 
@@ -50,7 +52,7 @@ exports.cartList = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email: req.user.email }).exec()
 
   const cart = await Cart.findOne({ orderdBy: user._id })
-    .populate('products.product', '_id title price')
+    .populate('products.product', '_id title price variableData')
     .exec()
 
   res.json(cart)
@@ -89,10 +91,9 @@ exports.applyCoupon = asyncHandler(async (req, res) => {
         .exec()
 
       // calculate the total after discount
-      const totalAfterDiscount = (
-        cartTotal -
-        (cartTotal * validCoupon.discount) / 100
-      ).toFixed(2) // 99.99
+      const totalAfterDiscount = Math.round(
+        cartTotal - (cartTotal * validCoupon.discount) / 100
+      ) // 99.99
 
       const cartByUser = await Cart.findOne({ orderdBy: user._id })
       if (cartByUser) {

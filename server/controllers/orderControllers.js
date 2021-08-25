@@ -50,7 +50,7 @@ exports.orderCreate = asyncHandler(async (req, res) => {
 })
 
 // @desc    GET Order details By Id / single order
-// @route   GET /api/orders/:id
+// @route   GET /api/order/:id
 // @access  Private
 exports.getOrderById = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id)
@@ -62,5 +62,27 @@ exports.getOrderById = asyncHandler(async (req, res) => {
   } else {
     res.status(404)
     throw new Error('Order Not Found')
+  }
+})
+
+// @desc    GET user Order list
+// @route   GET /api/order
+// @access  Private
+exports.userOrderList = asyncHandler(async (req, res) => {
+  const user = await User.findOne({ email: req.user.email }).exec()
+  if (user) {
+    const order = await Order.find({ orderdBy: user._id })
+      .populate('orderdBy', 'name email shipping role')
+      .populate('products.product', '_id title price image slug addon')
+      .exec()
+    if (order) {
+      res.json(order)
+    } else {
+      res.status(404)
+      throw new Error('Order Not Found')
+    }
+  } else {
+    res.status(404)
+    throw new Error('User Not Found')
   }
 })
