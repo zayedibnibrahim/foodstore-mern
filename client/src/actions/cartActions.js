@@ -238,3 +238,25 @@ export const couponCancel = () => async (dispatch, getState) => {
     })
   }
 }
+
+export const userDbCartDelete = () => async (dispatch, getState) => {
+  try {
+    const {
+      userLogIn: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+
+    await axios.delete('/api/cart/delete-user-cart', config)
+  } catch (error) {
+    alert(
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+    )
+  }
+}

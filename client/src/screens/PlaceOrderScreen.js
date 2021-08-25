@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 const promise = loadStripe(process.env.REACT_APP_PUBLISHABLE_KEY)
 const PlaceOrderScreen = ({ history }) => {
   const dispatch = useDispatch()
+
   const userLogIn = useSelector((state) => state.userLogIn)
   const { userInfo } = userLogIn
 
@@ -15,9 +16,12 @@ const PlaceOrderScreen = ({ history }) => {
 
   useEffect(() => {
     if (!userInfo) {
-      history.push('/')
+      history.push('/login')
     }
-  }, [history, userInfo, dispatch, cartItems])
+    if (cartItems === null) {
+      history.push('/login')
+    }
+  }, [history, userInfo, cartItems])
 
   return (
     <Elements stripe={promise}>

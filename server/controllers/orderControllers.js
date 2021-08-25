@@ -54,8 +54,8 @@ exports.orderCreate = asyncHandler(async (req, res) => {
 // @access  Private
 exports.getOrderById = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id)
-    .populate('orderdBy', 'name email')
-    .populate('products.product', '_id title price')
+    .populate('orderdBy', 'name email shipping role')
+    .populate('products.product', '_id title price image slug addon')
     .exec()
   if (order) {
     res.json(order)

@@ -184,3 +184,10 @@ button:hover {
     width: 80vw;
   }
 }
+
+.orderDetails .list-group-item {
+  background-color: transparent;
+}
+.orderDetails a {
+  color: #000;
+}

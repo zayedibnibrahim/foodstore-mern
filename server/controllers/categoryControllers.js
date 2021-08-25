@@ -100,7 +100,8 @@ exports.categoryDelete = asyncHandler(async (req, res) => {
 // @access  Public
 exports.productsByCategory = asyncHandler(async (req, res) => {
   const category = await Category.findOne({ slug: req.body.slug })
-  const products = await Product.find({ category })
+  const products = await Product.find({ category, availability: 'Yes' })
+    .sort([['title', 'ASC']])
     .populate('category')
     .populate('addon')
     .populate({

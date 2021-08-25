@@ -1,25 +1,34 @@
 import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import FormContainer from '../FormContainer'
 import { Link, useHistory } from 'react-router-dom'
-import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { Badge, Card, Col, ListGroup, Row } from 'react-bootstrap'
 import { createOrder } from '../../actions/orderActions'
 import Message from '../Message'
+import { CART_LIST_RESET } from '../../constants/cartConstants'
+import { userDbCartDelete } from '../../actions/cartActions'
+import { useAlert } from 'react-alert'
 
 const StripeCheckoutForm = ({ cartItems, userInfo }) => {
+  const alert = useAlert()
   const [succeeded, setSucceeded] = useState(false)
   const [error, setError] = useState(null)
   const [processing, setProcessing] = useState('')
   const [disabled, setDisabled] = useState(true)
+
   const dispatch = useDispatch()
   const history = useHistory()
+
   const orderCreate = useSelector((state) => state.orderCreate)
   const { order, success, loading, error: errorCreateOrder } = orderCreate
 
   useEffect(() => {
     if (success) {
+      dispatch({ type: CART_LIST_RESET })
+      dispatch(userDbCartDelete())
+      alert.success('Order Placed ')
       history.push(`/order/${order._id}`)
     }
     // eslint-disable-next-line

@@ -153,44 +153,48 @@ const SingleProductScreen = ({ match, history }) => {
                     ''
                   )}
                 </ListGroup.Item>
-                <ListGroup.Item style={{ backgroundColor: 'transparent' }}>
-                  <Row>
-                    <Col className='d-flex'>
-                      <Button
-                        onClick={() => setCounter(counter - 1)}
-                        disabled={counter < 2}
-                      >
-                        <FontAwesomeIcon icon={faMinus} />
-                      </Button>
-                      <span
-                        style={{
-                          padding: '10px 15px',
-                          backgroundColor: '#fdcb6e',
-                          fontWeight: '600',
-                          fontSize: '18px',
-                        }}
-                      >
-                        {counter}
-                      </span>
-                      <Button
-                        onClick={() => setCounter(counter + 1)}
-                        disabled={counter > 49}
-                      >
-                        <FontAwesomeIcon icon={faPlus} />
-                      </Button>
-                    </Col>
-                    <Col>
-                      <Button
-                        style={{ width: '-webkit-fill-available' }}
-                        variant='dark'
-                        onClick={handleAddToCart}
-                        disabled={product.variable && !variable}
-                      >
-                        Add To Cart
-                      </Button>
-                    </Col>
-                  </Row>
-                </ListGroup.Item>
+                {product.availability === 'Yes' ? (
+                  <ListGroup.Item style={{ backgroundColor: 'transparent' }}>
+                    <Row>
+                      <Col className='d-flex'>
+                        <Button
+                          onClick={() => setCounter(counter - 1)}
+                          disabled={counter < 2}
+                        >
+                          <FontAwesomeIcon icon={faMinus} />
+                        </Button>
+                        <span
+                          style={{
+                            padding: '10px 15px',
+                            backgroundColor: '#fdcb6e',
+                            fontWeight: '600',
+                            fontSize: '18px',
+                          }}
+                        >
+                          {counter}
+                        </span>
+                        <Button
+                          onClick={() => setCounter(counter + 1)}
+                          disabled={counter > 49}
+                        >
+                          <FontAwesomeIcon icon={faPlus} />
+                        </Button>
+                      </Col>
+                      <Col>
+                        <Button
+                          style={{ width: '-webkit-fill-available' }}
+                          variant='dark'
+                          onClick={handleAddToCart}
+                          disabled={product.variable && !variable}
+                        >
+                          Add To Cart
+                        </Button>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                ) : (
+                  <Message variant='info'>Item Not Available</Message>
+                )}
               </ListGroup>
             </>
           )}

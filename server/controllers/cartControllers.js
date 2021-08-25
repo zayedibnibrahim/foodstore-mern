@@ -130,3 +130,23 @@ exports.cancelCoupon = asyncHandler(async (req, res) => {
     throw new Error("User can't found")
   }
 })
+
+// @desc    Delete user DB cart
+// @route   POST /api/cart/coupon-cancel
+// @access  Private
+
+exports.deleteUserDbCart = asyncHandler(async (req, res) => {
+  const user = await User.findOne({ email: req.user.email }).exec()
+  if (user) {
+    const cartByUser = await Cart.findOne({ orderdBy: user._id })
+    if (cartByUser) {
+      await cartByUser.remove()
+    } else {
+      res.status(500)
+      throw new Error("User cart can't found")
+    }
+  } else {
+    res.status(500)
+    throw new Error("User can't found")
+  }
+})
