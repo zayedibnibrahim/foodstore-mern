@@ -12,11 +12,13 @@ import {
   Card,
   Badge,
 } from 'react-bootstrap'
+import { PDFDownloadLink } from '@react-pdf/renderer'
 import { faCheck } from '@fortawesome/free-brands-svg-icons'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Invoice from '../components/Invoice'
 
 const OrderDetailsScreen = ({ history, match }) => {
   const orderId = match.params.id
@@ -54,32 +56,45 @@ const OrderDetailsScreen = ({ history, match }) => {
         </Link>
       )}
 
-      <h1>Order: {order._id}</h1>
+      <h3>Order: {order._id}</h3>
       <Row className='orderDetails'>
         <Col md={8}>
           <ListGroup style={{ backgroundColor: '#ced6e0' }}>
             <ListGroup.Item>
-              <h2>Shipping</h2>
-              <p>
-                <strong>Name: </strong> {order.orderdBy?.name}
-              </p>
-              <p>
-                <strong>Email: </strong>{' '}
-                <a href={`mailto:${order.orderdBy?.email}`}>
-                  {order.orderdBy?.email}
-                </a>
-              </p>
-              <p>
-                <strong>Address:</strong>
-                {order.orderdBy?.shipping.address},{' '}
-                {order.orderdBy?.shipping.city}{' '}
-                {order.orderdBy?.shipping.postcode},{' '}
-                {order.orderdBy?.shipping.country}
-              </p>
+              <Row className='d-flex flex-lg-row flex-md-row flex-sm-column flex-xs-column'>
+                <Col>
+                  <h4>Shipping</h4>
+                  <p>
+                    <strong>Name: </strong> {order.orderdBy?.name}
+                  </p>
+                  <p>
+                    <strong>Email: </strong>{' '}
+                    <a href={`mailto:${order.orderdBy?.email}`}>
+                      {order.orderdBy?.email}
+                    </a>
+                  </p>
+                  <p>
+                    <strong>Address:</strong>
+                    {order.orderdBy?.shipping.address},{' '}
+                    {order.orderdBy?.shipping.city}{' '}
+                    {order.orderdBy?.shipping.postcode},{' '}
+                    {order.orderdBy?.shipping.country}
+                  </p>
+                </Col>
+                <Col className='d-flex justify-content-md-end align-items-start justify-content-sm-start'>
+                  <PDFDownloadLink
+                    document={<Invoice order={order} />}
+                    fileName='invoice.pdf'
+                    className='btn btn-sm btn-primary'
+                  >
+                    Download Invoice
+                  </PDFDownloadLink>
+                </Col>
+              </Row>
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h2>Order Status</h2>
+              <h4>Order Status</h4>
               {order.orderStatus && order.orderStatus === 'Not Processed' ? (
                 <Message variant='dark'>Not Processed</Message>
               ) : order.orderStatus === 'processing' ? (
@@ -94,10 +109,11 @@ const OrderDetailsScreen = ({ history, match }) => {
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h2>Payment Method</h2>
+              <h4>Payment Method</h4>
               <p>
                 <strong>Method: </strong>
-                Stripe
+                {order.paymentIntent &&
+                  order.paymentIntent.payment_method_types[0]}
               </p>
               {order.paymentIntent &&
               order.paymentIntent.status === 'succeeded' ? (
@@ -110,7 +126,7 @@ const OrderDetailsScreen = ({ history, match }) => {
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h2>Order Items</h2>
+              <h4>Order Items</h4>
               {order.products?.length === 0 ? (
                 <Message>Order is empty</Message>
               ) : (
@@ -192,7 +208,7 @@ const OrderDetailsScreen = ({ history, match }) => {
           <Card>
             <ListGroup style={{ backgroundColor: '#ced6e0' }}>
               <ListGroup.Item>
-                <h2>Order Summary</h2>
+                <h4>Order Summary</h4>
               </ListGroup.Item>
               {order.couponApplied ? (
                 <>
