@@ -39,6 +39,7 @@ import PlaceOrderScreen from './screens/PlaceOrderScreen'
 import OrderDetailsScreen from './screens/OrderDetailsScreen'
 import OrderHistoryScreen from './screens/user/OrderHistoryScreen'
 import ManageOrderScreen from './screens/admin/ManageOrderScreen'
+import UserDetailsScreen from './screens/admin/UserDetailsScreen'
 
 function App() {
   const dispatch = useDispatch()
@@ -149,6 +150,7 @@ function App() {
             <Route path='/checkout' component={CheckoutScreen} />
             <Route path='/placeorder' component={PlaceOrderScreen} />
             <Route path='/order/:id' component={OrderDetailsScreen} />
+            <Route path='/admin/user/:id' component={UserDetailsScreen} />
           </Switch>
         </Container>
       </main>

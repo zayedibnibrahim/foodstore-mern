@@ -54,7 +54,11 @@ import {
   productUpdateReducer,
 } from './reducers/productReducers'
 import { stripeClientSecretReducer } from './reducers/stripeReducers'
-import { userListReducer, userLogInReducer } from './reducers/userReducers'
+import {
+  userDetailsReducer,
+  userListReducer,
+  userLogInReducer,
+} from './reducers/userReducers'
 import {
   variableCreateReducer,
   variableDeleteReducer,
@@ -110,6 +114,7 @@ const reducer = combineReducers({
   orderDetails: orderDetailsReducer,
   userOrderList: userOrderListReducer,
   adminOrderList: adminOrderListReducer,
+  userDetails: userDetailsReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

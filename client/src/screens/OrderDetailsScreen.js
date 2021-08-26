@@ -46,11 +46,7 @@ const OrderDetailsScreen = ({ history, match }) => {
     <Message variant='danger'>{error}</Message>
   ) : (
     <>
-      {userInfo && userInfo.role === 'admin' ? (
-        <Link to='/admin/manageorder' className='btn btn-dark my-3'>
-          Go Back
-        </Link>
-      ) : (
+      {userInfo && userInfo.role !== 'admin' && (
         <Link to='/user/orderhistory' className='btn btn-dark my-3'>
           Go Back
         </Link>

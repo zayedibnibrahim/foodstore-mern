@@ -11,6 +11,10 @@ import {
   CART_SAVE_SHIPPING_ADDRESS_SUCCESS,
   CART_SAVE_SHIPPING_ADDRESS_FAIL,
   CART_SAVE_SHIPPING_ADDRESS_RESET,
+  USER_DETAILS_REQUEST,
+  USER_DETAILS_SUCCESS,
+  USER_DETAILS_FAIL,
+  USER_DETAILS_RESET,
 } from '../constants/userConstants'
 
 export const userLogInReducer = (state = { userInfo: null }, action) => {
@@ -36,6 +40,8 @@ export const userListReducer = (state = { users: [] }, action) => {
       return { loading: false, users: action.payload }
     case USER_LIST_FAIL:
       return { loading: false, error: action.payload }
+    case USER_LIST_RESET:
+      return { users: [] }
     case CART_SAVE_SHIPPING_ADDRESS_REQUEST:
       return { loadingShippingAdded: true }
     case CART_SAVE_SHIPPING_ADDRESS_SUCCESS:
@@ -50,8 +56,25 @@ export const userListReducer = (state = { users: [] }, action) => {
       }
     case CART_SAVE_SHIPPING_ADDRESS_RESET:
       return { users: [] }
-    case USER_LIST_RESET:
-      return { users: [] }
+
+    default:
+      return state
+  }
+}
+
+export const userDetailsReducer = (
+  state = { userInfoAndOrders: [{ user: null }, { orderList: null }] },
+  action
+) => {
+  switch (action.type) {
+    case USER_DETAILS_REQUEST:
+      return { ...state, loading: true }
+    case USER_DETAILS_SUCCESS:
+      return { loading: false, userInfoAndOrders: action.payload }
+    case USER_DETAILS_FAIL:
+      return { loading: false, error: action.payload }
+    case USER_DETAILS_RESET:
+      return { userInfoAndOrders: [{ user: null }, { orderList: null }] }
     default:
       return state
   }

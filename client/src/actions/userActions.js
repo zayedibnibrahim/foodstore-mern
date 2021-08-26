@@ -8,6 +8,9 @@ import {
   CART_SAVE_SHIPPING_ADDRESS_FAIL,
   CART_SAVE_SHIPPING_ADDRESS_REQUEST,
   CART_SAVE_SHIPPING_ADDRESS_SUCCESS,
+  USER_DETAILS_FAIL,
+  USER_DETAILS_REQUEST,
+  USER_DETAILS_SUCCESS,
   USER_LIST_FAIL,
   USER_LIST_REQUEST,
   USER_LIST_RESET,
@@ -135,6 +138,38 @@ export const saveShippingAddress = (shipping) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: CART_SAVE_SHIPPING_ADDRESS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const detailsUser = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_DETAILS_REQUEST,
+    })
+
+    const {
+      userLogIn: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    const { data } = await axios.get(`/api/admin/usersDetails/${id}`, config)
+    dispatch({
+      type: USER_DETAILS_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    dispatch({
+      type: USER_DETAILS_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

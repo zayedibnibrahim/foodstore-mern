@@ -25,7 +25,8 @@ const FoodModal = ({ setModalShow, modalShow, product, loading, error }) => {
         addon.length < 1 ? null : addon.map((adn) => adn.value)
       )
     )
-    history.push('/cart')
+    // history.push('/cart')
+    setModalShow(false)
   }
   function MyVerticallyCenteredModal(props) {
     return (
