@@ -11,6 +11,10 @@ import {
   ORDER_DETAILS_REQUEST,
   ORDER_DETAILS_RESET,
   ORDER_DETAILS_SUCCESS,
+  ORDER_STATUS_UPDATE_FAIL,
+  ORDER_STATUS_UPDATE_REQUEST,
+  ORDER_STATUS_UPDATE_RESET,
+  ORDER_STATUS_UPDATE_SUCCESS,
   USER_ORDER_LIST_FAIL,
   USER_ORDER_LIST_REQUEST,
   USER_ORDER_LIST_RESET,
@@ -72,6 +76,21 @@ export const adminOrderListReducer = (state = { orderList: [] }, action) => {
       return { loading: false, error: action.payload }
     case ADMIN_ORDER_LIST_RESET:
       return { orderList: [] }
+    default:
+      return state
+  }
+}
+
+export const orderStatusUpdateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ORDER_STATUS_UPDATE_REQUEST:
+      return { loading: true }
+    case ORDER_STATUS_UPDATE_SUCCESS:
+      return { loading: false, success: true }
+    case ORDER_STATUS_UPDATE_FAIL:
+      return { loading: false, error: action.payload }
+    case ORDER_STATUS_UPDATE_RESET:
+      return {}
     default:
       return state
   }

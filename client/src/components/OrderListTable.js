@@ -49,10 +49,10 @@ const OrderListTable = ({ orderList }) => {
               <td>
                 {order.orderStatus && order.orderStatus === 'Not Processed' ? (
                   <Button variant='dark'>Not Processed</Button>
-                ) : order.orderStatus === 'processing' ? (
+                ) : order.orderStatus === 'Processing' ? (
                   <Button variant='info'>Processing</Button>
                 ) : order.orderStatus === 'Dispatched' ? (
-                  <Button variant='Primary'>Dispatched</Button>
+                  <Button variant='warning'>Dispatched</Button>
                 ) : order.orderStatus === 'Completed' ? (
                   <Button variant='success'>Completed</Button>
                 ) : (

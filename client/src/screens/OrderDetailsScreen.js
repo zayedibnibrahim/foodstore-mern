@@ -1,23 +1,17 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { detailsOrder } from '../actions/orderActions'
-import { ORDER_CREATE_RESET } from '../constants/orderConstants'
+import { detailsOrder, updateOrderStatus } from '../actions/orderActions'
 import {
-  Form,
-  Button,
-  Row,
-  Col,
-  ListGroup,
-  Image,
-  Card,
-  Badge,
-} from 'react-bootstrap'
+  ORDER_CREATE_RESET,
+  ORDER_STATUS_UPDATE_RESET,
+} from '../constants/orderConstants'
+import { Form, Row, Col, ListGroup, Image, Badge } from 'react-bootstrap'
 import { PDFDownloadLink } from '@react-pdf/renderer'
-import { faCheck } from '@fortawesome/free-brands-svg-icons'
+
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { Link } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import Invoice from '../components/Invoice'
 
 const OrderDetailsScreen = ({ history, match }) => {
@@ -30,15 +24,23 @@ const OrderDetailsScreen = ({ history, match }) => {
   const orderDetails = useSelector((state) => state.orderDetails)
   const { loading, order, error } = orderDetails
 
+  const orderStatusUpdate = useSelector((state) => state.orderStatusUpdate)
+  const {
+    loading: loadingStatus,
+    success,
+    error: errorStatus,
+  } = orderStatusUpdate
+
   useEffect(() => {
     if (!userInfo) {
       history.push('/login')
     }
-    if (!order || order._id !== orderId) {
+    if (!order || order._id !== orderId || success) {
       dispatch(detailsOrder(orderId))
       dispatch({ type: ORDER_CREATE_RESET })
+      dispatch({ type: ORDER_STATUS_UPDATE_RESET })
     }
-  }, [history, userInfo, orderId, order, dispatch])
+  }, [history, userInfo, orderId, order, dispatch, success])
 
   return loading ? (
     <Loader />
@@ -93,10 +95,10 @@ const OrderDetailsScreen = ({ history, match }) => {
               <h4>Order Status</h4>
               {order.orderStatus && order.orderStatus === 'Not Processed' ? (
                 <Message variant='dark'>Not Processed</Message>
-              ) : order.orderStatus === 'processing' ? (
+              ) : order.orderStatus === 'Processing' ? (
                 <Message variant='info'>Processing</Message>
               ) : order.orderStatus === 'Dispatched' ? (
-                <Message variant='Primary'>Dispatched</Message>
+                <Message variant='warning'>Dispatched</Message>
               ) : order.orderStatus === 'Completed' ? (
                 <Message variant='success'>Completed</Message>
               ) : (
@@ -201,94 +203,86 @@ const OrderDetailsScreen = ({ history, match }) => {
           </ListGroup>
         </Col>
         <Col md={4}>
-          <Card>
-            <ListGroup style={{ backgroundColor: '#ced6e0' }}>
-              <ListGroup.Item>
-                <h4>Order Summary</h4>
-              </ListGroup.Item>
-              {order.couponApplied ? (
-                <>
-                  <ListGroup.Item>
-                    <Row>
-                      <Col>
-                        <b>Total:</b>
-                      </Col>
-                      <Col>
-                        $<del>{order.cartTotal}</del>
-                      </Col>
-                    </Row>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <Row>
-                      <Col>
-                        <b>Total After Discount:</b>
-                      </Col>
-                      <Col>${order.totalAfterDiscount}</Col>
-                    </Row>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <Row>
-                      <Col>
-                        <b>Total Payable:</b>
-                      </Col>
-                      <Col>${order.totalAfterDiscount}</Col>
-                    </Row>
-                  </ListGroup.Item>
-                </>
-              ) : (
-                <>
-                  <ListGroup.Item>
-                    <Row>
-                      <Col>
-                        <b>Total:</b>
-                      </Col>
-                      <Col>${order.cartTotal}</Col>
-                    </Row>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <Row>
-                      <Col>
-                        <b>Total Payable:</b>
-                      </Col>
-                      <Col>${order.cartTotal}</Col>
-                    </Row>
-                  </ListGroup.Item>
-                </>
-              )}
-
-              {/* {!order.isPaid && (
+          <ListGroup style={{ backgroundColor: '#ced6e0' }}>
+            <ListGroup.Item>
+              <h4>Order Summary</h4>
+            </ListGroup.Item>
+            {order.couponApplied ? (
+              <>
                 <ListGroup.Item>
-                  {loadingPay && <Loader />}
-                  {!sdkReady ? (
-                    <Loader />
-                  ) : (
-                    <PayPalButton
-                      amount={order.totalPrice}
-                      onSuccess={successPaymentHandler}
-                    />
-                  )}
+                  <Row>
+                    <Col>
+                      <b>Total:</b>
+                    </Col>
+                    <Col>
+                      $<del>{order.cartTotal}</del>
+                    </Col>
+                  </Row>
                 </ListGroup.Item>
-              )} */}
-              {/* {loadingDelivered && <Loader />}
-              {userInfo &&
-                userInfo.isAdmin &&
-                order.isPaid &&
-                !order.isDelivered && (
-                  <ListGroup.Item>
-                    <Button
-                      type='button'
-                      variant='dark'
-                      className='btn btn-block'
-                      onClick={deliverHandler}
-                      style={{ width: '-webkit-fill-available' }}
-                    >
-                      Mark As Delivered{' '}
-                      <FontAwesomeIcon icon={faCheck} color='green' />
-                    </Button>
-                  </ListGroup.Item>
-                )} */}
+                <ListGroup.Item>
+                  <Row>
+                    <Col>
+                      <b>Total After Discount:</b>
+                    </Col>
+                    <Col>${order.totalAfterDiscount}</Col>
+                  </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Row>
+                    <Col>
+                      <b>Total Payable:</b>
+                    </Col>
+                    <Col>${order.totalAfterDiscount}</Col>
+                  </Row>
+                </ListGroup.Item>
+              </>
+            ) : (
+              <>
+                <ListGroup.Item>
+                  <Row>
+                    <Col>
+                      <b>Total:</b>
+                    </Col>
+                    <Col>${order.cartTotal}</Col>
+                  </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Row>
+                    <Col>
+                      <b>Total Payable:</b>
+                    </Col>
+                    <Col>${order.cartTotal}</Col>
+                  </Row>
+                </ListGroup.Item>
+              </>
+            )}
+          </ListGroup>
+
+          {userInfo && userInfo.role === 'admin' && (
+            <ListGroup>
+              <ListGroup.Item>
+                {loadingStatus && <Loader className='size-sm' />}
+                {errorStatus && (
+                  <Message variant='danger'>{errorStatus}</Message>
+                )}
+                <Form.Label>Update Order Status: </Form.Label>
+                <Form.Control
+                  as='select'
+                  onChange={(e) =>
+                    dispatch(updateOrderStatus(order?._id, e.target.value))
+                  }
+                  value={order?.orderStatus}
+                  style={{ backgroundColor: '#d1d8e0', color: '#000' }}
+                >
+                  <option value='Not Processed'>Not Processed</option>
+                  <option value='Processing'>Processing</option>
+                  <option value='Dispatched'>Dispatched</option>
+                  <option value='Cancelled'>Cancelled</option>
+                  <option value='Completed'>Completed</option>
+                </Form.Control>
+              </ListGroup.Item>
             </ListGroup>
-          </Card>
+          )}
         </Col>
       </Row>
     </>

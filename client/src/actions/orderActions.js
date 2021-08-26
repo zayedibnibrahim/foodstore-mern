@@ -9,6 +9,9 @@ import {
   ORDER_DETAILS_FAIL,
   ORDER_DETAILS_REQUEST,
   ORDER_DETAILS_SUCCESS,
+  ORDER_STATUS_UPDATE_FAIL,
+  ORDER_STATUS_UPDATE_REQUEST,
+  ORDER_STATUS_UPDATE_SUCCESS,
   USER_ORDER_LIST_FAIL,
   USER_ORDER_LIST_REQUEST,
   USER_ORDER_LIST_SUCCESS,
@@ -107,6 +110,32 @@ export const listOrderAdmin = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: ADMIN_ORDER_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const updateOrderStatus = (id, status) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: ORDER_STATUS_UPDATE_REQUEST })
+    const {
+      userLogIn: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    await axios.put(`/api/admin/orderStatus/${id}`, { status }, config)
+    dispatch({ type: ORDER_STATUS_UPDATE_SUCCESS })
+  } catch (error) {
+    dispatch({
+      type: ORDER_STATUS_UPDATE_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

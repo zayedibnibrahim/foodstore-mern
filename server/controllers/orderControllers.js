@@ -99,3 +99,26 @@ exports.adminOrderList = asyncHandler(async (req, res) => {
     throw new Error('Order Not Found')
   }
 })
+
+// @desc    Update order status
+// @route   PUT /admin/orderStatus/:id
+// @access  Private Admin
+exports.updateOrderStatus = asyncHandler(async (req, res) => {
+  const orderId = req.params.id
+  const status = req.body.status
+
+  const order = await Order.findById(orderId).exec()
+  if (order) {
+    order.orderStatus = status
+    const updatedStatus = await order.save()
+    if (updatedStatus) {
+      res.json(updatedStatus)
+    } else {
+      res.status(501)
+      throw new Error('Order Cant update')
+    }
+  } else {
+    res.status(404)
+    throw new Error('Order Not Found')
+  }
+})
