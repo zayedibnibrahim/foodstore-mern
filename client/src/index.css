@@ -191,3 +191,7 @@ button:hover {
 .orderDetails a {
   color: #000;
 }
+
+.wishImage {
+  width: 70px;
+}

@@ -22,7 +22,7 @@ const OrderListTable = ({ orderList }) => {
           <th>TOTAL</th>
           <th>PAID</th>
           <th>STATUS</th>
-          <th></th>
+          <th>ACTION</th>
         </tr>
       </thead>
       <tbody>

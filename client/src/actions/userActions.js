@@ -5,9 +5,18 @@ import {
   USER_ORDER_LIST_RESET,
 } from '../constants/orderConstants'
 import {
+  ADD_TO_WISHLIST_FAIL,
+  ADD_TO_WISHLIST_REQUEST,
+  ADD_TO_WISHLIST_SUCCESS,
   CART_SAVE_SHIPPING_ADDRESS_FAIL,
   CART_SAVE_SHIPPING_ADDRESS_REQUEST,
   CART_SAVE_SHIPPING_ADDRESS_SUCCESS,
+  LIST_WISHLIST_FAIL,
+  LIST_WISHLIST_REQUEST,
+  LIST_WISHLIST_SUCCESS,
+  REMOVE_WISHLIST_FAIL,
+  REMOVE_WISHLIST_REQUEST,
+  REMOVE_WISHLIST_SUCCESS,
   USER_DETAILS_FAIL,
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
@@ -170,6 +179,88 @@ export const detailsUser = (id) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: USER_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const addToWish = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ADD_TO_WISHLIST_REQUEST,
+    })
+
+    const {
+      userLogIn: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    await axios.post(`/api/wishlist/${id}`, {}, config)
+    dispatch({ type: ADD_TO_WISHLIST_SUCCESS })
+  } catch (error) {
+    dispatch({
+      type: ADD_TO_WISHLIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const removeToWish = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: REMOVE_WISHLIST_REQUEST,
+    })
+    const {
+      userLogIn: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    await axios.put(`/api/wishlist/${id}`, {}, config)
+    dispatch({ type: REMOVE_WISHLIST_SUCCESS })
+  } catch (error) {
+    dispatch({
+      type: REMOVE_WISHLIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const listWishes = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: LIST_WISHLIST_REQUEST,
+    })
+    const {
+      userLogIn: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    const { data } = await axios.get('/api/wishlist', config)
+    dispatch({ type: LIST_WISHLIST_SUCCESS, payload: data.wishlist })
+  } catch (error) {
+    dispatch({
+      type: LIST_WISHLIST_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

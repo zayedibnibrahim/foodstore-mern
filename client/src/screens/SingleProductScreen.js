@@ -7,18 +7,28 @@ import { Link } from 'react-router-dom'
 import Skeleton from 'react-loading-skeleton'
 import Message from '../components/Message'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
+import {
+  faCartPlus,
+  faHeart,
+  faMinus,
+  faPlus,
+} from '@fortawesome/free-solid-svg-icons'
 import { addToCart } from '../actions/cartActions'
+import { addToWish } from '../actions/userActions'
+import { useAlert } from 'react-alert'
+import { ADD_TO_WISHLIST_RESET } from '../constants/userConstants'
+import Loader from '../components/Loader'
+
 const SingleProductScreen = ({ match, history }) => {
   const productSlug = match.params.slug
+  const alert = useAlert()
   const [counter, setCounter] = useState(1)
   const [variable, setVariable] = useState('')
   const [addon, setAddon] = useState([])
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    dispatch(detailsProduct(productSlug))
-  }, [dispatch, productSlug])
+  const userLogIn = useSelector((state) => state.userLogIn)
+  const { userInfo } = userLogIn
 
   const productDetails = useSelector((state) => state.productDetails)
   const {
@@ -26,6 +36,20 @@ const SingleProductScreen = ({ match, history }) => {
     product,
     error: errorDetails,
   } = productDetails
+
+  const wish = useSelector((state) => state.wish)
+  const { loadingAdd, successAdd } = wish
+
+  useEffect(() => {
+    dispatch(detailsProduct(productSlug))
+  }, [dispatch, productSlug])
+
+  useEffect(() => {
+    if (successAdd) {
+      alert.success('Product Added To Wishlist ')
+      dispatch({ type: ADD_TO_WISHLIST_RESET })
+    }
+  }, [successAdd, alert, dispatch])
 
   const handleAddToCart = () => {
     dispatch(
@@ -51,15 +75,35 @@ const SingleProductScreen = ({ match, history }) => {
       </Link>
       <Row>
         {errorDetails && <Message variant='alert'>{errorDetails}</Message>}
-        <Col sm={12} md={6}>
+        <Col
+          sm={12}
+          md={6}
+          style={{ position: 'relative' }}
+          className='d-flex justify-content-start align-items-start'
+        >
           {loadingDetails ? (
             <Skeleton height={400} count={1} />
           ) : (
-            <Image
-              src={product.image && product.image.url}
-              alt={product.title}
-              className='w-75'
-            ></Image>
+            <>
+              <Image
+                src={product.image && product.image.url}
+                alt={product.title}
+                className='w-75'
+              ></Image>
+              {userInfo && (
+                <Button
+                  variant='secondary'
+                  onClick={() => dispatch(addToWish(product._id))}
+                  style={{ position: 'absolute', top: '10px', left: '15px' }}
+                >
+                  {loadingAdd ? (
+                    <Loader className='size-sm' />
+                  ) : (
+                    <FontAwesomeIcon icon={faHeart} />
+                  )}
+                </Button>
+              )}
+            </>
           )}
         </Col>
         <Col sm={12} md={6}>
@@ -156,7 +200,7 @@ const SingleProductScreen = ({ match, history }) => {
                 {product.availability === 'Yes' ? (
                   <ListGroup.Item style={{ backgroundColor: 'transparent' }}>
                     <Row>
-                      <Col className='d-flex'>
+                      <Col>
                         <Button
                           onClick={() => setCounter(counter - 1)}
                           disabled={counter < 2}
@@ -187,7 +231,7 @@ const SingleProductScreen = ({ match, history }) => {
                           onClick={handleAddToCart}
                           disabled={product.variable && !variable}
                         >
-                          Add To Cart
+                          Add To Cart <FontAwesomeIcon icon={faCartPlus} />
                         </Button>
                       </Col>
                     </Row>

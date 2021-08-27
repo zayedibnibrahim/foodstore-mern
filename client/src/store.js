@@ -59,6 +59,8 @@ import {
   userDetailsReducer,
   userListReducer,
   userLogInReducer,
+  wishListReducer,
+  wishReducer,
 } from './reducers/userReducers'
 import {
   variableCreateReducer,
@@ -117,6 +119,8 @@ const reducer = combineReducers({
   adminOrderList: adminOrderListReducer,
   userDetails: userDetailsReducer,
   orderStatusUpdate: orderStatusUpdateReducer,
+  wish: wishReducer,
+  wishList: wishListReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

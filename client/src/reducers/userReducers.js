@@ -15,6 +15,18 @@ import {
   USER_DETAILS_SUCCESS,
   USER_DETAILS_FAIL,
   USER_DETAILS_RESET,
+  ADD_TO_WISHLIST_REQUEST,
+  ADD_TO_WISHLIST_SUCCESS,
+  ADD_TO_WISHLIST_FAIL,
+  ADD_TO_WISHLIST_RESET,
+  REMOVE_WISHLIST_REQUEST,
+  REMOVE_WISHLIST_SUCCESS,
+  REMOVE_WISHLIST_FAIL,
+  REMOVE_WISHLIST_RESET,
+  LIST_WISHLIST_REQUEST,
+  LIST_WISHLIST_SUCCESS,
+  LIST_WISHLIST_FAIL,
+  LIST_WISHLIST_RESET,
 } from '../constants/userConstants'
 
 export const userLogInReducer = (state = { userInfo: null }, action) => {
@@ -75,6 +87,44 @@ export const userDetailsReducer = (
       return { loading: false, error: action.payload }
     case USER_DETAILS_RESET:
       return { userInfoAndOrders: [{ user: null }, { orderList: null }] }
+    default:
+      return state
+  }
+}
+
+export const wishReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ADD_TO_WISHLIST_REQUEST:
+      return { loadingAdd: true }
+    case ADD_TO_WISHLIST_SUCCESS:
+      return { loadingAdd: false, successAdd: true }
+    case ADD_TO_WISHLIST_FAIL:
+      return { loadingAdd: false, errorAdd: action.payload }
+    case ADD_TO_WISHLIST_RESET:
+      return {}
+    case REMOVE_WISHLIST_REQUEST:
+      return { loadingRemove: true }
+    case REMOVE_WISHLIST_SUCCESS:
+      return { loadingRemove: false, successRemove: true }
+    case REMOVE_WISHLIST_FAIL:
+      return { loadingRemove: false, errorRemove: action.payload }
+    case REMOVE_WISHLIST_RESET:
+      return {}
+    default:
+      return state
+  }
+}
+
+export const wishListReducer = (state = { wishlistData: null }, action) => {
+  switch (action.type) {
+    case LIST_WISHLIST_REQUEST:
+      return { ...state, loading: true }
+    case LIST_WISHLIST_SUCCESS:
+      return { loading: false, wishlistData: action.payload }
+    case LIST_WISHLIST_FAIL:
+      return { loading: false, error: action.payload }
+    case LIST_WISHLIST_RESET:
+      return {}
     default:
       return state
   }

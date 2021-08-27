@@ -32,7 +32,7 @@ const OrderHistoryScreen = ({ history }) => {
           <ShippingForm />
         </Col>
         <Col md={10}>
-          <h2>My Orders</h2>
+          <h3>My Orders</h3>
           {loading ? (
             <Loader />
           ) : error ? (

@@ -27,7 +27,7 @@ const ManageOrderScreen = ({ history }) => {
     <>
       <Row>
         <Col>
-          <h2>My Orders</h2>
+          <h3>Customers Orders</h3>
           {loading ? (
             <Loader />
           ) : error ? (

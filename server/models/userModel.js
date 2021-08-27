@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema(
       country: String,
       postcode: String,
     },
-    // wishlist: [{ type: ObjectId, ref: 'Product' }],
+    wishlist: [{ type: ObjectId, ref: 'Product' }],
   },
   {
     timestamps: true,

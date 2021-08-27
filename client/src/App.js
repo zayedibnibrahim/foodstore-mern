@@ -22,7 +22,7 @@ import LoginScreen from './screens/LoginScreen'
 import RegisterCompleteScreen from './screens/RegisterCompleteScreen'
 import RegisterScreen from './screens/RegisterScreen'
 import PasswordScreen from './screens/user/PasswordScreen'
-import wishlistScreen from './screens/user/WishlistScreen'
+import WishlistScreen from './screens/user/WishlistScreen'
 import ProductCreateScreen from './screens/admin/ProductCreateScreen'
 import ProductListScreen from './screens/admin/ProductListScreen'
 import ProductEditScreen from './screens/admin/ProductEditScreen'
@@ -92,7 +92,7 @@ function App() {
               component={OrderHistoryScreen}
               exact
             />
-            <Route path='/user/wishlist' component={wishlistScreen} exact />
+            <Route path='/user/wishlist' component={WishlistScreen} exact />
             <Route path='/user/password' component={PasswordScreen} exact />
             <Route path='/admin/userlist' component={UserListScreen} exact />
             <Route path='/admin/category' component={CategoryScreen} exact />
