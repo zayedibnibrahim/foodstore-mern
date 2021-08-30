@@ -84,14 +84,18 @@ exports.productCreate = asyncHandler(async (req, res) => {
 // @route   GET /api/product
 // @access  Public
 exports.getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({})
-    .populate('category', 'name slug')
-    .populate('addon', 'name price slug')
-    .populate({
-      path: 'variable',
-      populate: { path: 'attribute' },
+  const search = req.query.search
+  if (search !== '' || null) {
+    const products = await Product.find({
+      title: { $regex: search, $options: 'i' },
     })
-  res.json(products)
+      .select('title slug image.url')
+      .limit(12)
+      .exec()
+    res.json(products)
+  } else {
+    res.json([])
+  }
 })
 
 // @desc    delete Products

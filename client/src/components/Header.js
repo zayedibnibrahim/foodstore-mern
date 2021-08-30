@@ -24,12 +24,16 @@ const Header = () => {
 
   const cartList = useSelector((state) => state.cartList)
   const { cartItems: cardItemDb } = cartList
+
+  const orderCreate = useSelector((state) => state.orderCreate)
+  const { success } = orderCreate
+
   useEffect(() => {
     dispatch(addToCart())
-    if (userInfo && userInfo.token) {
+    if (userInfo?.token || success) {
       dispatch(listCart())
     }
-  }, [dispatch, userInfo])
+  }, [dispatch, userInfo, success])
 
   const logoutHandler = () => {
     dispatch(logOut())

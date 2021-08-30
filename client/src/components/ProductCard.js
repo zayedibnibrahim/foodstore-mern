@@ -5,7 +5,7 @@ import ModalImage from 'react-modal-image'
 import { Badge, Button, Col, Row } from 'react-bootstrap'
 import FoodModal from './FoodModal'
 import { faChevronCircleRight } from '@fortawesome/free-solid-svg-icons'
-const ProductCard = ({ product, loading, error }) => {
+const ProductCard = ({ product, loading, error, userInfo, loadingAdd }) => {
   const [modalShow, setModalShow] = useState(false)
 
   return (
@@ -89,6 +89,8 @@ const ProductCard = ({ product, loading, error }) => {
                 product={product}
                 loading={loading}
                 error={error}
+                userInfo={userInfo}
+                loadingAdd={loadingAdd}
               />
             </Col>
           </Row>

@@ -9,7 +9,7 @@ const Product = require('../models/productModel')
 // @access  Private
 
 exports.orderCreate = asyncHandler(async (req, res) => {
-  const paymentIntent = req.body.stripeRes
+  const { paymentIntent, paymentMethod } = req.body
 
   const user = await User.findOne({ email: req.user.email }).exec()
 
@@ -23,6 +23,7 @@ exports.orderCreate = asyncHandler(async (req, res) => {
       totalAfterDiscount,
       couponApplied,
       paymentIntent,
+      paymentMethod,
       orderdBy: user._id,
     }).save()
 
@@ -116,6 +117,31 @@ exports.updateOrderStatus = asyncHandler(async (req, res) => {
     } else {
       res.status(501)
       throw new Error('Order Cant update')
+    }
+  } else {
+    res.status(404)
+    throw new Error('Order Not Found')
+  }
+})
+
+// @desc    Update Payment status
+// @route   PUT /admin/paymentStatus/:id
+// @access  Private Admin
+exports.updatePaymentStatus = asyncHandler(async (req, res) => {
+  const orderId = req.params.id
+  const status = req.body.status
+
+  const order = await Order.findById(orderId).exec()
+  if (order) {
+    if (order.paymentIntent) {
+      order.paymentIntent.status = status
+      const updatedStatus = await order.save()
+      if (updatedStatus) {
+        res.json(updatedStatus)
+      } else {
+        res.status(501)
+        throw new Error('Order Cant update')
+      }
     }
   } else {
     res.status(404)

@@ -1,4 +1,4 @@
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 import { Button, Table } from 'react-bootstrap'
@@ -41,7 +41,10 @@ const OrderListTable = ({ orderList }) => {
               <td>
                 {order.paymentIntent &&
                 order.paymentIntent.status === 'succeeded' ? (
-                  new Date(order.createdAt).toLocaleDateString()
+                  <>
+                    <FontAwesomeIcon icon={faCheck} color='green' />{' '}
+                    {new Date(order.createdAt).toLocaleDateString()}
+                  </>
                 ) : (
                   <FontAwesomeIcon icon={faTimes} color='red' />
                 )}

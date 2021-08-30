@@ -1,9 +1,14 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { detailsOrder, updateOrderStatus } from '../actions/orderActions'
+import {
+  detailsOrder,
+  updateOrderStatus,
+  updatePaymentStatus,
+} from '../actions/orderActions'
 import {
   ORDER_CREATE_RESET,
   ORDER_STATUS_UPDATE_RESET,
+  PAYMENT_STATUS_UPDATE_RESET,
 } from '../constants/orderConstants'
 import { Form, Row, Col, ListGroup, Image, Badge } from 'react-bootstrap'
 import { PDFDownloadLink } from '@react-pdf/renderer'
@@ -13,6 +18,7 @@ import Loader from '../components/Loader'
 import { Link } from 'react-router-dom'
 
 import Invoice from '../components/Invoice'
+import { CART_LIST_RESET } from '../constants/cartConstants'
 
 const OrderDetailsScreen = ({ history, match }) => {
   const orderId = match.params.id
@@ -31,16 +37,24 @@ const OrderDetailsScreen = ({ history, match }) => {
     error: errorStatus,
   } = orderStatusUpdate
 
+  const paymentStatusUpdate = useSelector((state) => state.paymentStatusUpdate)
+  const {
+    loading: loadingPayment,
+    success: successPayment,
+    error: errorPayment,
+  } = paymentStatusUpdate
+
   useEffect(() => {
     if (!userInfo) {
       history.push('/login')
     }
-    if (!order || order._id !== orderId || success) {
+    if (!order || order._id !== orderId || success || successPayment) {
       dispatch(detailsOrder(orderId))
       dispatch({ type: ORDER_CREATE_RESET })
       dispatch({ type: ORDER_STATUS_UPDATE_RESET })
+      dispatch({ type: PAYMENT_STATUS_UPDATE_RESET })
     }
-  }, [history, userInfo, orderId, order, dispatch, success])
+  }, [history, userInfo, orderId, order, dispatch, success, successPayment])
 
   return loading ? (
     <Loader />
@@ -110,16 +124,19 @@ const OrderDetailsScreen = ({ history, match }) => {
               <h4>Payment Method</h4>
               <p>
                 <strong>Method: </strong>
-                {order.paymentIntent &&
-                  order.paymentIntent.payment_method_types[0]}
+                {order.paymentMethod}
               </p>
               {order.paymentIntent &&
-              order.paymentIntent.status === 'succeeded' ? (
+              order.paymentIntent?.status === 'succeeded' ? (
                 <Message variant='success'>
                   Paid on : {new Date(order.createdAt).toLocaleDateString()}
                 </Message>
+              ) : order.paymentIntent?.status === 'pending' ? (
+                <Message variant='dark'>Pending</Message>
               ) : (
-                <Message variant='danger'>Not Paid</Message>
+                <Message variant='danger'>
+                  Error Payment, please contact site owner
+                </Message>
               )}
             </ListGroup.Item>
 
@@ -283,6 +300,31 @@ const OrderDetailsScreen = ({ history, match }) => {
               </ListGroup.Item>
             </ListGroup>
           )}
+
+          {userInfo &&
+            userInfo.role === 'admin' &&
+            order?.paymentMethod === 'Cash On Delivery' && (
+              <ListGroup>
+                <ListGroup.Item>
+                  {loadingPayment && <Loader className='size-sm' />}
+                  {errorPayment && (
+                    <Message variant='danger'>{errorPayment}</Message>
+                  )}
+                  <Form.Label>Update Payment Status: </Form.Label>
+                  <Form.Control
+                    as='select'
+                    onChange={(e) =>
+                      dispatch(updatePaymentStatus(order?._id, e.target.value))
+                    }
+                    value={order?.paymentIntent?.status}
+                    style={{ backgroundColor: '#d1d8e0', color: '#000' }}
+                  >
+                    <option value='pending'>Pending</option>
+                    <option value='succeeded'>Succeeded</option>
+                  </Form.Control>
+                </ListGroup.Item>
+              </ListGroup>
+            )}
         </Col>
       </Row>
     </>

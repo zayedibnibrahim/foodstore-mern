@@ -5,6 +5,7 @@ const {
   userOrderList,
   adminOrderList,
   updateOrderStatus,
+  updatePaymentStatus,
 } = require('../controllers/orderControllers')
 const { protect, adminCheck } = require('../middleware/authMiddleware')
 const router = express.Router()
@@ -15,5 +16,9 @@ router.route('/admin/orderlist').get(protect, adminCheck, adminOrderList)
 router
   .route('/admin/orderStatus/:id')
   .put(protect, adminCheck, updateOrderStatus)
+
+router
+  .route('/admin/paymentStatus/:id')
+  .put(protect, adminCheck, updatePaymentStatus)
 
 module.exports = router

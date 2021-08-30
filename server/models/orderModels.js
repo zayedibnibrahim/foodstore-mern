@@ -24,7 +24,15 @@ const OrderSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    paymentIntent: Object,
+    paymentIntent: {
+      id: String,
+      amount: Number,
+      status: {
+        type: String,
+        enum: ['pending', 'succeeded'],
+      },
+    },
+    paymentMethod: String,
     orderStatus: {
       type: String,
       default: 'Not Processed',

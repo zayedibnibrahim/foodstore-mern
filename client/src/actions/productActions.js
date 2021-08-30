@@ -108,11 +108,11 @@ export const createProduct = (product) => async (dispatch, getState) => {
   }
 }
 
-export const listProduct = () => async (dispatch) => {
+export const listProduct = (search) => async (dispatch) => {
   try {
     dispatch({ type: LIST_PRODUCT_REQUEST })
 
-    const { data } = await axios.get('/api/product')
+    const { data } = await axios.get(`/api/product?search=${search}`)
     dispatch({ type: LIST_PRODUCT_SUCCESS, payload: data })
   } catch (error) {
     dispatch({

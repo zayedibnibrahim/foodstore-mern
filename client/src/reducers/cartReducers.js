@@ -80,7 +80,7 @@ export const cartListReducer = (state = { cartItems: null }, action) => {
     case CART_LIST_FAIL:
       return { loading: false, error: action.payload }
     case CART_LIST_RESET:
-      return { cartItems: null }
+      return { ...state, cartItems: null }
     default:
       return state
   }

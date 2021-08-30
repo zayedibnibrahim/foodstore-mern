@@ -63,7 +63,7 @@ const StripeCheckoutForm = ({ cartItems, userInfo }) => {
       setProcessing(false)
     } else {
       if (payload.paymentIntent.status === 'succeeded') {
-        dispatch(createOrder(payload.paymentIntent))
+        dispatch(createOrder(payload.paymentIntent, 'Stripe'))
         setError(null)
         setProcessing(false)
         setSucceeded(true)

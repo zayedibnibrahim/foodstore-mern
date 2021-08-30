@@ -15,6 +15,10 @@ import {
   ORDER_STATUS_UPDATE_REQUEST,
   ORDER_STATUS_UPDATE_RESET,
   ORDER_STATUS_UPDATE_SUCCESS,
+  PAYMENT_STATUS_UPDATE_FAIL,
+  PAYMENT_STATUS_UPDATE_REQUEST,
+  PAYMENT_STATUS_UPDATE_RESET,
+  PAYMENT_STATUS_UPDATE_SUCCESS,
   USER_ORDER_LIST_FAIL,
   USER_ORDER_LIST_REQUEST,
   USER_ORDER_LIST_RESET,
@@ -90,6 +94,21 @@ export const orderStatusUpdateReducer = (state = {}, action) => {
     case ORDER_STATUS_UPDATE_FAIL:
       return { loading: false, error: action.payload }
     case ORDER_STATUS_UPDATE_RESET:
+      return {}
+    default:
+      return state
+  }
+}
+
+export const paymentStatusUpdateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case PAYMENT_STATUS_UPDATE_REQUEST:
+      return { loading: true }
+    case PAYMENT_STATUS_UPDATE_SUCCESS:
+      return { loading: false, success: true }
+    case PAYMENT_STATUS_UPDATE_FAIL:
+      return { loading: false, error: action.payload }
+    case PAYMENT_STATUS_UPDATE_RESET:
       return {}
     default:
       return state

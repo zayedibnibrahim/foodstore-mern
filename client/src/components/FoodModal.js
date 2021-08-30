@@ -1,20 +1,34 @@
 import React, { useState } from 'react'
 import { Button, Modal, Image, Row, Col, ListGroup } from 'react-bootstrap'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import MultiSelect from 'react-multi-select-component'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMinus, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons'
+import {
+  faHeart,
+  faMinus,
+  faPlus,
+  faTimes,
+} from '@fortawesome/free-solid-svg-icons'
 import { useDispatch } from 'react-redux'
 import { addToCart } from '../actions/cartActions'
 import Skeleton from 'react-loading-skeleton'
 import Message from './Message'
+import { addToWish } from '../actions/userActions'
+import Loader from './Loader'
 
-const FoodModal = ({ setModalShow, modalShow, product, loading, error }) => {
+const FoodModal = ({
+  setModalShow,
+  modalShow,
+  product,
+  loading,
+  error,
+  userInfo,
+  loadingAdd,
+}) => {
   const [counter, setCounter] = useState(1)
   const [variable, setVariable] = useState('')
   const [addon, setAddon] = useState([])
   const dispatch = useDispatch()
-  const history = useHistory()
 
   const handleAddToCart = () => {
     dispatch(
@@ -25,7 +39,6 @@ const FoodModal = ({ setModalShow, modalShow, product, loading, error }) => {
         addon.length < 1 ? null : addon.map((adn) => adn.value)
       )
     )
-    // history.push('/cart')
     setModalShow(false)
   }
   function MyVerticallyCenteredModal(props) {
@@ -52,11 +65,30 @@ const FoodModal = ({ setModalShow, modalShow, product, loading, error }) => {
               {loading ? (
                 <Skeleton height={400} count={1} />
               ) : (
-                <Image
-                  src={product.image && product.image.url}
-                  alt={product.title}
-                  className='w-75'
-                ></Image>
+                <>
+                  <Image
+                    src={product.image && product.image.url}
+                    alt={product.title}
+                    className='w-75'
+                  ></Image>
+                  {userInfo && (
+                    <Button
+                      variant='secondary'
+                      onClick={() => dispatch(addToWish(product._id))}
+                      style={{
+                        position: 'absolute',
+                        top: '10px',
+                        left: '15px',
+                      }}
+                    >
+                      {loadingAdd ? (
+                        <Loader className='size-sm' />
+                      ) : (
+                        <FontAwesomeIcon icon={faHeart} />
+                      )}
+                    </Button>
+                  )}
+                </>
               )}
             </Col>
             <Col sm={12} md={6}>

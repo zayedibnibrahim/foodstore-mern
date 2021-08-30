@@ -19,6 +19,7 @@ import {
   LIST_PRODUCT_ADMIN_SUCCESS,
   LIST_PRODUCT_FAIL,
   LIST_PRODUCT_REQUEST,
+  LIST_PRODUCT_RESET,
   LIST_PRODUCT_SUCCESS,
   REMOVE_IMAGE_FAIL,
   REMOVE_IMAGE_REQUEST,
@@ -87,6 +88,8 @@ export const productListReducer = (state = { products: [] }, action) => {
       return { loading: false, products: action.payload }
     case LIST_PRODUCT_FAIL:
       return { loading: false, error: action.payload }
+    case LIST_PRODUCT_RESET:
+      return { ...state, products: [] }
     default:
       return state
   }

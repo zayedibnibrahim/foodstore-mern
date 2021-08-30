@@ -12,36 +12,44 @@ import {
   ORDER_STATUS_UPDATE_FAIL,
   ORDER_STATUS_UPDATE_REQUEST,
   ORDER_STATUS_UPDATE_SUCCESS,
+  PAYMENT_STATUS_UPDATE_FAIL,
+  PAYMENT_STATUS_UPDATE_REQUEST,
+  PAYMENT_STATUS_UPDATE_SUCCESS,
   USER_ORDER_LIST_FAIL,
   USER_ORDER_LIST_REQUEST,
   USER_ORDER_LIST_SUCCESS,
 } from '../constants/orderConstants'
 
-export const createOrder = (stripeRes) => async (dispatch, getState) => {
-  try {
-    dispatch({ type: ORDER_CREATE_REQUEST })
-    const {
-      userLogIn: { userInfo },
-    } = getState()
+export const createOrder =
+  (paymentIntent, paymentMethod) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: ORDER_CREATE_REQUEST })
+      const {
+        userLogIn: { userInfo },
+      } = getState()
 
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${userInfo.token}`,
-      },
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+      const { data } = await axios.post(
+        '/api/order',
+        { paymentIntent, paymentMethod },
+        config
+      )
+      dispatch({ type: ORDER_CREATE_SUCCESS, payload: data })
+    } catch (error) {
+      dispatch({
+        type: ORDER_CREATE_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      })
     }
-    const { data } = await axios.post('/api/order', { stripeRes }, config)
-    dispatch({ type: ORDER_CREATE_SUCCESS, payload: data })
-  } catch (error) {
-    dispatch({
-      type: ORDER_CREATE_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    })
   }
-}
 
 export const detailsOrder = (id) => async (dispatch, getState) => {
   try {
@@ -143,3 +151,30 @@ export const updateOrderStatus = (id, status) => async (dispatch, getState) => {
     })
   }
 }
+
+export const updatePaymentStatus =
+  (id, status) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: PAYMENT_STATUS_UPDATE_REQUEST })
+      const {
+        userLogIn: { userInfo },
+      } = getState()
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+      await axios.put(`/api/admin/paymentStatus/${id}`, { status }, config)
+      dispatch({ type: PAYMENT_STATUS_UPDATE_SUCCESS })
+    } catch (error) {
+      dispatch({
+        type: PAYMENT_STATUS_UPDATE_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      })
+    }
+  }

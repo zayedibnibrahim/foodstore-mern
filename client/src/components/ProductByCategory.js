@@ -6,7 +6,7 @@ import Loader from './Loader'
 import Message from './Message'
 import ProductCard from './ProductCard'
 
-const ProductByCategory = ({ catSlug }) => {
+const ProductByCategory = ({ catSlug, userInfo, loadingAdd }) => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(listProductsByCategory(catSlug))
@@ -44,6 +44,8 @@ const ProductByCategory = ({ catSlug }) => {
                     product={product}
                     loading={loading}
                     error={error}
+                    userInfo={userInfo}
+                    loadingAdd={loadingAdd}
                   ></ProductCard>
                 </Col>
               ))}

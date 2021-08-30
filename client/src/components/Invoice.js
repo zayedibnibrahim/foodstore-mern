@@ -53,6 +53,16 @@ const Invoice = ({ order }) => (
         </Text>
         {'\n'}
         <Text>
+          Payment Method: {'                           '}
+          {order.paymentMethod}
+        </Text>
+        {'\n'}
+        <Text>
+          Payment Status: {'                             '}
+          {order.paymentIntent?.status}
+        </Text>
+        {'\n'}
+        <Text>
           Discount Applied: {'                           '}
           {order.couponApplied ? 'Yes' : 'No'}
         </Text>
