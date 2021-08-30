@@ -1,5 +1,5 @@
 import React, { useEffect, lazy, Suspense } from 'react'
-import { Container } from 'react-bootstrap'
+import { Container, Image } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
 import { currentUser } from './actions/userActions'
@@ -108,7 +108,7 @@ function App() {
           className='d-flex align-items-center justify-content-center'
           style={{ height: '100vh' }}
         >
-          <img src={loadingGif} alt='loader' />
+          <Image src={loadingGif} alt='loader' className='w-md-75 w-sm-25' />
         </div>
       }
     >

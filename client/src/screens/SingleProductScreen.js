@@ -69,6 +69,7 @@ const SingleProductScreen = ({ match, history }) => {
         padding: '50px',
         borderRadius: '35px',
       }}
+      className='single__product__container'
     >
       <Link to='/' className='btn btn-dark my-3'>
         Go Back

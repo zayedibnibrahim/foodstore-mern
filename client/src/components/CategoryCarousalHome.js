@@ -44,6 +44,8 @@ const CategoryCarousalHome = ({ setCatSlug }) => {
       {
         breakpoint: 480,
         settings: {
+          arrows: false,
+          dots: true,
           slidesToShow: 2,
           slidesToScroll: 2,
           infinite: true,

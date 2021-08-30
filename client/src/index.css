@@ -195,3 +195,12 @@ button:hover {
 .wishImage {
   width: 70px;
 }
+
+@media (max-width: 768px) {
+  .product__by__category__box {
+    width: 80px;
+  }
+  .single__product__container {
+    padding: 20px !important;
+  }
+}

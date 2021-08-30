@@ -15,18 +15,19 @@ const ProductCard = ({ product, loading, error, userInfo, loadingAdd }) => {
           backgroundColor: '#ef5777',
           borderRadius: '5px',
           height: '100%',
-          marginRight: '10px',
+          // marginRight: '10px',
         }}
-        className='my-2 p-2 product-card'
+        className='d-flex my-2 p-2 product-card m-auto'
       >
-        <Col className='justify-content-start' md={2}>
+        <Col className='justify-content-start' md={2} sm={2}>
           <ModalImage
             small={product.image.url}
             large={product.image.url}
             alt={product.title}
+            className='product__by__category__box'
           />
         </Col>
-        <Col className='justify-content-start' md={6}>
+        <Col className='justify-content-start' md={6} sm={10}>
           <Row className='d-flex flex-column'>
             <Col>
               <Link
@@ -54,7 +55,7 @@ const ProductCard = ({ product, loading, error, userInfo, loadingAdd }) => {
             )}
           </Row>
         </Col>
-        <Col className='justify-content-start' md={4}>
+        <Col className='justify-content-start' md={4} sm={12}>
           <Row className='d-flex flex-md-column flex-sm-row'>
             <Col className='d-flex justify-content-start justify-sm-content-start'>
               <h6 style={{ color: '#ffffff' }}>

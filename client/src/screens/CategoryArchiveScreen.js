@@ -20,7 +20,7 @@ const CategoryArchiveScreen = ({ match }) => {
   const { loading, error, products, categoryName } = productGetByCategory
   return (
     <div
-      className='py-5'
+      className='py-5 single__product__container'
       style={{
         backgroundColor: '#ecf0f1',
         padding: '50px',
