@@ -37,7 +37,10 @@ const WishlistScreen = ({ history }) => {
   ) : error ? (
     <Message variant='danger'>{error}</Message>
   ) : wishlistData && !wishlistData.length ? (
-    <Message variant='info'>Wishlist empty</Message>
+    <>
+      <Meta title='Food Store | Wishlist' />
+      <Message variant='info'>Wishlist empty</Message>
+    </>
   ) : (
     <Row>
       <Meta title='Food Store | Wishlist' />

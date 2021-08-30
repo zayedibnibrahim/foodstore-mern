@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://127.0.0.1:4200",
+  "proxy": "https://foodstore-order.herokuapp.com",
   "dependencies": {
     "@david.kucsai/react-pdf-table": "^0.3.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
