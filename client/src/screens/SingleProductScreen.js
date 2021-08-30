@@ -18,6 +18,7 @@ import { addToWish } from '../actions/userActions'
 import { useAlert } from 'react-alert'
 import { ADD_TO_WISHLIST_RESET } from '../constants/userConstants'
 import Loader from '../components/Loader'
+import Meta from '../components/Meta'
 
 const SingleProductScreen = ({ match, history }) => {
   const productSlug = match.params.slug
@@ -71,6 +72,7 @@ const SingleProductScreen = ({ match, history }) => {
       }}
       className='single__product__container'
     >
+      <Meta title={`${product?.title} | Food Store`} />
       <Link to='/' className='btn btn-dark my-3'>
         Go Back
       </Link>

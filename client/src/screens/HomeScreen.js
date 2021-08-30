@@ -5,6 +5,7 @@ import ProductByCategory from '../components/ProductByCategory'
 
 import { useAlert } from 'react-alert'
 import { ADD_TO_WISHLIST_RESET } from '../constants/userConstants'
+import Meta from '../components/Meta'
 const HomeScreen = () => {
   const alert = useAlert()
   const [catSlug, setCatSlug] = useState('appetizer')
@@ -24,6 +25,7 @@ const HomeScreen = () => {
   }, [successAdd, alert, dispatch])
   return (
     <div>
+      <Meta title='Food Store | Home' />
       <CategoryCarousalHome setCatSlug={setCatSlug} />
       <ProductByCategory
         catSlug={catSlug}

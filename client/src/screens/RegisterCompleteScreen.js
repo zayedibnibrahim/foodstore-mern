@@ -5,6 +5,7 @@ import Message from '../components/Message'
 import { auth } from '../firebase'
 import { useDispatch, useSelector } from 'react-redux'
 import { logOut } from '../actions/userActions'
+import Meta from '../components/Meta'
 
 const RegisterCompleteScreen = ({ history, location }) => {
   const [email, setEmail] = useState('')
@@ -63,6 +64,7 @@ const RegisterCompleteScreen = ({ history, location }) => {
 
   return (
     <FormContainer>
+      <Meta title='Food Store | Register Complete' />
       <h3>complete Register</h3>
       {message && <Message variant='danger'>{message}</Message>}
       {error && <Message variant='danger'>{error}</Message>}

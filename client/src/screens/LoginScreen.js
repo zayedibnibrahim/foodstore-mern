@@ -9,6 +9,7 @@ import Loader from '../components/Loader'
 import { useDispatch, useSelector } from 'react-redux'
 import { logInUser } from '../actions/userActions'
 import { Link } from 'react-router-dom'
+import Meta from '../components/Meta'
 
 const LoginScreen = ({ history, location }) => {
   const [userEmail, setEmail] = useState('')
@@ -73,6 +74,7 @@ const LoginScreen = ({ history, location }) => {
 
   return (
     <FormContainer>
+      <Meta title='Food Store | Login' />
       {loading && <Loader />}
       <h1>Sign In</h1>
       <Form onSubmit={submitHandler}>

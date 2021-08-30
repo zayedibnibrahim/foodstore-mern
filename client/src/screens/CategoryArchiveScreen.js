@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { listProductsByCategory } from '../actions/categoryActions'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
+import Meta from '../components/Meta'
 import ProductCard from '../components/ProductCard'
 
 const CategoryArchiveScreen = ({ match }) => {
@@ -27,6 +28,7 @@ const CategoryArchiveScreen = ({ match }) => {
         borderRadius: '35px',
       }}
     >
+      <Meta title={`${categoryName?.name} | Category`} />
       <Link to='/' className='btn btn-dark my-3'>
         Go Back
       </Link>

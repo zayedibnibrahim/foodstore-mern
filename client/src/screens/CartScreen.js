@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import { addToCart, removeFromCart, dbSaveCart } from '../actions/cartActions'
 import Message from '../components/Message'
 import { CART_CLEAR_ITEM, CART_DB_RESET } from '../constants/cartConstants'
+import Meta from '../components/Meta'
 const CartScreen = ({ history }) => {
   const dispatch = useDispatch()
 
@@ -37,6 +38,7 @@ const CartScreen = ({ history }) => {
   }
   return (
     <>
+      <Meta title='Food Store | Cart' />
       <Row>
         <Col md={9}>
           {cartItems.length === 0 ? (

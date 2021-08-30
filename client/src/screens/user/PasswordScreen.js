@@ -4,6 +4,7 @@ import { Form, Button } from 'react-bootstrap'
 import Message from '../../components/Message'
 import { auth } from '../../firebase'
 import { useSelector } from 'react-redux'
+import Meta from '../../components/Meta'
 const Password = ({ history }) => {
   const [password, setPassword] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
@@ -33,6 +34,7 @@ const Password = ({ history }) => {
   }
   return (
     <FormContainer>
+      <Meta title='Food Store | Reset Password' />
       <h1>Enter New Password</h1>
       {successMessage && <Message variant='success'>{successMessage}</Message>}
       {errorMessage && <Message variant='danger'>{errorMessage}</Message>}

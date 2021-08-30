@@ -16,6 +16,7 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { Link } from 'react-router-dom'
 import Invoice from '../components/Invoice'
+import Meta from '../components/Meta'
 
 const OrderDetailsScreen = ({ history, match }) => {
   const orderId = match.params.id
@@ -59,6 +60,7 @@ const OrderDetailsScreen = ({ history, match }) => {
     <Message variant='danger'>{error}</Message>
   ) : (
     <>
+      <Meta title='Food Store | Order Details' />
       {userInfo && userInfo.role !== 'admin' && (
         <Link to='/user/orderhistory' className='btn btn-dark my-3'>
           Go Back

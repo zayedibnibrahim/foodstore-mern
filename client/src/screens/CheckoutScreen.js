@@ -21,6 +21,7 @@ import { CART_SAVE_SHIPPING_ADDRESS_RESET } from '../constants/userConstants'
 import ApplyCoupon from '../components/form/ApplyCoupon'
 import Loader from '../components/Loader'
 import { createOrder } from '../actions/orderActions'
+import Meta from '../components/Meta'
 
 const CheckoutScreen = ({ history }) => {
   const alert = useAlert()
@@ -122,6 +123,7 @@ const CheckoutScreen = ({ history }) => {
 
   return (
     <>
+      <Meta title='Food Store | Checkout' />
       <Row>
         {cartItems ? (
           <>

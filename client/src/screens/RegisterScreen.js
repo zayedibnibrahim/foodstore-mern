@@ -5,6 +5,7 @@ import { auth } from '../firebase'
 import Message from '../components/Message'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import Meta from '../components/Meta'
 
 const RegisterScreen = ({ history, location }) => {
   const [email, setEmail] = useState('')
@@ -39,6 +40,7 @@ const RegisterScreen = ({ history, location }) => {
 
   return (
     <FormContainer>
+      <Meta title='Food Store | Sign Up' />
       <h1>Sign Up</h1>
       <Form onSubmit={submitHandler}>
         <Form.Group controlId='email'>

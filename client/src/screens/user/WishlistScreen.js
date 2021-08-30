@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { REMOVE_WISHLIST_RESET } from '../../constants/userConstants'
+import Meta from '../../components/Meta'
 
 const WishlistScreen = ({ history }) => {
   const dispatch = useDispatch()
@@ -39,6 +40,7 @@ const WishlistScreen = ({ history }) => {
     <Message variant='info'>Wishlist empty</Message>
   ) : (
     <Row>
+      <Meta title='Food Store | Wishlist' />
       <h3>WishList: </h3>
       <Col>
         <Table

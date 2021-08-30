@@ -6,6 +6,7 @@ import { listOrderUser } from '../../actions/orderActions'
 import ShippingForm from '../../components/form/ShippingForm'
 import Loader from '../../components/Loader'
 import Message from '../../components/Message'
+import Meta from '../../components/Meta'
 import OrderListTable from '../../components/OrderListTable'
 
 const OrderHistoryScreen = ({ history }) => {
@@ -27,6 +28,7 @@ const OrderHistoryScreen = ({ history }) => {
 
   return (
     <>
+      <Meta title='Food Store | Order History' />
       <Row>
         <Col md={2}>
           <ShippingForm />

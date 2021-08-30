@@ -4,6 +4,7 @@ import { Form, Button } from 'react-bootstrap'
 import Message from '../components/Message'
 import { auth } from '../firebase'
 import { useSelector } from 'react-redux'
+import Meta from '../components/Meta'
 
 const ForgetPasswordScreen = ({ location, history }) => {
   const [email, setEmail] = useState('')
@@ -33,6 +34,7 @@ const ForgetPasswordScreen = ({ location, history }) => {
   }
   return (
     <FormContainer>
+      <Meta title='Food Store | Forgot Password' />
       <h1>Forgot Password</h1>
       {message && <Message variant='primary'>{message}</Message>}
       <Form onSubmit={submitHandler}>
