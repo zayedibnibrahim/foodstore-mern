@@ -1,45 +1,73 @@
-import { useEffect } from 'react'
+import React, { useEffect, lazy, Suspense } from 'react'
 import { Container } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
 import { currentUser } from './actions/userActions'
-import Footer from './components/Footer'
-import Header from './components/Header'
 import {
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
 } from './constants/userConstants'
 import { auth } from './firebase'
-import AddonScreen from './screens/admin/AddonScreen'
-import AddonEditScreen from './screens/admin/AddonEditScreen'
-import CategoryEditScreen from './screens/admin/CategoryEditScreen'
-import CategoryScreen from './screens/admin/CategoryScreen'
-import UserListScreen from './screens/admin/UserListScreen'
-import ForgetPasswordScreen from './screens/ForgetPasswordScreen'
-import HomeScreen from './screens/HomeScreen'
-import LoginScreen from './screens/LoginScreen'
-import RegisterCompleteScreen from './screens/RegisterCompleteScreen'
-import RegisterScreen from './screens/RegisterScreen'
-import PasswordScreen from './screens/user/PasswordScreen'
-import WishlistScreen from './screens/user/WishlistScreen'
-import ProductCreateScreen from './screens/admin/ProductCreateScreen'
-import ProductListScreen from './screens/admin/ProductListScreen'
-import ProductEditScreen from './screens/admin/ProductEditScreen'
-import VariableCreateScreen from './screens/admin/VariableCreateScreen'
-import AttributeScreen from './screens/admin/AttributeScreen'
-import AttributeEditScreen from './screens/admin/AttributeEditScreen'
-import VariableEditScreen from './screens/admin/VariableEditScreen'
-import CategoryArchiveScreen from './screens/CategoryArchiveScreen'
-import SingleProductScreen from './screens/SingleProductScreen'
-import CartScreen from './screens/CartScreen'
-import CheckoutScreen from './screens/CheckoutScreen'
-import CouponScreen from './screens/admin/CouponScreen'
-import PlaceOrderScreen from './screens/PlaceOrderScreen'
-import OrderDetailsScreen from './screens/OrderDetailsScreen'
-import OrderHistoryScreen from './screens/user/OrderHistoryScreen'
-import ManageOrderScreen from './screens/admin/ManageOrderScreen'
-import UserDetailsScreen from './screens/admin/UserDetailsScreen'
+import loadingGif from './image/Bean Eater-1s-207px.gif'
+
+const Footer = lazy(() => import('./components/Footer'))
+const Header = lazy(() => import('./components/Header'))
+const AddonEditScreen = lazy(() => import('./screens/admin/AddonEditScreen'))
+const AddonScreen = lazy(() => import('./screens/admin/AddonScreen'))
+const CategoryEditScreen = lazy(() =>
+  import('./screens/admin/CategoryEditScreen')
+)
+const CategoryScreen = lazy(() => import('./screens/admin/CategoryScreen'))
+const UserListScreen = lazy(() => import('./screens/admin/UserListScreen'))
+const ForgetPasswordScreen = lazy(() =>
+  import('./screens/ForgetPasswordScreen')
+)
+const HomeScreen = lazy(() => import('./screens/HomeScreen'))
+const LoginScreen = lazy(() => import('./screens/LoginScreen'))
+const RegisterCompleteScreen = lazy(() =>
+  import('./screens/RegisterCompleteScreen')
+)
+const RegisterScreen = lazy(() => import('./screens/RegisterScreen'))
+const PasswordScreen = lazy(() => import('./screens/user/PasswordScreen'))
+const WishlistScreen = lazy(() => import('./screens/user/WishlistScreen'))
+const ProductCreateScreen = lazy(() =>
+  import('./screens/admin/ProductCreateScreen')
+)
+const ProductListScreen = lazy(() =>
+  import('./screens/admin/ProductListScreen')
+)
+const ProductEditScreen = lazy(() =>
+  import('./screens/admin/ProductEditScreen')
+)
+const VariableCreateScreen = lazy(() =>
+  import('./screens/admin/VariableCreateScreen')
+)
+const AttributeScreen = lazy(() => import('./screens/admin/AttributeScreen'))
+const AttributeEditScreen = lazy(() =>
+  import('./screens/admin/AttributeEditScreen')
+)
+const VariableEditScreen = lazy(() =>
+  import('./screens/admin/VariableEditScreen')
+)
+const CategoryArchiveScreen = lazy(() =>
+  import('./screens/CategoryArchiveScreen')
+)
+const SingleProductScreen = lazy(() => import('./screens/SingleProductScreen'))
+const CartScreen = lazy(() => import('./screens/CartScreen'))
+const CheckoutScreen = lazy(() => import('./screens/CheckoutScreen'))
+const CouponScreen = lazy(() => import('./screens/admin/CouponScreen'))
+const PlaceOrderScreen = lazy(() => import('./screens/PlaceOrderScreen'))
+const OrderDetailsScreen = lazy(() => import('./screens/OrderDetailsScreen'))
+const OrderHistoryScreen = lazy(() =>
+  import('./screens/user/OrderHistoryScreen')
+)
+const ManageOrderScreen = lazy(() =>
+  import('./screens/admin/ManageOrderScreen')
+)
+const UserDetailsScreen = lazy(() =>
+  import('./screens/admin/UserDetailsScreen')
+)
 
 function App() {
   const dispatch = useDispatch()
@@ -74,7 +102,16 @@ function App() {
     return () => unsubscribe()
   }, [dispatch])
   return (
-    <>
+    <Suspense
+      fallback={
+        <div
+          className='d-flex align-items-center justify-content-center'
+          style={{ height: '100vh' }}
+        >
+          <img src={loadingGif} alt='loader' />
+        </div>
+      }
+    >
       <Header></Header>
       <main className='py-3'>
         <Container>
@@ -155,7 +192,7 @@ function App() {
         </Container>
       </main>
       <Footer />
-    </>
+    </Suspense>
   )
 }
 

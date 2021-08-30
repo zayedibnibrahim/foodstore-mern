@@ -12,13 +12,10 @@ import {
 } from '../constants/orderConstants'
 import { Form, Row, Col, ListGroup, Image, Badge } from 'react-bootstrap'
 import { PDFDownloadLink } from '@react-pdf/renderer'
-
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { Link } from 'react-router-dom'
-
 import Invoice from '../components/Invoice'
-import { CART_LIST_RESET } from '../constants/cartConstants'
 
 const OrderDetailsScreen = ({ history, match }) => {
   const orderId = match.params.id

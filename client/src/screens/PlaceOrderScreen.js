@@ -2,12 +2,10 @@ import React, { useEffect } from 'react'
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 import StripeCheckoutForm from '../components/form/StripeCheckoutForm'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 const promise = loadStripe(process.env.REACT_APP_PUBLISHABLE_KEY)
 const PlaceOrderScreen = ({ history }) => {
-  const dispatch = useDispatch()
-
   const userLogIn = useSelector((state) => state.userLogIn)
   const { userInfo } = userLogIn
 

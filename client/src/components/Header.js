@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -15,9 +15,13 @@ import { addToCart, listCart } from '../actions/cartActions'
 const Header = () => {
   const history = useHistory()
   const dispatch = useDispatch()
+  const [searchValue, setSearchValue] = useState('')
 
   const userLogIn = useSelector((state) => state.userLogIn)
   const { userInfo } = userLogIn
+
+  const productList = useSelector((state) => state.productList)
+  const { products } = productList
 
   const cart = useSelector((state) => state.cart)
   const { cartItems } = cart
@@ -51,7 +55,11 @@ const Header = () => {
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ms-auto'>
-              <GlobalSearch />
+              <GlobalSearch
+                products={products}
+                searchValue={searchValue}
+                setSearchValue={setSearchValue}
+              />
               <LinkContainer to='/cart'>
                 <Nav.Link className='cart'>
                   <FontAwesomeIcon icon={faCartPlus} color='#fff' /> Cart
