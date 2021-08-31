@@ -21,6 +21,7 @@
 - Mark orders as delivered option
 - Mark orders as Paid option
 - Cash on delivery
+- Download Invoice
 - Checkout process (shipping, payment method, etc)
 - Stripe / credit card integration
 - Almost all Device responsive
