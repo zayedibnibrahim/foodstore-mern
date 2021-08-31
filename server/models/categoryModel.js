@@ -8,6 +8,10 @@ const CategorySchema = new mongoose.Schema(
       trim: true,
       require: true,
     },
+    image: {
+      type: Object,
+      required: true,
+    },
     slug: {
       type: String,
       unique: true,

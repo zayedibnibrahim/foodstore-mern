@@ -56,46 +56,45 @@ const ProductEditScreen = ({ history, match }) => {
 
   const variableList = useSelector((state) => state.variableList)
   const { variables } = variableList
-  useEffect(() => {
-    if (userInfo && userInfo.role !== 'admin') {
-      history.push('/')
-    }
-  }, [userInfo, history])
 
   useEffect(() => {
-    if (successUpdate) {
-      alert.success('Product Updated')
-      dispatch({ type: UPDATE_PRODUCT_RESET })
-      dispatch({ type: DETAILS_PRODUCT_RESET })
-      dispatch({ type: UPLOAD_IMAGE_RESET })
-      history.push('/admin/products')
-    } else {
-      if (!product.title || product.slug !== productSlug) {
-        dispatch(detailsProduct(productSlug))
-        dispatch(listVariable())
-        dispatch(listCategory())
-        dispatch(listAddon())
+    if (userInfo && userInfo.role === 'admin') {
+      if (successUpdate) {
+        alert.success('Product Updated')
+        dispatch({ type: UPDATE_PRODUCT_RESET })
+        dispatch({ type: DETAILS_PRODUCT_RESET })
+        dispatch({ type: UPLOAD_IMAGE_RESET })
+        history.push('/admin/products')
       } else {
-        setTitle(product.title)
-        setPrice(product.price)
-        if (product.variable && product.variable._id) {
-          setVariable(product.variable._id)
+        if (!product.title || product.slug !== productSlug) {
+          dispatch(detailsProduct(productSlug))
+          dispatch(listVariable())
+          dispatch(listCategory())
+          dispatch(listAddon())
+        } else {
+          setTitle(product.title)
+          setPrice(product.price)
+          if (product.variable && product.variable._id) {
+            setVariable(product.variable._id)
+          }
+          setImage(product.image)
+          setCategory(product.category._id)
+          if (product.addon.length > 0) {
+            setSelectedAddon(
+              product.addon.map((a) => ({
+                label: a.name,
+                value: a._id,
+              }))
+            )
+          }
+          setSold(product.sold)
+          setDescription(product.description)
+          setDelivery(product.delivery)
+          setAvailability(product.availability)
         }
-        setImage(product.image)
-        setCategory(product.category._id)
-        if (product.addon.length > 0) {
-          setSelectedAddon(
-            product.addon.map((a) => ({
-              label: a.name,
-              value: a._id,
-            }))
-          )
-        }
-        setSold(product.sold)
-        setDescription(product.description)
-        setDelivery(product.delivery)
-        setAvailability(product.availability)
       }
+    } else {
+      history.push('/')
     }
   }, [
     history,
@@ -105,6 +104,7 @@ const ProductEditScreen = ({ history, match }) => {
     successUpdate,
     categories,
     alert,
+    userInfo,
   ])
 
   const submitHandler = (e) => {

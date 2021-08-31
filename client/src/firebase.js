@@ -3,12 +3,12 @@ import 'firebase/auth'
 import 'firebase/firestore'
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyDP9op1gs3qeejtFPs7sQz7TbOZUwgWxn0',
-  authDomain: 'food-store-add09.firebaseapp.com',
-  projectId: 'food-store-add09',
-  storageBucket: 'food-store-add09.appspot.com',
-  messagingSenderId: '295290105249',
-  appId: '1:295290105249:web:d3478f4131871f8261efe0',
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
 }
 
 if (!firebase.apps.length) {

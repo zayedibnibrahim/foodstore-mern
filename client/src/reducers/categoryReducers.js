@@ -1,6 +1,7 @@
 import {
   CATEGORY_CREATE_FAIL,
   CATEGORY_CREATE_REQUEST,
+  CATEGORY_CREATE_RESET,
   CATEGORY_CREATE_SUCCESS,
   CATEGORY_DELETE_FAIL,
   CATEGORY_DELETE_REQUEST,
@@ -18,7 +19,48 @@ import {
   PRODUCT_BY_CATEGORY_FAIL,
   PRODUCT_BY_CATEGORY_REQUEST,
   PRODUCT_BY_CATEGORY_SUCCESS,
+  REMOVE_CATEGORY_IMAGE_FAIL,
+  REMOVE_CATEGORY_IMAGE_REQUEST,
+  REMOVE_CATEGORY_IMAGE_RESET,
+  REMOVE_CATEGORY_IMAGE_SUCCESS,
+  UPLOAD_CATEGORY_IMAGE_FAIL,
+  UPLOAD_CATEGORY_IMAGE_REQUEST,
+  UPLOAD_CATEGORY_IMAGE_RESET,
+  UPLOAD_CATEGORY_IMAGE_SUCCESS,
 } from '../constants/categoryConstants'
+
+export const categoryFileUploadReducer = (
+  state = { uploadData: {} },
+  action
+) => {
+  switch (action.type) {
+    case UPLOAD_CATEGORY_IMAGE_REQUEST:
+      return { loading: true }
+    case UPLOAD_CATEGORY_IMAGE_SUCCESS:
+      return { loading: false, success: true, uploadData: action.payload }
+    case UPLOAD_CATEGORY_IMAGE_FAIL:
+      return { loading: false, error: action.payload }
+    case UPLOAD_CATEGORY_IMAGE_RESET:
+      return { uploadData: {} }
+    default:
+      return state
+  }
+}
+
+export const categoryFileRemoveReducer = (state = {}, action) => {
+  switch (action.type) {
+    case REMOVE_CATEGORY_IMAGE_REQUEST:
+      return { loading: true }
+    case REMOVE_CATEGORY_IMAGE_SUCCESS:
+      return { loading: false, success: true }
+    case REMOVE_CATEGORY_IMAGE_FAIL:
+      return { loading: false, error: action.payload }
+    case REMOVE_CATEGORY_IMAGE_RESET:
+      return {}
+    default:
+      return state
+  }
+}
 
 export const categoryCreateReducer = (state = {}, action) => {
   switch (action.type) {
@@ -28,6 +70,8 @@ export const categoryCreateReducer = (state = {}, action) => {
       return { loading: false, success: true }
     case CATEGORY_CREATE_FAIL:
       return { loading: false, error: action.payload }
+    case CATEGORY_CREATE_RESET:
+      return {}
     default:
       return state
   }

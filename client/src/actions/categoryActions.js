@@ -18,7 +18,74 @@ import {
   PRODUCT_BY_CATEGORY_FAIL,
   PRODUCT_BY_CATEGORY_REQUEST,
   PRODUCT_BY_CATEGORY_SUCCESS,
+  REMOVE_CATEGORY_IMAGE_FAIL,
+  REMOVE_CATEGORY_IMAGE_REQUEST,
+  REMOVE_CATEGORY_IMAGE_SUCCESS,
+  UPLOAD_CATEGORY_IMAGE_FAIL,
+  UPLOAD_CATEGORY_IMAGE_REQUEST,
+  UPLOAD_CATEGORY_IMAGE_SUCCESS,
 } from '../constants/categoryConstants'
+
+export const categoryUploadFile = (file) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: UPLOAD_CATEGORY_IMAGE_REQUEST })
+    const {
+      userLogIn: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_API}/api/category-image-upload`,
+      { image: file },
+      config
+    )
+
+    dispatch({ type: UPLOAD_CATEGORY_IMAGE_SUCCESS, payload: data })
+  } catch (error) {
+    dispatch({
+      type: UPLOAD_CATEGORY_IMAGE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const categoryRemoveFile = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: REMOVE_CATEGORY_IMAGE_REQUEST })
+    const {
+      userLogIn: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    await axios.post(
+      `${process.env.REACT_APP_API}/api/category-image-remove`,
+      { id },
+      config
+    )
+    dispatch({ type: REMOVE_CATEGORY_IMAGE_SUCCESS })
+  } catch (error) {
+    dispatch({
+      type: REMOVE_CATEGORY_IMAGE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
 
 export const createCategory = (category) => async (dispatch, getState) => {
   try {
@@ -35,7 +102,7 @@ export const createCategory = (category) => async (dispatch, getState) => {
     }
     await axios.post(
       `${process.env.REACT_APP_API}/api/category`,
-      { name: category },
+      category,
       config
     )
 
@@ -133,39 +200,38 @@ export const detailsCategory = (slug) => async (dispatch) => {
   }
 }
 
-export const updateCategory =
-  (newCategory, slug) => async (dispatch, getState) => {
-    try {
-      dispatch({ type: CATEGORY_UPDATE_REQUEST })
+export const updateCategory = (category) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: CATEGORY_UPDATE_REQUEST })
 
-      const {
-        userLogIn: { userInfo },
-      } = getState()
+    const {
+      userLogIn: { userInfo },
+    } = getState()
 
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${userInfo.token}`,
-        },
-      }
-
-      await axios.put(
-        `${process.env.REACT_APP_API}/api/category/${slug}`,
-        { name: newCategory },
-        config
-      )
-
-      dispatch({ type: CATEGORY_UPDATE_SUCCESS })
-    } catch (error) {
-      dispatch({
-        type: CATEGORY_UPDATE_FAIL,
-        payload:
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
-      })
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
     }
+
+    await axios.put(
+      `${process.env.REACT_APP_API}/api/category/${category.slug}`,
+      category,
+      config
+    )
+
+    dispatch({ type: CATEGORY_UPDATE_SUCCESS })
+  } catch (error) {
+    dispatch({
+      type: CATEGORY_UPDATE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
   }
+}
 
 export const listProductsByCategory = (slug) => async (dispatch) => {
   try {

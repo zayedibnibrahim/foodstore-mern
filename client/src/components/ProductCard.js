@@ -34,7 +34,7 @@ const ProductCard = ({ product, loading, error, userInfo, loadingAdd }) => {
                 to={`/product/${product.slug}`}
                 style={{
                   color: '#000',
-                  textDecoration: 'none',
+                  // textDecoration: 'none',
                   fontWeight: '600',
                 }}
               >

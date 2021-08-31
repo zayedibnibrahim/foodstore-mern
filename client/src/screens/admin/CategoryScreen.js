@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import FormContainer from '../../components/FormContainer'
 import ItemSearch from '../../components/ItemSearch'
-import { Form, Button, Row, Table } from 'react-bootstrap'
+import { Form, Button, Row, Table, Image } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { LinkContainer } from 'react-router-bootstrap'
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from 'react-redux'
+import { useAlert } from 'react-alert'
 import {
   createCategory,
   deleteCategory,
@@ -13,11 +14,20 @@ import {
 } from '../../actions/categoryActions'
 import Loader from '../../components/Loader'
 import Message from '../../components/Message'
+import CategoryImageUploader from '../../components/form/CategoryImageUploader'
+import {
+  CATEGORY_CREATE_RESET,
+  UPLOAD_CATEGORY_IMAGE_RESET,
+} from '../../constants/categoryConstants'
 
 const CategoryScreen = ({ history }) => {
+  const alert = useAlert()
   const [keyword, setKeyword] = useState('')
   const [category, setCategory] = useState('')
+  const [image, setImage] = useState({})
+
   const dispatch = useDispatch()
+
   //check logged in user
   const userLogIn = useSelector((state) => state.userLogIn)
   const { userInfo } = userLogIn
@@ -41,15 +51,21 @@ const CategoryScreen = ({ history }) => {
   useEffect(() => {
     if (userInfo && userInfo.role === 'admin') {
       dispatch(listCategory())
+      if (success) {
+        alert.success('Category Created')
+        setCategory('')
+        setImage({})
+        dispatch({ type: UPLOAD_CATEGORY_IMAGE_RESET })
+        dispatch({ type: CATEGORY_CREATE_RESET })
+      }
     } else {
       history.push('/')
     }
-  }, [dispatch, userInfo, history, success, successDelete])
+  }, [dispatch, userInfo, history, success, successDelete, alert])
 
   const submitHandler = (e) => {
     e.preventDefault()
-    dispatch(createCategory(category))
-    setCategory('')
+    dispatch(createCategory({ category, image }))
   }
 
   const deleteHandler = (slug) => {
@@ -66,8 +82,11 @@ const CategoryScreen = ({ history }) => {
         {success && <Message variant='success'>Category Added</Message>}
         {error && <Message variant='danger'>{error}</Message>}
         <Form onSubmit={submitHandler} className='my-5'>
+          <Form.Group controlId='image' className='mt-1'>
+            <CategoryImageUploader setImage={setImage} image={image} />
+          </Form.Group>
           <Form.Group controlId='category'>
-            <Form.Label>Create Category</Form.Label>
+            <Form.Label>Category</Form.Label>
             <Form.Control
               type='text'
               placeholder='Enter category'
@@ -103,6 +122,7 @@ const CategoryScreen = ({ history }) => {
             >
               <thead>
                 <tr>
+                  <th>IMAGE</th>
                   <th>NAME</th>
                   <th>SLUG</th>
                   <th>ACTION</th>
@@ -111,6 +131,13 @@ const CategoryScreen = ({ history }) => {
               <tbody>
                 {categories.filter(searched(keyword)).map((category) => (
                   <tr key={category._id}>
+                    <td>
+                      <Image
+                        src={category?.image?.url}
+                        rounded
+                        style={{ width: '40px' }}
+                      />
+                    </td>
                     <td>{category.name}</td>
                     <td>{category.slug}</td>
                     <td>

@@ -6,10 +6,16 @@ import Loader from '../../components/Loader'
 import Message from '../../components/Message'
 import { useDispatch, useSelector } from 'react-redux'
 import { detailsCategory, updateCategory } from '../../actions/categoryActions'
-import { CATEGORY_UPDATE_RESET } from '../../constants/categoryConstants'
+import {
+  CATEGORY_DETAILS_RESET,
+  CATEGORY_UPDATE_RESET,
+  UPLOAD_CATEGORY_IMAGE_RESET,
+} from '../../constants/categoryConstants'
+import CategoryImageUploader from '../../components/form/CategoryImageUploader'
 const CategoryEditScreen = ({ history, match }) => {
   const categorySlug = match.params.slug
   const [category, setCategory] = useState('')
+  const [image, setImage] = useState({})
 
   const dispatch = useDispatch()
 
@@ -29,26 +35,29 @@ const CategoryEditScreen = ({ history, match }) => {
   } = categoryUpdate
 
   useEffect(() => {
-    if (userInfo && userInfo.role !== 'admin') {
-      history.push('/')
-    }
-
-    if (successUpdate) {
-      dispatch({ type: CATEGORY_UPDATE_RESET })
-      history.push('/admin/category')
-    } else {
-      if (!categoryData.name || categoryData.slug !== categorySlug) {
-        dispatch(detailsCategory(categorySlug))
+    if (userInfo && userInfo.role === 'admin') {
+      if (successUpdate) {
+        dispatch({ type: CATEGORY_UPDATE_RESET })
+        dispatch({ type: UPLOAD_CATEGORY_IMAGE_RESET })
+        dispatch({ type: CATEGORY_DETAILS_RESET })
+        history.push('/admin/category')
       } else {
-        setCategory(categoryData.name)
+        if (!categoryData.name || categoryData.slug !== categorySlug) {
+          dispatch(detailsCategory(categorySlug))
+        } else {
+          setCategory(categoryData.name)
+          setImage(categoryData.image)
+        }
       }
+    } else {
+      history.push('/')
     }
   }, [dispatch, history, categorySlug, categoryData, successUpdate, userInfo])
 
   const submitHandler = (e) => {
     e.preventDefault()
 
-    dispatch(updateCategory(category, categorySlug))
+    dispatch(updateCategory({ name: category, image, slug: categorySlug }))
   }
 
   return (
@@ -62,7 +71,10 @@ const CategoryEditScreen = ({ history, match }) => {
         {error && <Message variant='danger'>{error}</Message>}
         <Form onSubmit={submitHandler} className='my-5'>
           <Form.Group controlId='Update category'>
-            <Form.Label>Create Category</Form.Label>
+            <Form.Group controlId='image' className='mt-1'>
+              <CategoryImageUploader setImage={setImage} image={image} />
+            </Form.Group>
+            <Form.Label>Category</Form.Label>
             <Form.Control
               type='text'
               placeholder='Enter category'
