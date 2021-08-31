@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "food-store-add09",
+    "dev": "food-store-add09",
+    "prod": "food-store-add09"
+  },
+  "targets": {}
+}

@@ -30,7 +30,11 @@ export const createVariable = (variable) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    await axios.post('/api/variable', variable, config)
+    await axios.post(
+      `${process.env.REACT_APP_API}/api/variable`,
+      variable,
+      config
+    )
 
     dispatch({ type: VARIABLE_CREATE_SUCCESS })
   } catch (error) {
@@ -53,7 +57,10 @@ export const listVariable = () => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     }
-    const { data } = await axios.get('/api/variable', config)
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API}/api/variable`,
+      config
+    )
 
     dispatch({ type: VARIABLE_LIST_SUCCESS, payload: data })
   } catch (error) {
@@ -80,7 +87,10 @@ export const deleteVariable = (id) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    await axios.delete(`/api/variable/${id}`, config)
+    await axios.delete(
+      `${process.env.REACT_APP_API}/api/variable/${id}`,
+      config
+    )
 
     dispatch({ type: VARIABLE_DELETE_SUCCESS })
   } catch (error) {
@@ -103,7 +113,10 @@ export const detailsVariable = (id) => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     }
-    const { data } = await axios.get(`/api/variable/${id}`, config)
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API}/api/variable/${id}`,
+      config
+    )
 
     dispatch({ type: VARIABLE_DETAILS_SUCCESS, payload: data })
   } catch (error) {
@@ -133,7 +146,11 @@ export const updateVariable = (variable) => async (dispatch, getState) => {
       },
     }
 
-    await axios.put(`/api/variable/${variableId}`, { name, attribute }, config)
+    await axios.put(
+      `${process.env.REACT_APP_API}/api/variable/${variableId}`,
+      { name, attribute },
+      config
+    )
 
     dispatch({ type: VARIABLE_UPDATE_SUCCESS })
   } catch (error) {

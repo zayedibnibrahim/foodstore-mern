@@ -1,14 +1,6 @@
-import React, { useEffect, lazy, Suspense } from 'react'
+import React, { lazy, Suspense } from 'react'
 import { Container, Image } from 'react-bootstrap'
-import { useDispatch } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
-import { currentUser } from './actions/userActions'
-import {
-  USER_LOGIN_FAIL,
-  USER_LOGIN_REQUEST,
-  USER_LOGIN_SUCCESS,
-} from './constants/userConstants'
-import { auth } from './firebase'
 import loadingGif from './image/Bean Eater-1s-207px.gif'
 
 const Footer = lazy(() => import('./components/Footer'))
@@ -70,37 +62,37 @@ const UserDetailsScreen = lazy(() =>
 )
 
 function App() {
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
 
-  // to check firebase auth state
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        const idTokenResult = await user.getIdTokenResult()
+  // // to check firebase auth state
+  // useEffect(() => {
+  //   const unsubscribe = auth.onAuthStateChanged(async (user) => {
+  //     if (user) {
+  //       const idTokenResult = await user.getIdTokenResult()
 
-        currentUser(idTokenResult.token)
-          .then((res) => {
-            dispatch({ type: USER_LOGIN_REQUEST })
-            dispatch({
-              type: USER_LOGIN_SUCCESS,
-              payload: {
-                name: res.name,
-                email: res.email,
-                token: idTokenResult.token,
-                role: res.role,
-                _id: res._id,
-                shipping: res.shipping,
-              },
-            })
-          })
-          .catch((err) => {
-            dispatch({ type: USER_LOGIN_FAIL, payload: err })
-          })
-      }
-    })
-    // cleanup
-    return () => unsubscribe()
-  }, [dispatch])
+  //       currentUser(idTokenResult.token)
+  //         .then((res) => {
+  //           dispatch({ type: USER_LOGIN_REQUEST })
+  //           dispatch({
+  //             type: USER_LOGIN_SUCCESS,
+  //             payload: {
+  //               name: res.name,
+  //               email: res.email,
+  //               token: idTokenResult.token,
+  //               role: res.role,
+  //               _id: res._id,
+  //               shipping: res.shipping,
+  //             },
+  //           })
+  //         })
+  //         .catch((err) => {
+  //           dispatch({ type: USER_LOGIN_FAIL, payload: err })
+  //         })
+  //     }
+  //   })
+  //   // cleanup
+  //   return () => unsubscribe()
+  // }, [dispatch])
   return (
     <Suspense
       fallback={

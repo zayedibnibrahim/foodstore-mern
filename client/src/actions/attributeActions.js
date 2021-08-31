@@ -32,7 +32,7 @@ export const createAttribute =
         },
       }
       await axios.post(
-        '/api/attribute',
+        `${process.env.REACT_APP_API}/api/attribute`,
         { name: attribute, price, product },
         config
       )
@@ -58,7 +58,10 @@ export const listAttribute = () => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     }
-    const { data } = await axios.get('/api/attribute', config)
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API}/api/attribute`,
+      config
+    )
 
     dispatch({ type: ATTRIBUTE_LIST_SUCCESS, payload: data })
   } catch (error) {
@@ -85,7 +88,10 @@ export const deleteAttribute = (id) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    await axios.delete(`/api/attribute/${id}`, config)
+    await axios.delete(
+      `${process.env.REACT_APP_API}/api/attribute/${id}`,
+      config
+    )
 
     dispatch({ type: ATTRIBUTE_DELETE_SUCCESS })
   } catch (error) {
@@ -108,7 +114,10 @@ export const detailsAttribute = (id) => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     }
-    const { data } = await axios.get(`/api/attribute/${id}`, config)
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API}/api/attribute/${id}`,
+      config
+    )
 
     dispatch({ type: ATTRIBUTE_DETAILS_SUCCESS, payload: data })
   } catch (error) {
@@ -139,7 +148,7 @@ export const updateAttribute =
       }
 
       await axios.put(
-        `/api/attribute/${attributeId}`,
+        `${process.env.REACT_APP_API}/api/attribute/${attributeId}`,
         { name: newAttribute, price, product },
         config
       )

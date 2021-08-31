@@ -1,5 +1,6 @@
 const express = require('express')
 const path = require('path')
+const cors = require('cors')
 const dotenv = require('dotenv')
 const colors = require('colors')
 const connectDB = require('./config/db')
@@ -10,6 +11,7 @@ dotenv.config()
 const app = express()
 
 connectDB()
+app.use(cors())
 app.use(express.json({ limit: '2mb' }))
 
 app.get('/', (req, res) => {

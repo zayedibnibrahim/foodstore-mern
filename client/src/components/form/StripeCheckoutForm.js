@@ -46,7 +46,11 @@ const StripeCheckoutForm = ({ cartItems, userInfo }) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    const { data } = await axios.post('/api/create-payment-intent', {}, config)
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_API}/api/create-payment-intent`,
+      {},
+      config
+    )
 
     const payload = await stripe.confirmCardPayment(data.clientSecret, {
       payment_method: {

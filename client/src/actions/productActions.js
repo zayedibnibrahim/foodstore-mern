@@ -42,7 +42,11 @@ export const uploadFile = (file) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    const { data } = await axios.post('/api/upload', { image: file }, config)
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_API}/api/upload`,
+      { image: file },
+      config
+    )
 
     dispatch({ type: UPLOAD_IMAGE_SUCCESS, payload: data })
   } catch (error) {
@@ -69,7 +73,7 @@ export const removeFile = (id) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    await axios.post('/api/remove', { id }, config)
+    await axios.post(`${process.env.REACT_APP_API}/api/remove`, { id }, config)
     dispatch({ type: REMOVE_IMAGE_SUCCESS })
   } catch (error) {
     dispatch({
@@ -95,7 +99,11 @@ export const createProduct = (product) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    await axios.post('/api/product', product, config)
+    await axios.post(
+      `${process.env.REACT_APP_API}/api/product`,
+      product,
+      config
+    )
     dispatch({ type: CREATE_PRODUCT_SUCCESS })
   } catch (error) {
     dispatch({
@@ -112,7 +120,9 @@ export const listProduct = (search) => async (dispatch) => {
   try {
     dispatch({ type: LIST_PRODUCT_REQUEST })
 
-    const { data } = await axios.get(`/api/product?search=${search}`)
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API}/api/product?search=${search}`
+    )
     dispatch({ type: LIST_PRODUCT_SUCCESS, payload: data })
   } catch (error) {
     dispatch({
@@ -137,7 +147,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    await axios.delete(`/api/product/${id}`, config)
+    await axios.delete(`${process.env.REACT_APP_API}/api/product/${id}`, config)
     dispatch({ type: DELETE_PRODUCT_SUCCESS })
   } catch (error) {
     dispatch({
@@ -163,7 +173,11 @@ export const updateProduct = (product) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    await axios.put(`/api/product/${product.slug}`, product, config)
+    await axios.put(
+      `${process.env.REACT_APP_API}/api/product/${product.slug}`,
+      product,
+      config
+    )
     dispatch({ type: UPDATE_PRODUCT_SUCCESS })
   } catch (error) {
     dispatch({
@@ -180,7 +194,9 @@ export const detailsProduct = (slug) => async (dispatch) => {
   try {
     dispatch({ type: DETAILS_PRODUCT_REQUEST })
 
-    const { data } = await axios.get(`/api/product/${slug}`)
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API}/api/product/${slug}`
+    )
 
     dispatch({ type: DETAILS_PRODUCT_SUCCESS, payload: data })
   } catch (error) {
@@ -198,7 +214,9 @@ export const CountProduct = () => async (dispatch) => {
   try {
     dispatch({ type: COUNT_PRODUCTS_REQUEST })
 
-    const { data } = await axios.get('/api/productCount')
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API}/api/productCount`
+    )
     dispatch({ type: COUNT_PRODUCTS_SUCCESS, payload: data })
   } catch (error) {
     dispatch({
@@ -222,7 +240,7 @@ export const listProductAdmin = (sort, order, page) => async (dispatch) => {
     }
 
     const { data } = await axios.post(
-      '/api/productListAdmin',
+      `${process.env.REACT_APP_API}/api/productListAdmin`,
       { sort, order, page },
       config
     )

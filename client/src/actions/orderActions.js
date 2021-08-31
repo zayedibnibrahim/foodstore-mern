@@ -35,7 +35,7 @@ export const createOrder =
         },
       }
       const { data } = await axios.post(
-        '/api/order',
+        `${process.env.REACT_APP_API}/api/order`,
         { paymentIntent, paymentMethod },
         config
       )
@@ -63,7 +63,10 @@ export const detailsOrder = (id) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    const { data } = await axios.get(`/api/order/${id}`, config)
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API}/api/order/${id}`,
+      config
+    )
     dispatch({ type: ORDER_DETAILS_SUCCESS, payload: data })
   } catch (error) {
     dispatch({
@@ -88,7 +91,10 @@ export const listOrderUser = () => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    const { data } = await axios.get(`/api/order`, config)
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API}/api/order`,
+      config
+    )
     dispatch({ type: USER_ORDER_LIST_SUCCESS, payload: data })
   } catch (error) {
     dispatch({
@@ -113,7 +119,10 @@ export const listOrderAdmin = () => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    const { data } = await axios.get(`/api/admin/orderlist`, config)
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API}/api/admin/orderlist`,
+      config
+    )
     dispatch({ type: ADMIN_ORDER_LIST_SUCCESS, payload: data })
   } catch (error) {
     dispatch({
@@ -139,7 +148,11 @@ export const updateOrderStatus = (id, status) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    await axios.put(`/api/admin/orderStatus/${id}`, { status }, config)
+    await axios.put(
+      `${process.env.REACT_APP_API}/api/admin/orderStatus/${id}`,
+      { status },
+      config
+    )
     dispatch({ type: ORDER_STATUS_UPDATE_SUCCESS })
   } catch (error) {
     dispatch({
@@ -166,7 +179,11 @@ export const updatePaymentStatus =
           Authorization: `Bearer ${userInfo.token}`,
         },
       }
-      await axios.put(`/api/admin/paymentStatus/${id}`, { status }, config)
+      await axios.put(
+        `${process.env.REACT_APP_API}/api/admin/paymentStatus/${id}`,
+        { status },
+        config
+      )
       dispatch({ type: PAYMENT_STATUS_UPDATE_SUCCESS })
     } catch (error) {
       dispatch({

@@ -30,7 +30,11 @@ export const createAddon = (addon, price) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    await axios.post('/api/addon', { name: addon, price }, config)
+    await axios.post(
+      `${process.env.REACT_APP_API}/api/addon`,
+      { name: addon, price },
+      config
+    )
 
     dispatch({ type: ADDON_CREATE_SUCCESS })
   } catch (error) {
@@ -53,7 +57,10 @@ export const listAddon = () => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     }
-    const { data } = await axios.get('/api/addon', config)
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API}/api/addon`,
+      config
+    )
 
     dispatch({ type: ADDON_LIST_SUCCESS, payload: data })
   } catch (error) {
@@ -80,7 +87,7 @@ export const deleteAddon = (slug) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    await axios.delete(`/api/addon/${slug}`, config)
+    await axios.delete(`${process.env.REACT_APP_API}/api/addon/${slug}`, config)
 
     dispatch({ type: ADDON_DELETE_SUCCESS })
   } catch (error) {
@@ -103,7 +110,10 @@ export const detailsAddon = (slug) => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     }
-    const { data } = await axios.get(`/api/addon/${slug}`, config)
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API}/api/addon/${slug}`,
+      config
+    )
 
     dispatch({ type: ADDON_DETAILS_SUCCESS, payload: data })
   } catch (error) {
@@ -133,7 +143,11 @@ export const updateAddon =
         },
       }
 
-      await axios.put(`/api/addon/${slug}`, { name: newAddon, price }, config)
+      await axios.put(
+        `${process.env.REACT_APP_API}/api/addon/${slug}`,
+        { name: newAddon, price },
+        config
+      )
 
       dispatch({ type: ADDON_UPDATE_SUCCESS })
     } catch (error) {

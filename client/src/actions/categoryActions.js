@@ -33,7 +33,11 @@ export const createCategory = (category) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    await axios.post('/api/category', { name: category }, config)
+    await axios.post(
+      `${process.env.REACT_APP_API}/api/category`,
+      { name: category },
+      config
+    )
 
     dispatch({ type: CATEGORY_CREATE_SUCCESS })
   } catch (error) {
@@ -56,7 +60,10 @@ export const listCategory = () => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     }
-    const { data } = await axios.get('/api/category', config)
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API}/api/category`,
+      config
+    )
 
     dispatch({ type: CATEGORY_LIST_SUCCESS, payload: data })
   } catch (error) {
@@ -83,7 +90,10 @@ export const deleteCategory = (slug) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    await axios.delete(`/api/category/${slug}`, config)
+    await axios.delete(
+      `${process.env.REACT_APP_API}/api/category/${slug}`,
+      config
+    )
 
     dispatch({ type: CATEGORY_DELETE_SUCCESS })
   } catch (error) {
@@ -106,7 +116,10 @@ export const detailsCategory = (slug) => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     }
-    const { data } = await axios.get(`/api/category/${slug}`, config)
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API}/api/category/${slug}`,
+      config
+    )
 
     dispatch({ type: CATEGORY_DETAILS_SUCCESS, payload: data })
   } catch (error) {
@@ -136,7 +149,11 @@ export const updateCategory =
         },
       }
 
-      await axios.put(`/api/category/${slug}`, { name: newCategory }, config)
+      await axios.put(
+        `${process.env.REACT_APP_API}/api/category/${slug}`,
+        { name: newCategory },
+        config
+      )
 
       dispatch({ type: CATEGORY_UPDATE_SUCCESS })
     } catch (error) {
@@ -160,7 +177,7 @@ export const listProductsByCategory = (slug) => async (dispatch) => {
       },
     }
     const { data } = await axios.post(
-      '/api/categoryByCategory',
+      `${process.env.REACT_APP_API}/api/categoryByCategory`,
       { slug },
       config
     )

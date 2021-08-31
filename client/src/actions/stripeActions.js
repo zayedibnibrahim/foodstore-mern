@@ -17,7 +17,11 @@ export const secretClient = () => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    const { data } = await axios.post('/api/create-payment-intent', {}, config)
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_API}/api/create-payment-intent`,
+      {},
+      config
+    )
     dispatch({ type: STRIPE_CLIENT_SECRET_SUCCESS, payload: data.clientSecret })
   } catch (error) {
     dispatch({

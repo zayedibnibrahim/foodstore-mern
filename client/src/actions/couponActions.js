@@ -24,7 +24,7 @@ export const createCoupon = (coupon) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    await axios.post('/api/coupon', coupon, config)
+    await axios.post(`${process.env.REACT_APP_API}/api/coupon`, coupon, config)
     dispatch({ type: COUPON_CREATE_SUCCESS })
   } catch (error) {
     dispatch({
@@ -49,7 +49,10 @@ export const listCoupon = () => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    const { data } = await axios.get('/api/coupon', config)
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API}/api/coupon`,
+      config
+    )
 
     dispatch({ type: COUPON_LIST_SUCCESS, payload: data })
   } catch (error) {
@@ -74,7 +77,10 @@ export const deleteCoupon = (id) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    const { data } = await axios.delete(`/api/coupon/${id}`, config)
+    const { data } = await axios.delete(
+      `${process.env.REACT_APP_API}/api/coupon/${id}`,
+      config
+    )
 
     dispatch({ type: COUPON_DELETE_SUCCESS, payload: data.message })
   } catch (error) {

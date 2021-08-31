@@ -3,8 +3,7 @@ import FormContainer from '../components/FormContainer'
 import { Form, Button } from 'react-bootstrap'
 import Message from '../components/Message'
 import { auth } from '../firebase'
-import { useDispatch, useSelector } from 'react-redux'
-import { logOut } from '../actions/userActions'
+import { useSelector } from 'react-redux'
 import Meta from '../components/Meta'
 
 const RegisterCompleteScreen = ({ history, location }) => {
@@ -13,7 +12,6 @@ const RegisterCompleteScreen = ({ history, location }) => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [message, setMessage] = useState('')
-  const dispatch = useDispatch()
   const userLogIn = useSelector((state) => state.userLogIn)
   const { userInfo, error } = userLogIn
   const redirect = location.search ? location.search.split('=')[1] : '/'
@@ -48,7 +46,7 @@ const RegisterCompleteScreen = ({ history, location }) => {
             await user.updateProfile({
               displayName: name,
             })
-            dispatch(logOut())
+            await auth.signOut()
             history.push('/login')
           }
         } catch (error) {
