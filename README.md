@@ -1,6 +1,6 @@
 ## Food Store -[Live Site ](https://food-store-add09.web.app/)
 
-## Food Store -[Demo video ](https://youtu.be/dVQ28ZJvG98)
+## Food Store -[Admin Demo ](https://drive.google.com/file/d/1_B83hs6dFpj5oTm1OOq2mYwM517-1pJR/view?usp=sharing)
 
 ## Complete online food delivery webapp
 
