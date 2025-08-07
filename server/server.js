@@ -15,7 +15,7 @@ app.use(cors())
 app.use(express.json({ limit: '2mb' }))
 
 app.get('/', (req, res) => {
-  res.send('API is running....')
+    res.send('API is running....')
 })
 // routes middleware -auto load
 readdirSync('./routes').map((r) => app.use('/api', require('./routes/' + r)))
